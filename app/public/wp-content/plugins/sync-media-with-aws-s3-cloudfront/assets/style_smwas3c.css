@@ -1,0 +1,65 @@
+#message_no_keys_s3 {
+    color: red;
+    display: none;
+}
+
+#loader_outer {
+    background-color: #fff;
+    border: 1px solid #c3c3c3;
+    border-radius: 10px;
+    display: none;
+    height: 20px;
+    width: 50%;
+}
+
+#loader_inner {
+    background: #047BB5;
+    border-radius: 9px;
+    height: 100%;
+    width: 0;
+}
+
+#photo_names_loading_s3 {
+    display: none;
+    margin-top: 20px;
+    resize: none;
+    width: 50%;
+}
+
+#message_bucket_keys_s3 {
+    color: red;
+    display: none;
+}
+
+#save_options_s3 {
+    color: #00477e;
+    display: none;
+    font-size: 0.9rem;
+}
+
+.nav-active-tab {
+    background: #fff;
+}
+
+#waiting_loader_outer_s3 {
+    height: 30px;
+}
+
+#waiting_loader_inner_s3 {
+    background-image: url("../images/loading.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: transparent;
+    display: none;
+    height: 30px;
+    margin-left: 35px;
+    width: 30px;
+    z-index: 50;
+}
+a:focus {
+    box-shadow: none;
+}
+.wrap h1 {
+    margin-bottom: 20px;
+}

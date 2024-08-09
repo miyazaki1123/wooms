@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="99.34" height="99.3" viewBox="0 0 99.34 99.3">
+  <g id="グループ_491" data-name="グループ 491" transform="translate(-380.461 -465.865)">
+    <rect id="長方形_294" data-name="長方形 294" width="35.679" height="35.679" rx="6.847" transform="translate(443.522 528.886)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <path id="パス_199" data-name="パス 199" d="M414.091,541.633a18.789,18.789,0,1,1,18.789-18.79,18.811,18.811,0,0,1-18.789,18.79Z" transform="translate(2.289 6.042)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_71" data-name="線 71" x2="35.679" transform="translate(443.522 540.778)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_72" data-name="線 72" x2="35.679" transform="translate(443.522 552.672)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_73" data-name="線 73" x2="12.907" transform="translate(409.982 526.879)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_74" data-name="線 74" x2="12.907" transform="translate(409.982 530.968)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_75" data-name="線 75" y1="9.996" transform="translate(416.413 526.157)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"/>
+    <path id="パス_200" data-name="パス 200" d="M415.9,512l-3.877,7.934L408.149,512" transform="translate(4.354 7.319)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"/>
+    <rect id="長方形_295" data-name="長方形 295" width="33.39" height="13.586" rx="0.783" transform="translate(399.811 477.376)" fill="#8cc23e"/>
+    <path id="パス_201" data-name="パス 201" d="M451.947,528.754c-.123-5.509-2.645-13.085-6.963-20.883A72.7,72.7,0,0,0,432.3,490.952a1.916,1.916,0,0,0,.9-1.627V478.863a1.916,1.916,0,0,0-1.916-1.915h-2.628l.252-.33c1.952-2.548,4.165-5.437,4.816-7.708a1.918,1.918,0,0,0-1.842-2.445H401.13a1.915,1.915,0,0,0-1.842,2.445c.651,2.272,2.864,5.159,4.815,7.708.082.106.167.216.253.33h-2.628a1.916,1.916,0,0,0-1.916,1.915v10.462a1.914,1.914,0,0,0,.92,1.638,73,73,0,0,0-12.7,16.949c-4.433,8.006-6.975,15.755-6.975,21.261,0,9.974,3.544,19,9.979,25.429s15.478,9.963,25.467,9.963c11.06,0,20.661-4.215,27.122-11.734" transform="translate(0)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_76" data-name="線 76" x2="24.554" transform="translate(404.103 476.947)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <line id="線_77" data-name="線 77" x2="31.566" transform="translate(400.732 490.962)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="1.2"/>
+    <path id="パス_202" data-name="パス 202" d="M416.55,497.369l3.832-9.8,6.211,16.505" transform="translate(5.705 3.392)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"/>
+  </g>
+</svg>

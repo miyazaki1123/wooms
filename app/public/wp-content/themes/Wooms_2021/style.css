@@ -1,0 +1,51 @@
+/*
+Theme Name: WOOMs_2021
+Author: user
+Author URI:
+Description: Vslz2021
+*/
+
+/**********************************/
+
+/*            global              */
+
+/**********************************/
+
+ul {
+    list-style-type: none;
+}
+
+body {
+    font-family: 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    margin: 0px auto;
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-size: 15px;
+    color: #333;
+    width: 100% !important;
+}
+
+a {
+    text-decoration: none;
+    color: #555;
+}
+@media screen and (max-width: 767px){
+a:hover {
+    text-decoration: underline;
+}
+}
+/*
+body.home{
+    background-image:url('images/top_bg2.png') !important;
+    background-repeat:repeat-x;
+}
+*/
+
+@media screen and (max-width: 480px) {
+    article img {
+        height: auto;
+    }
+    body {
+        background: none;
+    }
+}

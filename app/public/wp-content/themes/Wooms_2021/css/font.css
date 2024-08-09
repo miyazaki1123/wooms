@@ -1,0 +1,36 @@
+/**********************************/
+/*            unique              */
+/**********************************/
+
+* {
+  font-size: 10px;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.lato {
+  font-family: "Lato", sans-serif;
+  letter-spacing: 0.15rem;
+}
+
+@media screen and (max-width: 767px) {
+  * {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  * {
+    font-size: 6.4px;
+  }
+}

@@ -1,0 +1,15 @@
+02/22/23 1:36:39: layout.scss - parse error: failed at `color#fff;` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/layout.scss on line 40, at column 6
+02/22/23 1:36:46: layout.scss - parse error: failed at `color#fff;` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/layout.scss on line 40, at column 6
+02/23/23 2:30:10: unique.scss - Undefined mixin hover: unique.scss on line 406, at column 2
+02/23/23 2:30:11: unique.scss - Undefined mixin hover: unique.scss on line 406, at column 2
+02/24/23 6:45:02: header.scss - parse error: failed at `ul#menu-headmenu li a：not([href="#"]):before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/header.scss on line 591, at column 3
+02/24/23 6:45:26: header.scss - parse error: failed at `ul#menu-headmenu li a：not([href^="#"]):before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/header.scss on line 591, at column 3
+02/24/23 6:45:43: header.scss - parse error: failed at `ul#menu-headmenu li a：not([href^="#"]):before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/header.scss on line 591, at column 3
+03/02/23 1:27:05: unique.scss - parse error: failed at `$::before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/unique.scss on line 975, at column 5
+03/02/23 1:27:13: unique.scss - parse error: failed at `$::before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/unique.scss on line 975, at column 5
+03/02/23 1:27:13: unique.scss - parse error: failed at `$::before {` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/unique.scss on line 975, at column 5
+03/03/23 7:36:54: layout.scss - unclosed block: failed at `` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/layout.scss on line 3367, at column 0
+03/03/23 7:36:55: layout.scss - unclosed block: failed at `` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/layout.scss on line 3367, at column 0
+03/09/23 2:14:10: contact.scss - Undefined mixin sp: contact.scss on line 82, at column 2
+03/09/23 9:59:37: layout.scss - unclosed block: failed at `` /home/users/2/km1123/web/mdo.design/dev-wooms/wp-content/themes/Wooms_2021/css/layout.scss on line 5092, at column 0
+03/09/23 12:34:55: unique.scss - Incompatible units px and %.: unique.scss on line 2916, at column 2

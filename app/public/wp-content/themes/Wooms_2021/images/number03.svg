@@ -1,0 +1,179 @@
+<svg id="コンポーネント_28_1" data-name="コンポーネント 28 – 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="236.677" height="117.161" viewBox="0 0 236.677 117.161">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="パス_418" data-name="パス 418" d="M10112.979,6278.732l28.419,11.459-65.584,1.15,3.225-13.8Z" transform="translate(-10075.814 -6277.544)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="パス_418-2" data-name="パス 418" d="M10104.233,6278.732l-28.419,11.459,65.585,1.15-3.226-13.8Z" transform="translate(-10075.814 -6277.544)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <path id="パス_824" data-name="パス 824" d="M26.128,1.288A33.294,33.294,0,0,0,36.984-.644l-2.208-9.844a15.053,15.053,0,0,1-5.06,1.1c-4.6,0-6.992-2.76-6.992-8.648V-40.848h12.7V-51.52h-12.7V-65.412H11.5L9.936-51.52l-8,.644v10.028H9.2v22.816C9.2-6.532,13.892,1.288,26.128,1.288Z" transform="translate(-1.932 115.873)" fill="#0077c0"/>
+  <g id="グループ_1106" data-name="グループ 1106" transform="translate(-1195.945 -6137.806)">
+    <g id="グループ_1082" data-name="グループ 1082" transform="translate(1352.586 6222.381)">
+      <g id="マスクグループ_84" data-name="マスクグループ 84" transform="translate(0)" clip-path="url(#clip-path)">
+        <path id="パス_415" data-name="パス 415" d="M2.785,10.561,70.712,0V4.073L3.067,19.688,0,18.112Z" transform="matrix(0.985, 0.174, -0.174, 0.985, 7.754, -8.327)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_416" data-name="パス 416" d="M0,0,5.459,7.459" transform="matrix(0.985, 0.174, -0.174, 0.985, 8.717, 2.608)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+    </g>
+    <path id="パス_411" data-name="パス 411" d="M10053.885,6276.594l67.93-10.561v4.073l-67.648,15.616-3.066-1.576Z" transform="translate(-8786.087 -66.387)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_412" data-name="パス 412" d="M10053.125,6273.577l5.461,7.461" transform="translate(-8785.266 -63.328)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_413" data-name="パス 413" d="M2.785,10.561,70.714,0V4.073L3.067,19.689,0,18.113Z" transform="matrix(0.995, -0.105, 0.105, 0.995, 1277.031, 6211.614)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_414" data-name="パス 414" d="M0,0,5.46,7.46" transform="matrix(0.995, -0.105, 0.105, 0.995, 1280.971, 6221.861)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_417" data-name="パス 417" d="M2.785,10.561,70.714,0V4.073L3.067,19.689,0,18.113Z" transform="translate(1272.602 6185.162) rotate(3)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <g id="マスクグループ_84-2" data-name="マスクグループ 84" transform="translate(1302.396 6215.823)" clip-path="url(#clip-path-2)">
+      <path id="パス_415-2" data-name="パス 415" d="M2.785,9.127,70.713,19.688V15.615L3.067,0,0,1.575Z" transform="matrix(-0.985, 0.174, -0.174, -0.985, 61.25, 11.062)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_416-2" data-name="パス 416" d="M0,7.459,5.459,0" transform="matrix(-0.985, 0.174, -0.174, -0.985, 58.164, 9.953)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1095" data-name="グループ 1095" transform="translate(1277.208 6178.379) rotate(-30)">
+      <path id="パス_419" data-name="パス 419" d="M2.533,3.307c-7.391,16.53,3.742,14.324,3.742,14.324S14.2,16.463,9.719,8c.139.251.07.126,0,0C4.989-.417,4.207,0,4.207,0Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-linejoin="round" stroke-width="1.2"/>
+      <path id="パス_420" data-name="パス 420" d="M0,0,1.4,15.886" transform="translate(4.306 0.981)" fill="#fff" stroke="#0077c0" stroke-width="1.2"/>
+      <path id="パス_421" data-name="パス 421" d="M0,0,4.83,1.574" transform="translate(0.292 11.593)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_422" data-name="パス 422" d="M0,3.528,3.765,0" transform="translate(5.12 6.401)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1096" data-name="グループ 1096" transform="matrix(0.545, 0.839, -0.839, 0.545, 1416.467, 6177.784)">
+      <path id="パス_419-2" data-name="パス 419" d="M2.533,3.308C-4.857,19.839,6.275,17.633,6.275,17.633S14.2,16.465,9.719,8c.139.252.07.127,0,0C4.989-.415,4.207,0,4.207,0Z" fill="#fff" stroke="#0077c0" stroke-linejoin="round" stroke-width="1.2"/>
+      <path id="パス_420-2" data-name="パス 420" d="M0,0,1.4,15.887" transform="translate(4.306 0.981)" fill="#fff" stroke="#0077c0" stroke-width="1.2"/>
+      <path id="パス_421-2" data-name="パス 421" d="M0,0,4.83,1.576" transform="translate(0.292 11.593)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_422-2" data-name="パス 422" d="M0,3.53,3.765,0" transform="translate(5.12 6.401)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <path id="パス_411-2" data-name="パス 411" d="M10119.028,6276.594l-67.93-10.561v4.073l67.647,15.616,3.067-1.576Z" transform="translate(-8689.813 -57.738)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_412-2" data-name="パス 412" d="M10058.587,6273.577l-5.461,7.461" transform="translate(-8629.435 -54.679)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <g id="グループ_1083" data-name="グループ 1083" transform="translate(1339.669 6206.424)">
+      <path id="パス_413-2" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-2" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <path id="パス_417-2" data-name="パス 417" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="translate(1425.44 6213.472) rotate(177)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <g id="グループ_1075" data-name="グループ 1075" transform="translate(1360.103 6194.835) rotate(133)">
+      <path id="パス_411-3" data-name="パス 411" d="M67.929,10.562,0,0V4.073L67.646,19.689l3.067-1.575Z" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-3" data-name="パス 412" d="M5.461,0,0,7.461" transform="translate(62.406 10.602)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1074" data-name="グループ 1074" transform="translate(1352.458 6189.153) rotate(133)">
+      <path id="パス_413-3" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-3" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1076" data-name="グループ 1076" transform="translate(1346.591 6199.64) rotate(-11)">
+      <path id="パス_411-4" data-name="パス 411" d="M67.931,10.561,0,0V4.073L67.648,19.689l3.067-1.576Z" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-4" data-name="パス 412" d="M5.462,0,0,7.461" transform="translate(62.406 10.602)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1084" data-name="グループ 1084" transform="translate(1350.512 6214.4) rotate(-180)">
+      <path id="パス_411-5" data-name="パス 411" d="M67.93,10.561,0,0V4.073L67.647,19.689l3.067-1.576Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-5" data-name="パス 412" d="M5.461,0,0,7.461" transform="translate(62.406 10.602)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1077" data-name="グループ 1077" transform="translate(1313.416 6206.919) rotate(-11)">
+      <path id="パス_413-4" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-4" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1078" data-name="グループ 1078" transform="translate(1334.597 6188.855) rotate(5)">
+      <path id="パス_411-6" data-name="パス 411" d="M67.93,10.561,0,0V4.073L67.647,19.689l3.067-1.576Z" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-6" data-name="パス 412" d="M5.461,0,0,7.461" transform="translate(62.406 10.602)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1079" data-name="グループ 1079" transform="translate(1294.78 6197.548) rotate(-11)">
+      <path id="パス_413-5" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-5" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1080" data-name="グループ 1080" transform="matrix(-0.891, 0.454, -0.454, -0.891, 1350.513, 6190.524)">
+      <path id="パス_411-7" data-name="パス 411" d="M67.93,10.562,0,0V4.073L67.647,19.689l3.067-1.575Z" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-7" data-name="パス 412" d="M5.461,0,0,7.461" transform="translate(62.406 10.602)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1081" data-name="グループ 1081" transform="matrix(-0.891, 0.454, -0.454, -0.891, 1367.982, 6188.693)">
+      <path id="パス_413-6" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-6" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1087" data-name="グループ 1087" transform="matrix(0.996, -0.087, 0.087, 0.996, 1346.591, 6188.62)">
+      <path id="パス_704" data-name="パス 704" d="M55.189,8.58,0,0V3.31L54.96,16l2.492-1.281Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_705" data-name="パス 705" d="M4.438,0,0,6.061" transform="translate(50.702 8.614)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1085" data-name="グループ 1085" transform="translate(1326.569 6178.114)">
+      <path id="パス_413-7" data-name="パス 413" d="M2.262,7.416,57.451,16V12.687L2.492,0,0,1.28Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 57.136, 21.914)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-7" data-name="パス 414" d="M0,6.061,4.436,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.975, 20.359)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <path id="パス_706" data-name="パス 706" d="M55.189,8.58,0,0V3.31L54.96,16l2.492-1.281Z" transform="translate(1355.403 6187.104) rotate(167)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <path id="パス_707" data-name="パス 707" d="M4.437,0,0,6.061" transform="translate(1304.063 6190.116) rotate(167)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    <g id="グループ_1086" data-name="グループ 1086" transform="translate(1366.295 6191.327) rotate(167)">
+      <path id="パス_413-8" data-name="パス 413" d="M2.262,7.416,57.451,16V12.687L2.492,0,0,1.28Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 57.137, 21.914)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-8" data-name="パス 414" d="M0,6.061,4.436,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.975, 20.359)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1088" data-name="グループ 1088" transform="translate(1338.164 6187.892) rotate(-16)">
+      <path id="パス_704-2" data-name="パス 704" d="M55.189,8.58,0,0V3.31L54.96,16l2.492-1.281Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_705-2" data-name="パス 705" d="M4.437,0,0,6.061" transform="translate(50.702 8.614)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1089" data-name="グループ 1089" transform="matrix(-0.819, 0.574, -0.574, -0.819, 1358.23, 6179.721)">
+      <path id="パス_413-9" data-name="パス 413" d="M2.174,7.125,55.2,15.369V12.189L2.394,0,0,1.23Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.895, 21.054)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-9" data-name="パス 414" d="M0,5.823,4.262,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 52.819, 19.56)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1090" data-name="グループ 1090" transform="matrix(-0.966, 0.259, -0.259, -0.966, 1356.522, 6180.454)">
+      <path id="パス_411-8" data-name="パス 411" d="M53.025,8.244,0,0V3.179l52.8,12.19,2.394-1.23Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-8" data-name="パス 412" d="M4.263,0,0,5.824" transform="translate(48.713 8.276)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1091" data-name="グループ 1091" transform="matrix(-0.966, 0.259, -0.259, -0.966, 1370.203, 6181.149)">
+      <path id="パス_413-10" data-name="パス 413" d="M2.785,9.128,70.713,19.689V15.616L3.067,0,0,1.576Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 70.326, 26.973)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-10" data-name="パス 414" d="M0,7.46,5.46,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 67.666, 25.058)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1092" data-name="グループ 1092" transform="matrix(0.978, 0.208, -0.208, 0.978, 1331.895, 6162.19)">
+      <path id="パス_413-11" data-name="パス 413" d="M2.262,7.416,57.451,16V12.687L2.492,0,0,1.28Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 57.137, 21.914)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-11" data-name="パス 414" d="M0,6.061,4.436,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.975, 20.359)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1093" data-name="グループ 1093" transform="matrix(-1, 0.017, -0.017, -1, 1359.553, 6184.101)">
+      <path id="パス_413-12" data-name="パス 413" d="M2.262,7.416,57.451,16V12.687L2.492,0,0,1.28Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 57.137, 21.914)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-12" data-name="パス 414" d="M0,6.061,4.436,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.975, 20.359)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1094" data-name="グループ 1094" transform="translate(1341.203 6174.165) rotate(-4)">
+      <path id="パス_704-3" data-name="パス 704" d="M55.189,8.58,0,0V3.31L54.96,16l2.492-1.281Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_705-3" data-name="パス 705" d="M4.438,0,0,6.061" transform="translate(50.702 8.614)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1104" data-name="グループ 1104" transform="matrix(-0.996, 0.087, -0.087, -0.996, 1398.617, 6184.828)">
+      <path id="パス_710" data-name="パス 710" d="M44.616,6.936,0,0V2.675L44.43,12.932,46.445,11.9Z" transform="translate(50.203 25.877) rotate(167)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <g id="グループ_1099" data-name="グループ 1099" transform="matrix(-0.819, 0.574, -0.574, -0.819, 52.487, 19.908)">
+        <path id="パス_413-13" data-name="パス 413" d="M1.757,5.76l42.865,6.665V9.854L1.935,0,0,.994Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 44.378, 17.021)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_414-13" data-name="パス 414" d="M0,4.707,3.446,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 42.699, 15.812)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+      <g id="グループ_1100" data-name="グループ 1100" transform="matrix(-0.966, 0.259, -0.259, -0.966, 51.106, 20.5)">
+        <path id="パス_411-9" data-name="パス 411" d="M42.866,6.664,0,0V2.57l42.688,9.854,1.935-.995Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_412-9" data-name="パス 412" d="M3.446,0,0,4.708" transform="translate(39.38 6.69)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+      <g id="グループ_1101" data-name="グループ 1101" transform="matrix(-0.966, 0.259, -0.259, -0.966, 62.166, 21.062)">
+        <path id="パス_413-14" data-name="パス 413" d="M2.251,7.379l54.914,8.538V12.624L2.48,0,0,1.274Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 56.852, 21.805)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_414-14" data-name="パス 414" d="M0,6.031,4.414,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.702, 20.257)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+      <g id="グループ_1097" data-name="グループ 1097" transform="matrix(0.978, 0.208, -0.208, 0.978, 31.196, 5.735)">
+        <path id="パス_413-15" data-name="パス 413" d="M1.829,6l44.615,6.937V10.256L2.015,0,0,1.035Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 46.19, 17.716)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_414-15" data-name="パス 414" d="M0,4.9,3.586,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 44.443, 16.458)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+      <path id="パス_709" data-name="パス 709" d="M44.616,6.936,0,0V2.675L44.43,12.932,46.445,11.9Z" transform="matrix(-1, 0.017, -0.017, -1, 52.486, 17.692)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <g id="グループ_1098" data-name="グループ 1098" transform="matrix(-1, 0.017, -0.017, -1, 60.389, 22.86)">
+        <path id="パス_413-16" data-name="パス 413" d="M1.829,6l44.615,6.937V10.256L2.015,0,0,1.035Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 46.19, 17.716)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_414-16" data-name="パス 414" d="M0,4.9,3.586,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 44.443, 16.458)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+      <g id="グループ_1103" data-name="グループ 1103" transform="translate(38.722 15.414) rotate(-4)">
+        <path id="パス_704-4" data-name="パス 704" d="M44.616,6.936,0,0V2.675L44.43,12.932,46.445,11.9Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+        <path id="パス_705-4" data-name="パス 705" d="M3.587,0,0,4.9" transform="translate(40.987 6.964)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="グループ_1099-2" data-name="グループ 1099" transform="translate(1360.471 6160.571) rotate(154)">
+      <path id="パス_413-17" data-name="パス 413" d="M1.757,5.76l42.865,6.665V9.854L1.935,0,0,.994Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 44.378, 17.021)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-17" data-name="パス 414" d="M0,4.707,3.446,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 42.699, 15.812)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1100-2" data-name="グループ 1100" transform="matrix(-0.995, 0.105, -0.105, -0.995, 1355.405, 6160.943)">
+      <path id="パス_411-10" data-name="パス 411" d="M42.866,6.664,0,0V2.57l42.688,9.854,1.935-.995Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_412-10" data-name="パス 412" d="M3.446,0,0,4.708" transform="translate(39.38 6.69)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1101-2" data-name="グループ 1101" transform="matrix(-0.995, 0.105, -0.105, -0.995, 1379.653, 6159.491)">
+      <path id="パス_413-18" data-name="パス 413" d="M2.251,7.379l54.914,8.538V12.624L2.48,0,0,1.274Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 56.852, 21.805)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-18" data-name="パス 414" d="M0,6.031,4.414,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 54.702, 20.257)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1098-2" data-name="グループ 1098" transform="translate(1379.959 6164.661) rotate(-172)">
+      <path id="パス_413-19" data-name="パス 413" d="M1.829,6l44.615,6.937V10.256L2.015,0,0,1.035Z" transform="matrix(-0.995, -0.105, 0.105, -0.995, 46.19, 17.716)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_414-19" data-name="パス 414" d="M0,4.9,3.586,0" transform="matrix(-0.995, -0.105, 0.105, -0.995, 44.443, 16.458)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1103-2" data-name="グループ 1103" transform="matrix(0.996, 0.087, -0.087, 0.996, 1347.579, 6153.979)">
+      <path id="パス_704-5" data-name="パス 704" d="M44.616,6.936,0,0V2.675L44.43,12.932,46.445,11.9Z" transform="translate(0 0)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_705-5" data-name="パス 705" d="M3.587,0,0,4.9" transform="translate(40.987 6.964)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+    <g id="グループ_1105" data-name="グループ 1105" transform="matrix(0.545, 0.839, -0.839, 0.545, 1374.617, 6139.272)">
+      <path id="パス_419-3" data-name="パス 419" d="M2.533,3.308C-4.857,19.839,6.275,17.633,6.275,17.633S14.2,16.465,9.719,8c.139.252.07.127,0,0C4.989-.415,4.207,0,4.207,0Z" fill="#fff" stroke="#0077c0" stroke-linejoin="round" stroke-width="1.2"/>
+      <path id="パス_420-3" data-name="パス 420" d="M0,0,1.4,15.887" transform="translate(4.306 0.981)" fill="#fff" stroke="#0077c0" stroke-width="1.2"/>
+      <path id="パス_421-3" data-name="パス 421" d="M0,0,4.83,1.576" transform="translate(0.292 11.593)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+      <path id="パス_422-3" data-name="パス 422" d="M0,3.53,3.765,0" transform="translate(5.12 6.401)" fill="#fff" stroke="#0077c0" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

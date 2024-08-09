@@ -1,0 +1,17 @@
+<svg id="コンポーネント_14_1" data-name="コンポーネント 14 – 1" xmlns="http://www.w3.org/2000/svg" width="291.691" height="147" viewBox="0 0 291.691 147">
+  <text id="Activation" transform="translate(32.691 90.754)" font-size="44" font-family="Lato-Bold, Lato" font-weight="700" letter-spacing="0.1em"><tspan x="0" y="0">Activation</tspan></text>
+  <text id="課題解決をサポート" transform="translate(32.691 30)" font-size="26" font-family="NotoSansCJKjp-Medium, Noto Sans CJK JP" font-weight="500" letter-spacing="0.12em"><tspan x="0" y="0">課題解決をサポート</tspan></text>
+  <g id="グループ_416" data-name="グループ 416" transform="translate(-664.309 -2369.83)">
+    <text id="自治体向け" transform="translate(711 2506.524)" font-size="12" font-family="NotoSansCJKjp-Medium, Noto Sans CJK JP" font-weight="500" letter-spacing="0.45em"><tspan x="0" y="0">自治体向け</tspan></text>
+    <g id="長方形_4" data-name="長方形 4" transform="translate(697 2487.093)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="110" height="29.736" stroke="none"/>
+      <rect x="0.5" y="0.5" width="109" height="28.736" fill="none"/>
+    </g>
+    <text id="収集事業者向け" transform="translate(833 2506.524)" font-size="12" font-family="NotoSansCJKjp-Medium, Noto Sans CJK JP" font-weight="500" letter-spacing="0.05em"><tspan x="0" y="0">収集事業者向け</tspan></text>
+    <g id="パス_86" data-name="パス 86" transform="translate(822 2487.093)" fill="none">
+      <path d="M0,0H110V29.736H0Z" stroke="none"/>
+      <path d="M 1 0.9999980926513672 L 1 28.73648452758789 L 109 28.73648452758789 L 109 0.9999980926513672 L 1 0.9999980926513672 M 0 -1.9073486328125e-06 L 110 -1.9073486328125e-06 L 110 29.73648452758789 L 0 29.73648452758789 L 0 -1.9073486328125e-06 Z" stroke="none" fill="#000"/>
+    </g>
+  </g>
+  <rect id="長方形_2" data-name="長方形 2" width="7" height="138" transform="translate(0 9)" fill="#0077c0"/>
+</svg>

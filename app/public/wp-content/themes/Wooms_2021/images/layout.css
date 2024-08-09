@@ -1,0 +1,51 @@
+/*
+
+基本レイアウト
+
+*/
+
+article > div.TopSlide {
+	max-width:1250px;
+}
+
+article section.ContentWrap {
+	max-width:1250px;
+	margin:305px auto 125px;
+	display:block;
+}
+
+.NewsSelector ul {
+	padding:0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 88.7px auto 40.8px;
+}
+
+.NewsSelector ul li {
+	padding:0 10px;
+	margin: 0 10px;
+}
+
+.NewsSelector ul li p {
+	margin:0;
+	padding-right:22px;
+	position:relative;
+	padding-bottom:6px;
+}
+
+.NewsSelector ul li p:after {
+	position:absolute;
+	top:45%;
+	transform:translateY(-50%);
+	content:"";
+	width:11px;
+	height:11px;
+	right:0;
+	background:url(../images/nws01.svg) center /contain no-repeat;
+}
+
+.NewsSelector ul li.Visible p{
+	border-bottom:1px solid black;
+	font-size: 1.4rem;
+}
