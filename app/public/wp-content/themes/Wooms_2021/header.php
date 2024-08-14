@@ -27,15 +27,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="<?php bloginfo('stylesheet_url') ?>" type="text/css" />
-    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/header.css?ver=200910" type="text/css" />
-	
-
-    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/footer.css?ver=210412" type="text/css" />
-    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/unique.css?ver=171214" type="text/css" />
-    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/unique2.css?ver=210901" type="text/css" />
-			<link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/layout.css?ver=210825" type="text/css" />
-    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/bxslider.css?ver=170727" type="text/css" />
-			<link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/animation.css?ver=230224" type="text/css" />
+	<?php $version = wp_get_theme()->get('Version'); ?>
+    <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/style.css?ver=<?php echo $version;?>" type="text/css" />
 	
     <link rel="apple-touch-icon" sizes="180x180" href="<?php bloginfo('template_url') ?>/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?php bloginfo('template_url') ?>/images/favicon/favicon-32x32.png">
@@ -62,10 +55,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 	
     <script src="<?php bloginfo('template_url'); ?>/js/jquery.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/js/animation.js"></script>
-    <script src="<?php bloginfo('template_url'); ?>/js/script.js"></script>
+	<script src="<?php bloginfo('template_url'); ?>/js/animation.js"></script>
+    <script src="<?php bloginfo('template_url'); ?>/js/sticky.js"></script>
+    <?php if (is_page(LP_DIR)) { ?>
+        <script src="<?php bloginfo('template_url'); ?>/js/splide.min.js"></script>
+        <link rel="stylesheet" href="<?php bloginfo('template_url') ?>/css/splide.min.css" type="text/css" />
+    <?php }; ?>
+    <script src="<?php bloginfo('template_url'); ?>/js/script.js" type="module"></script>
     <script src="<?php bloginfo('template_url'); ?>/js/jquery.bxslider.js"></script>
-		
 
     <link rel="apple-touch-icon" sizes="180x180" href="<?php bloginfo('template_url') ?>/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?php bloginfo('template_url') ?>/images/favicon/favicon-32x32.png">
@@ -204,25 +201,37 @@ if (is_front_page() || is_home() || is_singular()) {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <header id="masthead" class="site-header" role="banner">
-        
+    
        <div class="menu_wrap">
+       <?php if(!is_page(LP_DIR)){?>
 					<div class="menu_inner">
-										<h1>
-												<a class="site_title" href="<?php echo esc_url(home_url('')); ?>" rel="home">WOOMS</a>
-							</h1>
-									 <div class="MvWraper">
+						<h1>
+							<a class="site_title" href="<?php echo esc_url(home_url('')); ?>" rel="home">WOOMS</a>
+						</h1>
+                            
+						<div class="MvWraper">
 							<div id="menu-opener"><span class="headpath"><img src="<?php bloginfo('template_url'); ?>/images/path.svg"></span><span class="bodypath"><img src="<?php bloginfo('template_url'); ?>/images/path.svg"></span><span class="footpath"><img src="<?php bloginfo('template_url'); ?>/images/path.svg"></span>
-										 </div>
+                            </div>
 							<a href="<?php echo esc_url(home_url('')); ?>/contact/" class="MvContactLink">お問い合わせ</a>
-					</div>
-								</div>
-             
-        <nav class="mainmenuwrap" id="gnav">
-            <?php wp_nav_menu(array('menu' => 'headmenu')); ?>
-        </nav>
-        
+					     </div>
+                   </div>
+                    <nav class="mainmenuwrap" id="gnav">
+                         <?php wp_nav_menu(array('menu' => 'headmenu')); ?>
+                    </nav>
+            <?php }else{ ?>
+                <?php get_template_part('template/lp/header');?>
+           <?php }?>
         </div>
     </header>
+    <?php if(is_page(LP_DIR)){?>
+    <div class="nav-toggle-wrap" id="sp-gnav-toggle">
+     <div class="nav-toggle">
+         <span></span>
+          <span></span>
+          <span></span>
+         </div>
+    </div>
+    <?php }?>
     <?php
 global $is_IE;
 if ( $is_IE ) {

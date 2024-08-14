@@ -1,4 +1,4 @@
-
+<?php if(!is_page(LP_DIR)){?>
 <div class="footerObiArea">
     <div class="ObiInner">
         <p class="white h pc"><img src="<?php bloginfo('template_url'); ?>/images/WOOMStrialPC.svg" alt="WOOMSを試してみませんか？"></p>
@@ -11,14 +11,12 @@
         <p class="white f">サービス、共創・協業、お見積りなど、<br class="sp">お気軽にお問い合わせください。</p>
     </div>
 </div>
-
 <div class="footerAddBanner">
     <div class="BannerInner">
         <a href="<?php echo esc_url(home_url('/recruit/')) ?>"><img class="BannerPc" src="<?php echo themeImagePath('rec_pc_banner_white.jpg') ?>" alt="WOOMSエンジニア 積極採用中"><img class="BannerSp" src="<?php echo themeImagePath('rec_sp_banner_white.jpg') ?>" alt="WOOMSエンジニア 積極採用中">
 		</a>
     </div>
 </div>
-
 <footer>
 
     <div class="foot-menuwrap" data-a="fade-up" data-a-offset="0">
@@ -65,7 +63,9 @@
     </div>
 
 </footer>
-
+<?php }else{?>
+<?php get_template_part('template/lp/footer');?>
+<?php }?>
 <div class="modal-youtube">
 	<div class="iframe-wrap"><img class="modal-closer" src="<?php bloginfo('template_url') ?>/images/modal-closer.png" alt="閉じる"><iframe width="560" height="315" src="https://www.youtube.com/embed/j0EXSTkqFyU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </div>

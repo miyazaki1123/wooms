@@ -1,5 +1,5 @@
 <?php
-
+require_once get_template_directory() . '/site_config.php';
 // ウィジェットエリア
 // サイドバーのウィジェット
 register_sidebar(array(
@@ -278,6 +278,9 @@ function getCaseStudy($atts){
  
 									// クエリの定義
 									$wp_query = new WP_Query( $args );
+                                    if(!isset($listname)){
+                                        $listname = '';
+                                    }
             $retHtml = '<ul class="post_list post_list--case" category="' . $listname . '">';
            if ($wp_query->have_posts()) while ($wp_query->have_posts()) { $wp_query->the_post();
                 $cat = get_the_category();
@@ -652,4 +655,60 @@ if ( ! function_exists('tinymce_init') ) {
     }
     add_filter( 'tiny_mce_before_init', 'tinymce_init', 100 );
 }
+
+function mvwpform_autop_filter() {
+    if (class_exists('MW_WP_Form_Admin')) {
+      $mw_wp_form_admin = new MW_WP_Form_Admin();
+      $forms = $mw_wp_form_admin->get_forms();
+      foreach ($forms as $form) {
+        add_filter('mwform_content_wpautop_mw-wp-form-' . $form->ID, '__return_false');
+      }
+    }
+  }
+  mvwpform_autop_filter();
+
+  function ag_validation_rule( $Validation, $data){
+
+	//メッセージ用配列
+  $msg['noEmpty']  = '必須項目です。';
+  $msg['required'] = 'のいずれかにチェックをしてください。';
+  $msg['between']  = '文字数が正しくありません。';
+	
+		$noEmpties = ['業種','メールアドレス','件名','内容','会社名','部署名','苗字','名前','みょうじ','なまえ','電話'];
+		foreach((array)$noEmpties as $val ){
+			$Validation->set_rule($val, 'noEmpty', array('message' =>  $msg['noEmpty']) );
+		}
+        $checkRedio = ['種類','課題'];
+		foreach((array)$checkRedio as $val ){
+			$Validation->set_rule($val , 'required', array('message' => '必須項目です。') );
+		}
+/*
+$checkRedio = ['ご要件','ご希望の連絡方法','ご希望の連絡時間帯'];
+		foreach((array)$checkRedio as $val ){
+			$Validation->set_rule($val , 'required', array('message' => '必須項目です。') );
+		}
+		*/
+	
+	$kanas = ['みょうじ','なまえ'];
+		foreach((array)$kanas as $val ){
+			$Validation->set_rule($val, 'hiragana', array('message' => 'ひらがなで入力してください。') );
+		}
+
+	/*
+$Validation->set_rule('個人情報の取り扱いについて', 'required', array('message' => 'プライバシーポリシーに同意するにチェックをしてください。') );
+	
+$Validation->set_rule('確認用メールアドレス','eq',array('target' => 'メールアドレス','message' => 'メールアドレスと一致しません'));
+	*/
+		$emails = ['メールアドレス'];
+		foreach((array)$emails as $val){
+			$Validation->set_rule($val,'mail',array('message' => 'メールアドレスの形式ではありません'));
+		}
+	
+	$tels = ['電話'];
+	foreach((array)$tels as $val ){
+		$Validation->set_rule($val,'tel',array('message' => '電話番号の形式ではありません'));
+	}
+	
+}
+add_filter( 'mwform_validation_mw-wp-form-4959', 'ag_validation_rule', 10, 3);
 ?>

@@ -1,19 +1,17 @@
 .footlogo-F img {
   width: 225px;
 }
-
-.page-id-1220 .footerObiArea,
-.page-id-1233 .footerObiArea {
+.page-id-1220 .footerObiArea, .page-id-1233 .footerObiArea {
   display: none;
 }
-
 .Q-AWrap .QuestionOpener > span {
   color: transparent;
 }
-
 @media screen and (min-width: 768px) {
-  .privacy_policy-window p,
-  .privacy_policy-window p a {
+  /*#vision3,#vision4,#vision5{
+		font-weight: 400 !important;
+	}*/
+  .privacy_policy-window p, .privacy_policy-window p a {
     font-size: 13px !important;
   }
   #omoi1 {
@@ -48,9 +46,6 @@
   #vision2 {
     margin-bottom: 200px;
   }
-  /*#vision3,#vision4,#vision5{
-  	font-weight: 400 !important;
-  }*/
   #activ1 .KhundLi_h {
     text-align: left;
   }
@@ -62,18 +57,14 @@
     padding-left: 19%;
   }
   .activation-page .OverAnm.A-PAnim4 .anm.mrk3 {
-    display: -ms-grid;
     display: grid;
     border: 3px solid #0cb04b;
     border-radius: 5px;
     background: #edfae8;
     max-width: 760px;
     height: 194px;
-    -ms-grid-columns: 55.2% 1fr;
     grid-template-columns: 55.2% 1fr;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    align-items: center;
     justify-items: start;
   }
   .activation-page .OverAnm.A-PAnim4 .anm.mrk3 .hstk_p {
@@ -92,12 +83,10 @@
     width: 225px;
   }
   .BeyondFadeIn .BeyondSvg img {
-    -webkit-transform: translateY(400px) !important;
-            transform: translateY(400px) !important;
+    transform: translateY(400px) !important;
   }
   .BeyondFadeIn.Visible .BeyondSvg img {
-    -webkit-transform: translateY(0px) !important;
-            transform: translateY(0px) !important;
+    transform: translateY(0px) !important;
   }
   .contact-head h1 span {
     letter-spacing: 6px !important;
@@ -131,18 +120,19 @@
   }
 }
 @media screen and (max-width: 767px) {
+  /*ul#menu-headmenu li{
+		margin-bottom:7px;
+	}*/
   .AppImg01, .AppImg02, .AppImg03, .AppImg04, .AppImg05, .AppImg06, .AppImg07, .PortalImg01, .PortalImg02, .PortalImg03, .PortalImg04, .PortalImg05, .PortalImg06 {
     padding-bottom: 0px !important;
   }
   .spls01 {
     width: 50% !important;
   }
-  .page-template-page-flow .foot-inner .footlogo img,
-  .page-template-page-price .foot-inner .footlogo img {
+  .page-template-page-flow .foot-inner .footlogo img, .page-template-page-price .foot-inner .footlogo img {
     margin: 0 auto !important;
   }
-  .page-template-page-flow .footerObiArea .ObiInner .white.h img,
-  .page-template-page-price .footerObiArea .ObiInner .white.h img {
+  .page-template-page-flow .footerObiArea .ObiInner .white.h img, .page-template-page-price .footerObiArea .ObiInner .white.h img {
     margin: 0 auto !important;
   }
   .news_newicon {
@@ -157,15 +147,13 @@
     padding: 62.3px 10px;
     text-align: center;
   }
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 img,
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk3 img {
+  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 img, .activation-page .OverAnm.A-PAnim4 .anm.mrk3 img {
     max-width: 210px !important;
     width: 100% !important;
   }
   .activation-page .OverAnm.A-PAnim4 .anm.mrk3 .hstk_p {
     width: 100% !important;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
   }
   .activation-page .OverAnm.A-PAnim4 .anm.mrk3 p.mb span {
     width: 45%;
@@ -207,7 +195,7 @@
     pointer-events: auto;
   }
   .menu_wrap a.site_title {
-    background: url(../images/WOOMsLogo.png) left 15% center/contain no-repeat !important;
+    background: url(../images/WOOMsLogo.png) left 15% center /contain no-repeat !important;
   }
   .MvWraper {
     width: auto;
@@ -221,15 +209,9 @@
     padding: 3px 17px 5px;
     font-weight: bold;
     margin-right: 20px;
-    -webkit-box-ordinal-group: 1;
-        -ms-flex-order: 0;
-            order: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    order: 0;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    align-items: center;
   }
   #menu-opener .bodypath {
     bottom: 50%;
@@ -237,9 +219,6 @@
   ul#menu-headmenu li:hover > a {
     color: white !important;
   }
-  /*ul#menu-headmenu li{
-  	margin-bottom:7px;
-  }*/
   ul#menu-headmenu li .sub-menu li:last-child {
     margin-bottom: 14px;
   }
@@ -265,14 +244,9 @@
     padding: 15px 0 !important;
   }
   .block007 > .mb {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: 0 10px;
   }
   .activation-page .OverAnm.A-PAnim4 .anm.mrk3 .hstk_p {
@@ -334,22 +308,16 @@
   }
   .FootMenuWrap {
     max-width: 375px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .footPrivacyPolicyLinks {
     max-width: 375px;
   }
 }
 @media screen and (max-width: 767px) and (min-width: 481px) {
-  .page-template-page-flow .ObiInner.RoutePriceObi .RoutePrice_p,
-  .page-template-page-price .ObiInner.RoutePriceObi .RoutePrice_p {
+  .page-template-page-flow .ObiInner.RoutePriceObi .RoutePrice_p, .page-template-page-price .ObiInner.RoutePriceObi .RoutePrice_p {
     font-size: 20px !important;
     color: white;
     text-align: center;
@@ -364,26 +332,21 @@
     padding: 0 40px;
   }
   .page-template-page-flow article.grid .justify-end {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
   }
   main .hidden.sm\:block {
     display: none;
   }
-  .page-template-page-flow .RoutePriceObiArea,
-  .page-template-page-price .RoutePriceObiArea {
+  .page-template-page-flow .RoutePriceObiArea, .page-template-page-price .RoutePriceObiArea {
     padding-top: 44.672px;
   }
   .page-template-page-price .RoutePriceObiArea {
     padding-bottom: 44.672px;
   }
   .page-template-page-price .md\:grid-cols-3 {
-    -ms-grid-columns: auto;
     grid-template-columns: auto;
   }
   .page-template-page-flow .sm\:grid-cols-2 {
-    -ms-grid-columns: auto;
     grid-template-columns: auto;
   }
   .mitsumori-btn {
@@ -408,20 +371,14 @@
     text-align: left !important;
   }
   #menu-footmenu-other {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .footPrivacyPolicyLinks ul {
     padding-left: 20px !important;
   }
-  .page-template-page-flow .footPrivacyPolicyLinks ul,
-  .page-template-page-price .footPrivacyPolicyLinks ul {
+  .page-template-page-flow .footPrivacyPolicyLinks ul, .page-template-page-price .footPrivacyPolicyLinks ul {
     padding-left: 60px !important;
   }
   .Q-ASection h2 {
@@ -454,10 +411,8 @@
     width: 100%;
     display: block;
     margin: auto;
-    -o-object-fit: cover;
-       object-fit: cover;
-    -o-object-position: center;
-       object-position: center;
+    object-fit: cover;
+    object-position: center;
   }
   .single-content .ContentWrap {
     padding: 0 20px !important;
@@ -474,29 +429,21 @@
   .ServiceText p {
     font-size: 20px !important;
   }
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 p.mb span,
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk3 p.mb span {
+  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 p.mb span, .activation-page .OverAnm.A-PAnim4 .anm.mrk3 p.mb span {
     font-size: 20px !important;
   }
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 p.mb,
-  .activation-page .OverAnm.A-PAnim4 .anm.mrk3 .hstk_p {
+  .activation-page .OverAnm.A-PAnim4 .anm.mrk1 p.mb, .activation-page .OverAnm.A-PAnim4 .anm.mrk3 .hstk_p {
     width: 82% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .news_list li .news_title {
     font-size: 14px !important;
   }
-  .VisionText p.Exp,
-  .VisionText p.Subt {
+  .VisionText p.Exp, .VisionText p.Subt {
     font-size: 20px !important;
   }
   .ZamaObiArea a {
@@ -560,11 +507,10 @@
   }
 }
 @media screen and (max-width: 1260px) and (min-width: 768px) {
-  .VisionWrap .ClmVision,
-  .VisionWrap .ClmVisionImage,
-  .VisionWrap .ClmVisionFullLogo + .txtVision_Mp,
-  .VisionWrap .txtVision_Mp.WoomsVisionTxt01,
-  .VisionWrap .harfEarth {
+  /*article section.ContentWrap.Q-ASection{
+			padding:0 20px;
+		}*/
+  .VisionWrap .ClmVision, .VisionWrap .ClmVisionImage, .VisionWrap .ClmVisionFullLogo + .txtVision_Mp, .VisionWrap .txtVision_Mp.WoomsVisionTxt01, .VisionWrap .harfEarth {
     padding: 0 20px;
   }
   .ContentWrap .GridArea {
@@ -585,8 +531,7 @@
   .ChilTitleWrap {
     padding: 0 20px;
   }
-  .wooms-portal-page .ContentWrap .FlexArea,
-  .wooms-app-page .ContentWrap .FlexArea {
+  .wooms-portal-page .ContentWrap .FlexArea, .wooms-app-page .ContentWrap .FlexArea {
     padding-left: 20px;
   }
   .RoutePriceObiArea {
@@ -596,15 +541,11 @@
   .ZamaObiArea .ObiInner {
     padding: 0 20px;
   }
-  /*article section.ContentWrap.Q-ASection{
-  	padding:0 20px;
-  }*/
   .menu_wrap {
     padding: 0 20px;
     width: calc(100% - 40px);
   }
-  .page-template-page-flow .menu_wrap,
-  .page-template-page-price .menu_wrap {
+  .page-template-page-flow .menu_wrap, .page-template-page-price .menu_wrap {
     padding: 0;
   }
   .ChilHead {
@@ -623,8 +564,7 @@
   .activation-page .A-PObi {
     padding: 0 20px;
   }
-  .page-template-page-flow .RoutePriceObiArea,
-  .page-template-page-price .RoutePriceObiArea {
+  .page-template-page-flow .RoutePriceObiArea, .page-template-page-price .RoutePriceObiArea {
     width: auto !important;
   }
   .zama-page .BgGrayArea p.text-font-14 {
@@ -645,8 +585,7 @@
   .NewsPageListWrap {
     padding: 0 5px;
   }
-  .vision-page .NewsListWrap,
-  .wooms-page .NewsListWrap {
+  .vision-page .NewsListWrap, .wooms-page .NewsListWrap {
     padding: 0 20px;
   }
   .pcS .bx-viewport {
@@ -692,10 +631,10 @@
     top: -80px;
   }
   .Q-AWrap .QuestionOpener .CloseMinus {
-    background: url(../images/Q-AMinus.png) center/36px no-repeat !important;
+    background: url(../images/Q-AMinus.png) center / 36px no-repeat !important;
   }
   .Q-AWrap .QuestionOpener .OpenPlus {
-    background: url(../images/Q-AMinus.png) center/36px no-repeat !important;
+    background: url(../images/Q-AMinus.png) center / 36px no-repeat !important;
   }
   .ZamaObiArea .white.h {
     font-size: 35px !important;
@@ -723,8 +662,7 @@
   }
   .yokuaru-shitsumon-box + section + article.flex.w-full {
     display: block !important;
-    -webkit-box-sizing: content-box !important;
-            box-sizing: content-box !important;
+    box-sizing: content-box !important;
   }
 }
 @media screen and (max-width: 1260px) and (min-width: 1024px) {
@@ -739,9 +677,7 @@
 }
 @media screen and (max-width: 950px) and (min-width: 768px) {
   .FlexArea.Vision {
-    -webkit-box-align: start !important;
-        -ms-flex-align: start !important;
-            align-items: flex-start !important;
+    align-items: flex-start !important;
   }
   .VisionText p.Exp {
     font-size: 15px !important;
@@ -749,7 +685,6 @@
     line-height: 25px !important;
   }
   .ContentWrap .GridArea {
-    -ms-grid-rows: 13vw 1fr !important;
     grid-template-rows: 13vw 1fr !important;
   }
   .ContentWrap .GridArea .ServiceVideo img {
@@ -771,12 +706,8 @@
     width: 68.5%;
   }
   .ContentWrap .GridArea .ServiceText:first-child {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: start !important;
-        -ms-flex-align: start !important;
-            align-items: flex-start !important;
+    align-items: flex-start !important;
   }
   .ChilTitleWrap p {
     font-size: 17px !important;
@@ -797,8 +728,7 @@
   .ObiInner.RoutePriceObi > div {
     margin: 0 0 35px;
   }
-  .page-template-page-flow .ObiInner.RoutePriceObi > div,
-  .page-template-page-price .ObiInner.RoutePriceObi > div {
+  .page-template-page-flow .ObiInner.RoutePriceObi > div, .page-template-page-price .ObiInner.RoutePriceObi > div {
     height: 250px !important;
   }
   .RoutePriceObiArea .AppWrap .RoutePrice_p, .RoutePriceObiArea .PortalWrap .RoutePrice_p {
@@ -828,9 +758,7 @@
 }
 @media screen and (max-width: 1100px) and (min-width: 768px) {
   .FlexArea.Vision {
-    -webkit-box-align: start !important;
-        -ms-flex-align: start !important;
-            align-items: flex-start !important;
+    align-items: flex-start !important;
   }
 }
 @media screen and (max-width: 1050px) and (min-width: 1000px) {
@@ -890,11 +818,7 @@
   .OverAnm.A-PAnim1 + .anmAPAfter + .anmAPAfter2 li a {
     font-size: 25px;
   }
-  .activation-page .OverAnm.A-PAnim2,
-  .activation-page .OverAnm.A-PAnim3,
-  .activation-page .OverAnm.A-PAnim3 + .KhundLi,
-  .activation-page .OverAnm.A-PAnim4,
-  #flowPt {
+  .activation-page .OverAnm.A-PAnim2, .activation-page .OverAnm.A-PAnim3, .activation-page .OverAnm.A-PAnim3 + .KhundLi, .activation-page .OverAnm.A-PAnim4, #flowPt {
     padding: 0 20px;
   }
   .spls01 + ul a {
@@ -931,12 +855,10 @@
   .vision-page .news_list li {
     width: 8.94%;
   }
-  .vision-page .news_list li,
-  .wooms-page .news_list li {
+  .vision-page .news_list li, .wooms-page .news_list li {
     width: calc(100vw - 40px) !important;
   }
-  .vision-page .news_list li .news_list_shadow,
-  .wooms-page .news_list li .news_list_shadow {
+  .vision-page .news_list li .news_list_shadow, .wooms-page .news_list li .news_list_shadow {
     width: calc(100vw - 60px);
   }
   .news_list li .news_thumbnail img {
@@ -944,10 +866,8 @@
     width: 100%;
     display: block;
     margin: auto;
-    -o-object-fit: cover;
-       object-fit: cover;
-    -o-object-position: center;
-       object-position: center;
+    object-fit: cover;
+    object-position: center;
   }
   .ObiInner ul li {
     width: 200px !important;
@@ -956,7 +876,7 @@
     padding: 0 30px !important;
   }
   .Q-AWrap .QuestionOpener > span {
-    background: url(../images/Q-AMinus.png) center/24px no-repeat !important;
+    background: url(../images/Q-AMinus.png) center / 24px no-repeat !important;
     width: 24px;
     height: 24px;
     text-indent: 300%;
@@ -997,24 +917,17 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-  .activation-page .OverAnm.A-PAnim2,
-  .activation-page .OverAnm.A-PAnim3,
-  .activation-page .OverAnm.A-PAnim3 + .KhundLi,
-  .activation-page .OverAnm.A-PAnim4,
-  #flowPt {
+  .activation-page .OverAnm.A-PAnim2, .activation-page .OverAnm.A-PAnim3, .activation-page .OverAnm.A-PAnim3 + .KhundLi, .activation-page .OverAnm.A-PAnim4, #flowPt {
     padding: 0 20px;
   }
   .page-template-page-flow article.grid {
     display: block;
   }
   .page-template-page-flow .sm\:grid-cols-2 {
-    -ms-grid-columns: auto;
     grid-template-columns: auto;
   }
   .page-template-page-flow article.grid .justify-end {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    justify-content: flex-start;
     margin-bottom: 70px;
   }
   .zama-page .anmAPAfter3 {
@@ -1024,10 +937,8 @@
     margin-bottom: 0 !important;
   }
   .VisionWrap .ClmVisionImage ul {
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    justify-content: space-around;
+    flex-wrap: wrap;
   }
   .VisionWrap .ClmVisionImage ul li {
     width: 255px;
@@ -1036,13 +947,11 @@
   #kyoso1 {
     width: calc(100% - 40px);
   }
-  .footPrivacyPolicyLinks,
-  .foot-inner {
+  .footPrivacyPolicyLinks, .foot-inner {
     width: calc(100% - 40px);
   }
   .wooms-page .NewsSelector ul {
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    flex-wrap: wrap;
   }
   .wooms-page .NewsSelector ul li {
     margin-bottom: 15px;
@@ -1087,7 +996,7 @@
     font-size: 14px;
   }
   .VisionWrap .ClmVisionFullTxt {
-    background: url(../images/Vsn05bg.png) center/745px no-repeat;
+    background: url(../images/Vsn05bg.png) center / 745px no-repeat;
   }
   .VisionWrap .ClmVisionFullTxt p {
     font-size: 16px;
@@ -1109,10 +1018,8 @@
 }
 @media screen and (max-width: 1024px) and (min-width: 768px) {
   .VisionWrap .ClmVisionImage ul {
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    justify-content: space-around;
+    flex-wrap: wrap;
     max-width: 770px;
     margin: 0 auto;
   }
@@ -1121,7 +1028,7 @@
     margin-bottom: 15px;
   }
   .VisionWrap .ClmVisionFullTxt {
-    background: url(../images/Vsn05bg.png) center/contain no-repeat;
+    background: url(../images/Vsn05bg.png) center / contain no-repeat;
     width: calc(100% - 40px);
   }
   .VisionWrap .ClmVisionFullTxt p {
@@ -1151,13 +1058,11 @@
 .page-template-page-price .Q-AWrap .QuestionOpener > span {
   padding: 48px;
 }
-
 @media screen and (max-width: 479px) {
   .page-template-page-price .justify-center.w-full {
     padding: 0 5px !important;
   }
-  .page-id-82 .ObiInner.RoutePriceObi > div.PriceWrap,
-  .page-id-84 .ObiInner.RoutePriceObi > div.RouteWrap {
+  .page-id-82 .ObiInner.RoutePriceObi > div.PriceWrap, .page-id-84 .ObiInner.RoutePriceObi > div.RouteWrap {
     height: 258px !important;
   }
 }

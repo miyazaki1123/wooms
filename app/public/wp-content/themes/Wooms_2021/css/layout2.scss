@@ -1917,66 +1917,67 @@ width: auto;
 				}
 			}	
 		}
+		
 .technology-page{
-.ChilHead{
-	&--hasTxt{
-		@include sp{
-			padding: 0;
-			height: 120vw;
-			}
-		.ChilHeadInner{
-			padding: 0;
-			height: 100%;
-			width: 100%;
-			position: relative;
-			display: block;
+	.ChilHead{
+		&--hasTxt{
 			@include sp{
-					display: block;
-				display: flex;
-				align-items: center;
-				justify-content: center;
+				padding: 0;
+				height: 120vw;
 				}
-			&__txt{
-				max-width: 1250px;
-				padding: 0 60px;
-				height: auto;
-				margin: auto;
-				text-align: center;
+			.ChilHeadInner{
+				padding: 0;
+				height: 100%;
+				width: 100%;
+				position: relative;
+				display: block;
 				@include sp{
-					padding: 0 18px;
-				}
-				picture{
+						display: block;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					}
+				&__txt{
+					max-width: 1250px;
+					padding: 0 60px;
+					height: auto;
 					margin: auto;
 					text-align: center;
-				}
-				img{
-					@include pc{
-					height: 80%;
-					width: auto;
-					display: block;
-					margin: auto;
-					z-index: 2;
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-					}
 					@include sp{
+						padding: 0 18px;
+					}
+					picture{
+						margin: auto;
+						text-align: center;
+					}
+					img{
+						@include pc{
+						height: 80%;
+						width: auto;
 						display: block;
-						width: 100%;
-						height: auto;
-						position: relative;
+						margin: auto;
 						z-index: 2;
-						top: 10px;
-						left: 0;
-						transform: none;
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						}
+						@include sp{
+							display: block;
+							width: 100%;
+							height: auto;
+							position: relative;
+							z-index: 2;
+							top: 10px;
+							left: 0;
+							transform: none;
+						}
 					}
 				}
 			}
 		}
 	}
-}
-.tec-box{
+	tec-box{
 		max-width: 1050px;
 		width:calc(100% - 60px) ;
 		box-sizing: border-box;
