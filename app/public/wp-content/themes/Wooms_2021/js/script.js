@@ -666,32 +666,6 @@ function sideNav(){
     document.querySelector('.sidebar2__top').classList.remove('active');
   }
 }
-
-let sTop;
-let sBottom;
-function setS(){
-  if(MQ.matches){
-    sBottom = 30;
-    sTop = window.innerHeight - sBottom;
-  }else{
-    sBottom = 20;
-    sTop = window.innerHeight - sBottom;
-  }
-};
-function sidebarFunc(){
-  sTop = 300;
-  setS();
-  //console.log(sBottom)
-  setInterval(function(){
-    sidebar2.options.topSpacing = sTop;
-    sidebar2.options.bottomSpacing = sBottom;
-    sidebar2.updateSticky();
-  }, 200);
-  
-};
-
-var sidebar
-var sidebar2;
 if(document.querySelectorAll('.sidebar').length > 0){
   window.addEventListener("DOMContentLoaded", function(){
     sideNav();
@@ -699,27 +673,11 @@ if(document.querySelectorAll('.sidebar').length > 0){
   window.addEventListener("scroll", function(){
     sideNav();
   });
-  setS();
-   sidebar = new StickySidebar('.sec__nav', {
+   const sidebar = new StickySidebar('.sec__nav', {
     containerSelector: '.sec__main',
     innerWrapperSelector: '.sidebar',
     topSpacing: 240,
    })
-   /*
-   sidebar2 = new StickySidebar('.sec__nav2', {
-    containerSelector: '.sec--wrap',
-    innerWrapperSelector: '.sidebar2',
-    topSpacing: sTop,
-    bottomSpacing: sBottom,
-   })
-   */
-   window.addEventListener('resize', function() {
-    //sideNav();
-    if(!isTouchDevice()) {
-      //sidebarFunc();
-    }
-    
-  });
 }
 
 function splide(){
@@ -788,7 +746,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (entry.isIntersecting) {
               // 要素がスクロール範囲に入ったらクラスを追加
               targetElement2.classList.add('active2');
-              sideNav2();
+              
           } else {
               // 要素がスクロール範囲から出たらクラスを削除（オプション）
               targetElement2.classList.remove('active2');
