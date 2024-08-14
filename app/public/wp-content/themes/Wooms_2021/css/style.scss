@@ -648,7 +648,13 @@
 				right: -50px;
 				bottom:30px;
 				opacity: 0;
-				position: absolute;
+				position: fixed;
+				@include sp{
+					bottom:20px;
+				}
+				&.active2{
+					position: absolute;
+				}
 				@include sp{
 					height: 32px;
 				}
@@ -683,10 +689,7 @@
 		margin-top: 0;
 	}
 	.sec--wrap{
-		border-bottom: solid 6px #82D5A5;
-		@include sp{
-			border-bottom: solid 4px #82D5A5;
-		}
+		
 	}
 }
 
@@ -1978,6 +1981,10 @@ body.active{
 	}
 }
 .site-footer{
+	border-top: solid 6px #82D5A5;
+		@include sp{
+			border-top: solid 4px #82D5A5;
+		}
 	.foot-menuwrap{
 		max-width: 1050px;
 		margin: 0 auto;
