@@ -8,14 +8,15 @@ export function anchorLink(MQ) {
               event.preventDefault();
               let offset = 0;
               const targetId = this.getAttribute('href');
-              console.log(targetId)
+              let targetElement;
+              let currentScrollPosition;
+              let targetPosition;
               if(targetId!="#"){
-                const targetElement = document.querySelector(targetId);
-                const currentScrollPosition = window.scrollY;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                targetElement = document.querySelector(targetId);
+                currentScrollPosition = window.scrollY;
+                targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
               }
               if(targetId){
-                
                 let type;
                 if(!MQ){
                   type = 'smooth';

@@ -10,7 +10,6 @@
  *
  */
 get_header(); ?>
-aaaaaaaaaaaaaaaa
 			<?php
 			if (have_posts()) {
 				global $posts;

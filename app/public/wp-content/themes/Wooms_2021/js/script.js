@@ -309,30 +309,21 @@ $(function () {
 
   // パララックス
   let bgflag = 0
-  window.addEventListener("load", function(){
+  function BgPicFUncc(){
     $(".BgPic").each(function () {
       var target1 = $(".BgPic");
       var targetPosOT1 = target1.offset().top;
       var scrollY = $(window).scrollTop();
-      target1.css("top", (targetPosOT1) * 0.3 + "px");
-      if(document.querySelectorAll('.sidebar').length > 0){
-        target1.css("top", (targetPosOT1) * 0.3 + 54 + "px");
-      }
+      target1.css("top", (targetPosOT1 - scrollY) * 0.3 + "px");
     });
+  }
+  window.addEventListener("load", function(){
+    BgPicFUncc();
   });
   window.addEventListener("scroll", function(){
-    $(".BgPic").each(function () {
-      var target1 = $(".BgPic");
-      var targetPosOT1 = target1.offset().top;
-      var scrollY = $(window).scrollTop();
-      
-      target1.css("top", (targetPosOT1 - scrollY) * 0.3 + "px");
-      //console.log((targetPosOT1) * 0.3)
-    });
+    BgPicFUncc();
   });
   $(window).on("scroll load", function () {
-    
-
     $(".BeyondArea").each(function () {
       var target12 = $(".BeyondArea");
       var targetPosOT12 = target12.offset().top;
@@ -642,21 +633,32 @@ $(function () {
 
 window.addEventListener('load', function(){
   document.querySelector('body').classList.add('active');
+
+  /* アンカーリンク */
   anchorLink(MQ.matches);
+
+  /* メールフォーム */
+  if(document.querySelector('contact-form-wrap')){
+    mailform();
+  }
+});
+
+
+/* 個人情報チェック */
+document.addEventListener("DOMContentLoaded", function() {
+  if(document.getElementById('privacyPolicyAgreement-1')){
+    agreeCheck();
+  }
 });
 if(document.querySelectorAll('.menu_inner__flex').length > 0){
   navigation();
 }
 
+
+function isTouchDevice() {
+  return ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
+};
 function sideNav(){
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  if(scrollTop > (document.querySelector('.page-header').clientHeight / 1.3)){
-    document.querySelector('.sidebar2__top').classList.add('active');
-  }else{
-    document.querySelector('.sidebar2__top').classList.remove('active');
-  }
-}
-function sideNav2(){
   let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   if(scrollTop > (document.querySelector('.page-header').clientHeight / 1.3)){
     document.querySelector('.sidebar2__top').classList.add('active');
@@ -667,7 +669,6 @@ function sideNav2(){
 
 let sTop;
 let sBottom;
-
 function setS(){
   if(MQ.matches){
     sBottom = 30;
@@ -676,7 +677,6 @@ function setS(){
     sBottom = 20;
     sTop = window.innerHeight - sBottom;
   }
-  
 };
 function sidebarFunc(){
   sTop = 300;
@@ -689,9 +689,7 @@ function sidebarFunc(){
   }, 200);
   
 };
-function isTouchDevice() {
-  return ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
-};
+
 var sidebar
 var sidebar2;
 if(document.querySelectorAll('.sidebar').length > 0){
@@ -706,7 +704,6 @@ if(document.querySelectorAll('.sidebar').length > 0){
     containerSelector: '.sec__main',
     innerWrapperSelector: '.sidebar',
     topSpacing: 240,
-    bottomSpacing: 0,
    })
    /*
    sidebar2 = new StickySidebar('.sec__nav2', {
@@ -735,7 +732,7 @@ function splide(){
       perPage  : 3,
       flickMaxPages  : 1,
       breakpoints: {
-        960: {
+        1180: {
           fixedWidth : '34vw',
           perPage: 2,
         },
@@ -758,16 +755,7 @@ function faqFunc(){
     });
   });
 }
-window.addEventListener('load', function(){
-  if(document.querySelector('contact-form-wrap')){
-  mailform();
-  }
-});
-document.addEventListener("DOMContentLoaded", function() {
-  if(document.getElementById('privacyPolicyAgreement-1')){
-    agreeCheck();
-  }
-});
+
 
 let scrollStartX = 0;
 let scrollStartY = 0;

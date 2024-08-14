@@ -417,7 +417,10 @@
 			</section>
 		</div>
 	</div>
+	<div class="BgPic-wrap">
 	<span class="BgPic"></span>
+	</div>
+	
 </div>
 
 
