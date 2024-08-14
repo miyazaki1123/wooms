@@ -1,22 +1,24 @@
 @charset "UTF-8";
-input[type="text"], input[type="email"], textarea {
+input[type=text], input[type=email], textarea {
   width: 100%;
   font-weight: 400 !important;
   font-family: "Noto Sans JP", "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
   font-size: 19px !important;
 }
 @media (max-width: 767px) {
-  input[type="text"], input[type="email"], textarea {
+  input[type=text], input[type=email], textarea {
     padding: 5px !important;
     font-size: 16px !important;
   }
 }
+
 td {
   font-size: 19px !important;
 }
 td * {
   font-size: 19px !important;
 }
+
 @media (max-width: 767px) {
   .error {
     font-size: 12px !important;
@@ -32,27 +34,30 @@ td * {
     font-size: 16px !important;
   }
 }
-input[type="radio"] {
+input[type=radio] {
   font-size: 19px !important;
   font-weight: 400 !important;
   font-family: "Noto Sans JP", "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 }
 @media (max-width: 767px) {
-  input[type="radio"] {
+  input[type=radio] {
     font-size: 16px !important;
   }
 }
-input[type="number"] {
+
+input[type=number] {
   width: 30%;
 }
 @media (max-width: 767px) {
-  input[type="number"] {
+  input[type=number] {
     width: 50%;
   }
 }
+
 .contact-head {
   text-align: center;
 }
+
 .contact-page h2 {
   margin-bottom: 55px;
 }
@@ -61,6 +66,7 @@ input[type="number"] {
     margin-bottom: 35px;
   }
 }
+
 .contact-head h1 span {
   font-weight: bold;
   line-height: 1.44;
@@ -68,6 +74,7 @@ input[type="number"] {
   color: #0077c0;
   letter-spacing: 3px;
 }
+
 .contact-head p {
   line-height: 1.75;
   letter-spacing: 0.08em;
@@ -81,9 +88,11 @@ input[type="number"] {
     margin: 20px 0 25px 0;
   }
 }
+
 .contact-head ul {
   padding: 0 0 0 1.5em;
 }
+
 .contact-head ul li {
   line-height: 1.75;
   letter-spacing: 0.08em;
@@ -92,6 +101,7 @@ input[type="number"] {
   text-align: left;
   font-weight: 500;
 }
+
 .mw_wp_form {
   margin-top: 20px;
 }
@@ -100,29 +110,38 @@ input[type="number"] {
     margin-top: 20px;
   }
 }
+
 .contact-main > p {
   text-align: center;
   margin: 30px 0;
 }
+
 .contact-main h3 {
   text-align: center;
   margin-top: 100px;
 }
+
 .contact-main h3:first-child {
   text-align: center;
   margin-top: 40px;
 }
+
 .contact-main table {
   width: 100%;
   border-spacing: 0;
   border-collapse: collapse;
 }
+
 th, td, table, tr, form, div {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
-.contact-main table th, .contact-main table td {
+
+.contact-main table th,
+.contact-main table td {
   border: 1px solid #999999;
 }
+
 .number span {
   font-size: 19px;
   margin-left: 5px;
@@ -132,44 +151,68 @@ th, td, table, tr, form, div {
     font-size: 16px;
   }
 }
+
 .contact-main table th {
   width: 35%;
   background: #F2F2F2;
   padding: 0 calc((35% - 200px) / 2);
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
+
 .contact-main table th span {
   display: block;
   text-align: left;
 }
+
 .contact-main table td small {
   display: block;
   margin-top: 3px;
   font-size: 14px;
 }
+
 .contact-main table td {
   width: 60%;
   min-width: 567px;
   padding: 50px 5%;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 @media (max-width: 767px) {
   .contact-main table td {
     min-width: 100%;
   }
 }
-.contact-main table td input[type="email"], .contact-main table td input[type="text"], input[type="number"] {
+
+.contact-main table td input[type=email],
+.contact-main table td input[type=text],
+input[type=number] {
   padding: 5px;
 }
-.contact-main table td .mwform-tel-field input[type="text"] {
+
+.contact-main table td .mwform-tel-field input[type=text] {
   padding: 5px;
   width: auto;
 }
+
 .contact-main table td.check-cell .col2 {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-columns: 120px 40px 200px;
   grid-template-columns: 120px 200px;
+  -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   gap: 20px 40px;
+}
+
+.contact-main table td.check-cell .col2 > *:nth-child(1) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+}
+
+.contact-main table td.check-cell .col2 > *:nth-child(2) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
 }
 @media (max-width: 767px) {
   .contact-main table td.check-cell .col2 {
@@ -177,8 +220,12 @@ th, td, table, tr, form, div {
   }
 }
 .contact-main table td.check-cell .col2 label {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 @media (max-width: 767px) {
   .contact-main table td.check-cell .col2 label {
@@ -200,11 +247,25 @@ th, td, table, tr, form, div {
     padding-left: 20px;
   }
 }
+
 .contact-main table td .col2 {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-columns: auto 30px auto;
   grid-template-columns: auto auto;
+  -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   gap: 20px 30px;
+}
+
+.contact-main table td .col2 > *:nth-child(1) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+}
+
+.contact-main table td .col2 > *:nth-child(2) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
 }
 @media (max-width: 767px) {
   .contact-main table td .col2 {
@@ -215,8 +276,12 @@ th, td, table, tr, form, div {
   margin: 0 !important;
 }
 .contact-main table td .col2 label {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   word-wrap: break-word;
 }
 @media (max-width: 767px) {
@@ -225,16 +290,31 @@ th, td, table, tr, form, div {
   }
 }
 .contact-main table td .col2 label span {
-  font-feature-settings: "palt";
+  -webkit-font-feature-settings: "palt";
+          font-feature-settings: "palt";
 }
 .contact-main table td .col2 label input {
   margin-top: 0.4em;
 }
+
 .contact-main table td.check-kadai .col2 {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-columns: auto 30px 1.1fr;
   grid-template-columns: auto 1.1fr;
+  -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   gap: 20px 30px;
+}
+
+.contact-main table td.check-kadai .col2 > *:nth-child(1) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+}
+
+.contact-main table td.check-kadai .col2 > *:nth-child(2) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
 }
 .contact-main table td.check-kadai .col2 > span:nth-child(5) br {
   display: none;
@@ -248,8 +328,12 @@ th, td, table, tr, form, div {
   }
 }
 .contact-main table td.check-kadai .col2 label {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   word-wrap: break-word;
 }
 @media (max-width: 767px) {
@@ -258,7 +342,8 @@ th, td, table, tr, form, div {
   }
 }
 .contact-main table td.check-kadai .col2 label span {
-  font-feature-settings: "palt";
+  -webkit-font-feature-settings: "palt";
+          font-feature-settings: "palt";
 }
 .contact-main table td.check-kadai .col2 label input {
   margin-top: 0.4em;
@@ -266,45 +351,68 @@ th, td, table, tr, form, div {
 .contact-main table td.check-kadai .horizontal-item {
   margin: 0 !important;
 }
+
 .contact-main table td.check-cell label {
   display: block;
   margin: 5px 0;
 }
+
 .name-cell > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .name-cell > div > div {
   width: calc(50% - 10px);
 }
+
 .mw_wp_form_confirm .name-cell > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 .mw_wp_form_confirm .name-cell > div > div {
   width: auto;
   margin-right: 5px;
 }
-.contact-main table td.name-cell input[name="namae1"], .contact-main table td.name-cell input[name="furigana1"] {
+
+.contact-main table td.name-cell input[name=namae1],
+.contact-main table td.name-cell input[name=furigana1] {
   margin-right: 10px;
 }
+
 .privacy_policy-window {
   padding: 20px;
   margin: 30px 0;
   border: 1px solid #999999;
   font-size: 13px;
 }
+
 .ppcheck {
   text-align: center;
   font-size: 17px;
   margin: 45px 0;
 }
+
 .check-submit {
   text-align: center;
 }
-.check-submit input, input[name="backbtn"], input[name="okbtn"] {
+
+.check-submit input,
+input[name=backbtn],
+input[name=okbtn] {
   border: 0;
   background: #0077c0;
   padding: 15px 40px;
@@ -314,38 +422,48 @@ th, td, table, tr, form, div {
   margin-bottom: 55px;
   cursor: pointer;
 }
-input[name="backbtn"], input[name="okbtn"] {
+
+input[name=backbtn],
+input[name=okbtn] {
   margin: 100px auto;
   display: block;
 }
+
 .contact-main dl {
   max-width: 500px;
   margin: 0 auto;
 }
+
 .contact-main dt {
   margin: 15px 0;
 }
+
 section.contact-main {
   padding-top: 50px;
   margin: 0 auto;
   max-width: 900px;
 }
+
 th span {
   font-size: 19px;
   font-weight: 500;
 }
+
 td span {
   font-size: 19px;
   font-weight: 400;
 }
+
 td input {
   font-size: 19px;
   font-weight: 400;
 }
+
 td textarea {
   font-size: 19px;
   font-weight: 400;
 }
+
 .requied {
   font-size: 15px;
   width: 45px;
@@ -356,20 +474,30 @@ td textarea {
   font-weight: bold;
   margin-top: 5px;
 }
+
 .privacy_policy-window p {
   line-height: 1.75;
   letter-spacing: 0.08em;
   font-size: 20px;
 }
+
+.privacy_policy-window :-moz-any-link {
+  line-height: 1.75;
+  letter-spacing: 0.08em;
+  font-size: 20px;
+}
+
 .privacy_policy-window :any-link {
   line-height: 1.75;
   letter-spacing: 0.08em;
   font-size: 20px;
 }
+
 .ppcheck span {
   font-size: 20px;
   font-weight: 500;
 }
+
 .ContactCustomerTitle {
   font-weight: bold;
   line-height: 1.44;
@@ -384,6 +512,7 @@ td textarea {
     margin-top: 30px;
   }
 }
+
 .error {
   line-height: 1.75;
   letter-spacing: 0.08em;
@@ -395,14 +524,17 @@ td textarea {
     display: block;
   }
 }
+
 .typeif {
   display: none;
   padding-left: 2em;
   margin-top: 35px;
 }
+
 .typeif.Visible {
   display: block;
 }
+
 .mw_wp_form_confirm td {
   line-height: 1.75;
   letter-spacing: 0.08em;
@@ -410,14 +542,17 @@ td textarea {
 .mw_wp_form_confirm td small {
   display: none !important;
 }
+
 .mw_wp_form_confirm td .typeif {
   display: block !important;
   line-height: 1.75;
   letter-spacing: 0.08em;
 }
+
 .mw_wp_form_confirm .ppcheck {
   display: none;
 }
+
 .mw_wp_form_complete p {
   text-align: center;
   margin-bottom: 100px;
@@ -425,22 +560,33 @@ td textarea {
   letter-spacing: 0.08em;
   font-size: 20px;
 }
+
 .ppcheck label {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
   display: inline-flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 #C_check-1 {
-  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
+
 _::-webkit-full-page-media, _:future, :root #C_check-1 {
-  transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
 }
+
 @media screen and (max-width: 767px) {
   .contact-main table {
     width: 100%;
     margin: 0 auto;
   }
-  .contact-main table th, .contact-main table td {
+  .contact-main table th,
+  .contact-main table td {
     display: block;
     width: 100%;
     padding: 20px 30px;
@@ -448,9 +594,15 @@ _::-webkit-full-page-media, _:future, :root #C_check-1 {
     font-size: 16px;
   }
   .contact-main table th {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .privacy_policy-window {
     width: calc(95% - 40px);
@@ -484,13 +636,21 @@ _::-webkit-full-page-media, _:future, :root #C_check-1 {
   td input {
     font-size: 16px;
   }
-  .contact-main table td input[type="email"], .contact-main table td input[type="text"] {
+  .contact-main table td input[type=email], .contact-main table td input[type=text] {
     padding: 5px 0;
   }
   .requied {
     font-size: 10px !important;
   }
-  .privacy_policy-window p, .privacy_policy-window a {
+}
+@media screen and (max-width: 767px) and (max-width: 767px) {
+  .requied {
+    font-size: 14px !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .privacy_policy-window p,
+  .privacy_policy-window a {
     font-size: 12px !important;
   }
   .ppcheck span {
@@ -499,16 +659,13 @@ _::-webkit-full-page-media, _:future, :root #C_check-1 {
   .mw_wp_form_complete p {
     font-size: 12px;
   }
-  .contact-head h1 span, .ContactCustomerTitle {
+  .contact-head h1 span,
+  .ContactCustomerTitle {
     font-size: 28px;
   }
   _::-webkit-full-page-media, _:future, :root #C_check-1 {
-    transform: scale(1.1);
-  }
-}
-@media screen and (max-width: 767px) and (max-width: 767px) {
-  .requied {
-    font-size: 14px !important;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
   }
 }
 @media screen and (max-width: 767px) and (min-width: 478px) {
@@ -521,7 +678,8 @@ _::-webkit-full-page-media, _:future, :root #C_check-1 {
   .requied {
     font-size: 18px !important;
   }
-  .privacy_policy-window p, .privacy_policy-window a {
+  .privacy_policy-window p,
+  .privacy_policy-window a {
     font-size: 20px !important;
   }
   .ppcheck span {
