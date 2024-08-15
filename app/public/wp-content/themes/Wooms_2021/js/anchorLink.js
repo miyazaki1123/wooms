@@ -31,7 +31,7 @@ export function anchorLink(MQ) {
                 //document.querySelector('.side-content').classList.remove('hide');
                }
                
-                //document.querySelector('.nav-toggle-wrap').classList.remove('active');
+                document.querySelector('.nav-toggle-wrap').classList.remove('active');
                 //document.querySelector('body').classList.remove('noscroll');
                 if (targetId === "#") {
                   window.scrollTo({
@@ -43,7 +43,7 @@ export function anchorLink(MQ) {
                   let mediaHeight;
                   if (MQ) {
                     if (targetPosition > currentScrollPosition) {
-                      console.log('目的の要素は下にあります');
+                      //console.log('目的の要素は下にあります');
                       mediaHeight = 0;
                       offset = 0;
                     } else {
