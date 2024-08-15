@@ -142,7 +142,7 @@
 								</div>
 								<div class="content" data-a="fade-up">
 									<ol class="ol-style--icon-flow">
-										<li class="color-box" data-a="fade-up">
+										<li class="color-box">
 											<h4><div>STEP</div><img src="<?php echo get_template_directory_uri(); ?>/images/service/icon_mushimegane.svg" alt=""></h4>
 											<div class="color-box--white">
 												<h5>見える化調査</h5>
@@ -160,7 +160,7 @@
 											</div>
 											<small>※許可業者・処理施設を把握します</small>
 										</li>
-										<li class="color-box" data-a="fade-up" data-a-pc-delay="200">
+										<li class="color-box">
 											<h4><div>STEP</div><img src="<?php echo get_template_directory_uri(); ?>/images/service/icon_haguruma.svg" alt=""></h4>
 											<div class="color-box--white">
 												<h5>見える化検証</h5>
@@ -178,7 +178,7 @@
 											</div>
 											<small>※現地訪問調査を行う場合もあります</small>
 										</li>
-										<li class="color-box" data-a="fade-up" data-a-pc-delay="400">
+										<li class="color-box">
 											<h4><div>STEP</div><img src="<?php echo get_template_directory_uri(); ?>/images/service/icon_lecture.svg" alt=""></h4>
 											<div class="color-box--white">
 												<h5>調査・検証結果報告</h5>
@@ -417,10 +417,7 @@
 			</section>
 		</div>
 	</div>
-	<div class="BgPic-wrap">
 	<span class="BgPic"></span>
-	</div>
-	
 </div>
 
 

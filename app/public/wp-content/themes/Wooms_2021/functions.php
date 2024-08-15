@@ -1,5 +1,5 @@
 <?php
-require_once get_template_directory() . '/site_config.php';
+define('LP_DIR','wooms-connect-lp');
 // ウィジェットエリア
 // サイドバーのウィジェット
 register_sidebar(array(

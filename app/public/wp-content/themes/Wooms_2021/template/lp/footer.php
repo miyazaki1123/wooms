@@ -1,10 +1,10 @@
 <footer class="site-footer">
-    <div class="foot-menuwrap">
-        <a class="footlogo-F" href="/" data-a="fade-up" data-a-offset="0">
+    <div class="foot-menuwrap" data-a="fade-up" data-a-offset="0">
+        <a class="footlogo-F" href="/">
             <img src="<?php echo get_template_directory_uri(); ?>/images/WOOMsLogo.png">
         </a>
-        <div data-a="fade-up" data-a-offset="0">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/img_footer_ninsyo.svg" alt="GIJP-1213-IC ISO/IEC27001:2022">
+        <div>
+        <img src="<?php echo get_template_directory_uri(); ?>/images/img_footer_ninsyo.svg" alt="GIJP-1213-IC ISO/IEC27001:2022">
         </div>
     </div>
 

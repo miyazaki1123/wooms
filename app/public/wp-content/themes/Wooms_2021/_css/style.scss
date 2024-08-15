@@ -1,9 +1,9 @@
-@import "_header.scss";
-@import "_footer.scss";
-@import "_unique.scss";
-@import "_unique2.scss";
-@import "_layout.scss";
-@import "_bxslider.scss";
+@import "header.scss";
+@import "footer.scss";
+@import "unique.scss";
+@import "unique2.scss";
+@import "layout.scss";
+@import "bxslider.scss";
 @import "_animation.scss";
 
 .page-id-4957,.page-id-4962{
@@ -569,15 +569,12 @@
 	}
 }
 .sec__main{
-	padding-bottom: 80px;
 	display: grid;
 	display: flex;
     position: relative;
     flex-direction : row-reverse;
 	width: 100%;
-	@include sp{
-		padding-bottom: 60px;
-	}
+	
 	.sec__contents{
 		width: 100%;
 	}
@@ -596,7 +593,7 @@
 					background: #FFB443;
 				}
 				right: 0;
-				top:-135px;
+				top:0;
 				position: absolute;
 				width: 50px;
 				height: 180px;
@@ -605,6 +602,7 @@
 				align-items: center;
 				justify-content: center;
 				gap:10px;
+				transform: translateY(-135px);
 				img{
 					width: 16px;
 					height: auto;
@@ -650,13 +648,7 @@
 				right: -50px;
 				bottom:30px;
 				opacity: 0;
-				position: fixed;
-				@include sp{
-					bottom:20px;
-				}
-				&.active2{
-					position: absolute;
-				}
+				position: absolute;
 				@include sp{
 					height: 32px;
 				}
@@ -691,18 +683,17 @@
 		margin-top: 0;
 	}
 	.sec--wrap{
-		
+		border-bottom: solid 6px #82D5A5;
+		@include sp{
+			border-bottom: solid 4px #82D5A5;
+		}
 	}
 }
 
-.BgPic-wrap{
-	opacity: 0;
-	mix-blend-mode:darken;
-}
 .page-id-4957,.page-id-4962 {
 	.BgPic {
 		mix-blend-mode:darken;
-		
+		opacity: 0;
 		position: absolute;
 		width: 1250px;
 		background: url(../images/TOPBG01.jpg) top 626px right 88px / auto no-repeat, url(../images/TOPBG02.jpg) top 936px left 1% / auto no-repeat, url(../images/TOPBG03.jpg) top 2090px right 8.9% / auto no-repeat, url(../images/TOPBG04.jpg) top 2001px left -2% / auto no-repeat, url(../images/TOPBG05.jpg) top 4261px right 7.5% / auto no-repeat, url(../images/TOPBG06.jpg) top 3702px left 2% / auto no-repeat, url(../images/TOPBG07.jpg) top 5829px right 11% / auto no-repeat, url(../images/TOPBG08.jpg) top 5682px left 2.6% / auto no-repeat,url(../images/TOPBG01.jpg) top 6626px right 88px / auto no-repeat;
@@ -719,8 +710,7 @@
 	}
 }
 body.active{
-	.BgPic-wrap {
-		transition: 1s all ease;
+	.BgPic {
 		opacity: 1;
 	}
 }
@@ -1107,8 +1097,8 @@ body.active{
 						height: auto;
 						display: block;
 						margin: auto;
-						@include max_w(1180){
-							width: 75%;
+						@include max_w(960){
+							width: 80%;
 						}
 						@include sp{
 							width: 60%;
@@ -1130,7 +1120,7 @@ body.active{
 						background: url(../images/flow/icon_dots.svg) no-repeat;
 						background-position: center;
 						transform: translateX(100%);
-						@include max_w(1180){
+						@include max_w(960){
 							width: 15%;
 							left: 77.5%;
 							background-size: 100%;
@@ -1232,9 +1222,9 @@ body.active{
 		}
 	}
 	&__faq{
-		padding: 80px 0 0;
+		padding: 80px 0;
 		@include sp{
-			padding: 60px 0 0;
+			padding: 60px 0;
 		}
 	}
 	&__contact-form{
@@ -1988,10 +1978,6 @@ body.active{
 	}
 }
 .site-footer{
-	border-top: solid 6px #82D5A5;
-		@include sp{
-			border-top: solid 4px #82D5A5;
-		}
 	.foot-menuwrap{
 		max-width: 1050px;
 		margin: 0 auto;
@@ -2087,19 +2073,13 @@ body.active{
 .sp-horizontal-scroll{
 	overflow-x: scroll;
 	&__icon{
-		@include pc{
-			display: none;
-		}
-		@include sp{
-			display: flex;
-		}
 		position: absolute;
 		top:50%;
 		left: 50%;
 		transform: translate(-50%,-50%);
 		width: 180px;
 		height: 100px;
-		
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		backdrop-filter: blur(4px);
