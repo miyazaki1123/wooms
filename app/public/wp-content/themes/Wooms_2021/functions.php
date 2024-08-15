@@ -712,5 +712,5 @@ $Validation->set_rule('確認用メールアドレス','eq',array('target' => '�
 	}
 	
 }
-//add_filter( 'mwform_validation_mw-wp-form-4959', 'ag_validation_rule', 10, 3);
+add_filter( 'mwform_validation_mw-wp-form-4959', 'ag_validation_rule', 10, 3);
 ?>
