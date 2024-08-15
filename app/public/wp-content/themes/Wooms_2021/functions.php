@@ -547,7 +547,9 @@ add_shortcode('logo', 'getLogos');
                 
 
         function my_required_phone( $validation, $data ) {
-            $method = $data['種類'];
+            if( isset($data['種類']) ) {
+                $method = $data['種類'];
+            }
             if( isset( $method ) && $method === 'お問い合わせ' ) {
               $validation->set_rule( 'お問い合わせ種類', 'required', array( 'message' => 'お問い合わせを選択された場合必須です。') );
             }
@@ -710,5 +712,5 @@ $Validation->set_rule('確認用メールアドレス','eq',array('target' => '�
 	}
 	
 }
-add_filter( 'mwform_validation_mw-wp-form-4959', 'ag_validation_rule', 10, 3);
+//add_filter( 'mwform_validation_mw-wp-form-4959', 'ag_validation_rule', 10, 3);
 ?>

@@ -1243,12 +1243,10 @@ body.active{
 		}
 		padding: 80px 0;
 		background: #EBF5E9;
-		.container{
-			>.list--dots{
-				margin: 45px 0;
-				@include sp{
-					margin: 30px 0;
-				}
+		.list--dots{
+			margin: 45px 0;
+			@include sp{
+				margin: 30px 0;
 			}
 		}
 		.color-box{
@@ -1928,6 +1926,15 @@ body.active{
 .mw_wp_form_input{
 	.btn-send{
 		display: none;
+	}
+}
+.mw_wp_form_complete{
+	.list--dots{
+		display: none;
+	}
+	.comp-txt{
+		text-align: center;
+		font-size: 24px;
 	}
 }
 .contact-form--nav{

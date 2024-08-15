@@ -1,9 +1,10 @@
 import { anchorLink } from "./anchorLink.js";
 import { navigation } from "./navigation.js";
 import { tabContents } from "./tabContents.js";
-import { slideToggle } from "./slideToggle.js";
-import { agreeCheck,mailform } from "./mailform.js";
 
+import { agreeCheck,mailform } from "./mailform.js";
+import { backToTop } from "./backToTop.js";
+import { faqFunc } from "./faq.js";
 const BRAKE_WIDTH = 767,
 PC = '(min-width:' + (BRAKE_WIDTH + 1) + 'px)',
 SP = '(max-width:' + BRAKE_WIDTH + 'px)';
@@ -633,10 +634,8 @@ $(function () {
 
 window.addEventListener('load', function(){
   document.querySelector('body').classList.add('active');
-
   /* アンカーリンク */
   anchorLink(MQ.matches);
-
   /* メールフォーム */
   if(document.querySelector('contact-form-wrap')){
     mailform();
@@ -649,11 +648,13 @@ document.addEventListener("DOMContentLoaded", function() {
   if(document.getElementById('privacyPolicyAgreement-1')){
     agreeCheck();
   }
+  if(document.querySelector('.sidebar2__top')){
+    backToTop();
+  }
 });
 if(document.querySelectorAll('.menu_inner__flex').length > 0){
   navigation();
 }
-
 
 function isTouchDevice() {
   return ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0);
@@ -705,15 +706,6 @@ function splide(){
 }
 splide();
 faqFunc();
-function faqFunc(){
-  document.querySelectorAll('.faq__q').forEach(function(index,num){
-    let elem = document.querySelectorAll('.faq__a')[num];
-    index.addEventListener('click',function(){
-      slideToggle(elem,index,300,false,'block');
-    });
-  });
-}
-
 
 let scrollStartX = 0;
 let scrollStartY = 0;
@@ -736,37 +728,3 @@ if(!MQ.matches && document.querySelector('.sp-horizontal-scroll__icon')){
     });
   });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  const targetElement = document.querySelector('.site-footer');
-  const targetElement2 = document.querySelector('.sidebar2__top');
-  
-  const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-          if (entry.isIntersecting) {
-              // 要素がスクロール範囲に入ったらクラスを追加
-              targetElement2.classList.add('active2');
-              
-          } else {
-              // 要素がスクロール範囲から出たらクラスを削除（オプション）
-              targetElement2.classList.remove('active2');
-          }
-      });
-  }, {
-      root: null, // ビューポートを基準にする
-      rootMargin: '0px', // マージンを追加しない
-      threshold: 0 // 要素が少しでも見えたら発火
-  });
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-      if (!ticking) {
-          window.requestAnimationFrame(() => {
-              observer.observe(targetElement);
-              ticking = false;
-          });
-          ticking = true;
-      }
-  });
-  // 対象の要素を監視
-});

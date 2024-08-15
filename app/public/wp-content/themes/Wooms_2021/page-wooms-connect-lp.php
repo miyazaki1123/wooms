@@ -405,10 +405,7 @@
 				</header>
 				<div class="con__contact-form">
 					<div class="container">
-						<ul class="list--dots">
-							<li>お問い合わせの内容によっては、お時間を頂戴する場合がございます。</li>
-							<li>提案やご紹介のメールに対しましては、お返事を差し上げられない場合がございます。</li>
-						</ul>
+						
 						<div class="contact-form-wrap">
 						<?php echo do_shortcode('[mwform_formkey key="4959"]'); ?>
 						</div>

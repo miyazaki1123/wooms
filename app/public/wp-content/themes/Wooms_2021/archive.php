@@ -10,7 +10,6 @@
  *
  */
 get_header(); ?>
-aaaaaaaaaaaaaaaa
 			<?php
 			if (have_posts()) {
 				global $posts;
@@ -61,11 +60,9 @@ aaaaaaaaaaaaaaaa
 						<p class="date"><?php the_time('Y.m.d'); ?></p>
 						<h2 class="title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 					</li>
-				<?php
-					
-				}
+				<?php }; ?>
 				</ul>
-				?>
+				
 				<div class="navigation"><?php posts_nav_link(); ?></div>
 				<?php
 				/* Display navigation to next/previous pages when applicable */
