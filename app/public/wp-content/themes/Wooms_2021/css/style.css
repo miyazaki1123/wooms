@@ -9128,6 +9128,20 @@ h1.single_title {
   }
 }
 
+.tb {
+  display: none;
+}
+@media (max-width: 960px) {
+  .tb {
+    display: block;
+  }
+}
+@media (max-width: 767px) {
+  .tb {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .pc {
     display: none;

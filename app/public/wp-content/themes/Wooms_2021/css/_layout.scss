@@ -1216,6 +1216,16 @@ width: auto;
 	@include sp{
 		display: block;
 	}
+	
+}
+.tb{
+	display: none;
+	@include tb{
+		display: block;
+	}
+	@include sp{
+		display: none;
+	}
 }
 .pc{
 	@include sp{

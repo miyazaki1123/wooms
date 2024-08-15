@@ -57,7 +57,7 @@
 					<header class="con__header con__header--mt">
 						<h3 class="h--style-01 h--style-01-green">SERVICE</h3>
 						<p class="copy">サービス</p>
-						<p class="read">サステナブル経営や環境マネジメントの課題である脱炭素の実現には、<br class="pc">エネルギー対策だけではなく資源循環（廃棄物/資源化対策）も効果的です。<br>WOOMSはお客様とともに成果にコミットし、お客様の現在に最適なサービスを提供します。</p>
+						<p class="read">サステナブル経営や環境マネジメントの課題である脱炭素の実現には、<br class="pc">エネルギー対策だけではなく資源循環（廃棄物/資源化対策）も効果的です。<br>WOOMSはお客様とともに成果にコミットし、<br class="tb">お客様の現在に最適なサービスを提供します。</p>
 					</header>
 					<section class="sec__contents">
 						<div class="con__service-01">
