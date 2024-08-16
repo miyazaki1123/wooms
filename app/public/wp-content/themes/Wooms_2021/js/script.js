@@ -637,8 +637,8 @@ window.addEventListener('load', function(){
   /* アンカーリンク */
   anchorLink(MQ.matches);
   /* メールフォーム */
-  if(document.querySelector('contact-form-wrap')){
-    mailform();
+  if(document.querySelector('.contact-form-wrap')){
+    mailform(MQ.matches);
   }
 });
 

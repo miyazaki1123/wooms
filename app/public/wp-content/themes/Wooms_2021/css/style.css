@@ -18366,6 +18366,8 @@ body.active .BgPic-wrap {
   width: 16px;
   height: 16px;
   margin: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .tbl-style--form tbody td .checkbox-wrap .mwform-checkbox-field label span {
   font-size: 16px;

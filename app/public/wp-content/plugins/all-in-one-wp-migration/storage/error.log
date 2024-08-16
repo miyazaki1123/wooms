@@ -1,6 +1,0 @@
-Aug 09 2024 04:47:51
-{"type":16384,"message":"The PSR-0 `Requests_...` class names in the Requests library are deprecated. Switch to the PSR-4 `WpOrg\\Requests\\...` class names at your earliest convenience.","file":"\/Users\/katsushimiyazaki\/Local Sites\/wooms\/app\/public\/wp-includes\/Requests\/src\/Autoload.php","line":171}
-
-Aug 09 2024 04:47:51
-{"type":16384,"message":"The PSR-0 `Requests_...` class names in the Requests library are deprecated. Switch to the PSR-4 `WpOrg\\Requests\\...` class names at your earliest convenience.","file":"\/Users\/katsushimiyazaki\/Local Sites\/wooms\/app\/public\/wp-includes\/Requests\/src\/Autoload.php","line":171}
-
