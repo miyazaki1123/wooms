@@ -1970,6 +1970,23 @@ body.active{
 		text-align: center;
 		font-size: 24px;
 	}
+	.color-box {
+		h4{
+			color: #00A73C;
+			text-align: center;
+		}
+		p{
+			text-align: center;
+			margin: 30px auto 50px;
+			font-size: 16px;
+			font-weight: 700;
+			@include sp{
+				margin: 20px auto 30px;
+				text-align: left;
+			}
+		}
+	}
+	
 }
 .contact-form--nav{
 	margin: 50px 0 0;

@@ -18621,6 +18621,22 @@ body.active .BgPic-wrap {
   text-align: center;
   font-size: 24px;
 }
+.mw_wp_form_complete .color-box h4 {
+  color: #00A73C;
+  text-align: center;
+}
+.mw_wp_form_complete .color-box p {
+  text-align: center;
+  margin: 30px auto 50px;
+  font-size: 16px;
+  font-weight: 700;
+}
+@media (max-width: 767px) {
+  .mw_wp_form_complete .color-box p {
+    margin: 20px auto 30px;
+    text-align: left;
+  }
+}
 
 .contact-form--nav {
   margin: 50px 0 0;
