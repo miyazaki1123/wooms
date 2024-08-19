@@ -18842,8 +18842,10 @@ body.active .BgPic-wrap {
   display: inline-block;
 }
 
-.sp-horizontal-scroll {
-  overflow-x: scroll;
+@media (max-width: 767px) {
+  .sp-horizontal-scroll {
+    overflow-x: scroll;
+  }
 }
 .sp-horizontal-scroll__icon {
   position: absolute;

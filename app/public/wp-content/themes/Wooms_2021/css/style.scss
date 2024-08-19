@@ -2144,7 +2144,10 @@ body.active{
 	display: inline-block;
 }
 .sp-horizontal-scroll{
-	overflow-x: scroll;
+	@include sp{
+		overflow-x: scroll;
+	}
+	
 	&__icon{
 		@include pc{
 			display: none;
