@@ -163,22 +163,7 @@ if (is_front_page() || is_home() || is_singular()) {
     </script>
 <?php endif; ?>
 
-<script>
-    var lastPageTop = -Infinity;
-    $(window).scroll(function(e) {
-        var top = e.currentTarget.scrollY;
-        if (top >= lastPageTop && e.currentTarget.scrollY > 100) {
-            if (!$('#masthead').hasClass("site-header-hide")) {
-                $('#masthead').addClass("site-header-hide");
-            }
-        } else {
-            if ($('#masthead').hasClass("site-header-hide")) {
-                $('#masthead').removeClass("site-header-hide");
-            }
-        }
-        lastPageTop = top;
-    });
-</script>
+
 
 
     

@@ -1,6 +1,6 @@
 <div class="menu_inner menu_inner__flex">
                     <h1 class="site-logo">
-						<a class="site_title" href="<?php echo esc_url(home_url('')); ?>" rel="home">WOOMS</a>
+						<a class="site_title" href="<?php echo esc_url(home_url('')); ?>/<?php echo LP_DIR; ?>" rel="home">WOOMS</a>
 					</h1>
                     <nav>
                         <menu class="menu-lp">

@@ -7,7 +7,11 @@
 @import "_animation.scss";
 
 .page-id-4957,.page-id-4962{
+	.hide-when-mobile {
+		margin-top: 94px;
+	}
 	.menu_wrap{
+		height: 100%;
 		@include max_w(1260){
 			width: calc(100% - 20px);
 		}
@@ -19,10 +23,19 @@
 		}
 	}
 	.site-header{
+		transition: 0.4s all ease;
+		box-shadow:  0px 4px 0px rgba(0,119,192,0.25);
 		@include sp{
 			height: 66px;
 			box-shadow:  0px 4px 0px rgba(0,119,192,0.25);
 		}
+		@include pc{
+			height: 94px;
+			&.active{
+				height: 75px;
+			}
+		}
+		  
 	}
 	body.active {
 		.nav-toggle-wrap {
@@ -389,10 +402,11 @@
 	  }
 }
 
+
+
 .page-header{
 	width: 100%;
 	height: 580px;
-	margin-top: 90px;
 	overflow: hidden;
 	@include sp{
 		margin-top: 53.5px;
@@ -626,7 +640,7 @@
     flex-direction : row-reverse;
 	.sec__nav2{
 		width: 0%;
-		z-index: 10;
+		z-index: 110;
 		position: relative;
 		.sidebar2{
 			&__top{
@@ -1103,13 +1117,11 @@ body.active{
 				}
 				&__slide{
 					img{
-						width: 63%;
+						width: 100%;
 						height: auto;
 						display: block;
 						margin: auto;
-						@include max_w(1180){
-							width: 75%;
-						}
+						
 						@include sp{
 							width: 60%;
 						}
@@ -1121,23 +1133,21 @@ body.active{
 					}
 					&::before{
 						content:"";
-						width: 40%;
+						width: 96px;
 						height: 100%;
 						background: #ccc;
 						position: absolute;
-						left: 40%;
+						@include pc{
+							right: -126px;
+						}
+						
 						top:0;
 						background: url(../images/flow/icon_dots.svg) no-repeat;
 						background-position: center;
-						transform: translateX(100%);
-						@include max_w(1180){
-							width: 15%;
-							left: 77.5%;
-							background-size: 100%;
-						}
 						@include sp{
 							width: 22%;
 							left: 67%;
+							transform: translateX(100%);
 						}
 					}
 				}
@@ -1194,6 +1204,13 @@ body.active{
 					height: 40px;
 					background: #fff;
 					opacity: 1;
+					&:disabled{
+						pointer-events: none;
+						&::after{
+							@include icon_arrow('CCEDD8');
+						}
+
+					}
 					@include hover{
 						transform: scale(1.2);
 					}

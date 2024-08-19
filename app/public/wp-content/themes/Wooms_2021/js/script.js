@@ -632,6 +632,28 @@ $(function () {
 });
 
 
+var lastPageTop = -Infinity;
+$(window).scroll(function(e) {
+    var top = e.currentTarget.scrollY;
+    if (e.currentTarget.scrollY > 100) {
+      $('#masthead').addClass("active");
+    }else{
+
+      $('#masthead').removeClass("active");
+    }
+    if (top >= lastPageTop && e.currentTarget.scrollY > 100) {
+        if (!$('#masthead').hasClass("site-header-hide")) {
+            $('#masthead').addClass("site-header-hide");
+            
+        }
+    } else {
+        if ($('#masthead').hasClass("site-header-hide")) {
+            $('#masthead').removeClass("site-header-hide");
+        }
+    }
+    lastPageTop = top;
+});
+
 window.addEventListener('load', function(){
   document.querySelector('body').classList.add('active');
   /* アンカーリンク */
@@ -684,20 +706,18 @@ if(document.querySelectorAll('.sidebar').length > 0){
 function splide(){
   if(document.querySelector('#splide-flow')){
     let splide_flow = new Splide('#splide-flow', {
-      fixedWidth : '28.5vw',
+      fixedWidth : '240px',
       focus:'center',
       trimSpace: false,
       focus    : 'center',
-      perPage  : 3,
+      omitEnd : true,
       flickMaxPages  : 1,
+      gap: '160px',
       breakpoints: {
-        1180: {
-          fixedWidth : '34vw',
-          perPage: 2,
-        },
         768: {
           fixedWidth : '110vw',
           perPage: 1,
+          gap: '0px',
         },
       }
     });
