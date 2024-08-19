@@ -81,6 +81,7 @@
 			  &:nth-child(1) {
 				z-index: 2;
 				  top: 0;
+				  
 				  @include sp {
 					  animation-name: anime-nav-toggle-top2;
 					  animation-duration: 0s;
@@ -117,7 +118,9 @@
 		  }
 	  }
 	  &.active {
+		background: #00A73C;
 		  span {
+			background: #FFF;
 			  &:nth-child(1) {
 				  animation-name: anime-nav-toggle-top;
 				  animation-duration: 0.6s;
@@ -182,6 +185,7 @@
 		display: flex;
 		margin: 0;
 		@include sp{
+			border-radius: 0 0 4px 4px;
 			left: 50%;
 			transform: translate(-50%,-105%);
 			border-top:4px #00A73C solid;
@@ -222,8 +226,8 @@
 					width: 100%;
 					height: 1px;
 					content:"";
-					background-image : linear-gradient(to right, #00A73C 2px, transparent 2px);
-					background-size: 6px 2px;
+					background-image : linear-gradient(to right, #00A73C 1px, transparent 1px);
+					background-size: 5px 1px;
 					background-repeat: repeat-x; 
 					background-position: left bottom;
 				}
@@ -243,6 +247,7 @@
 				position: relative;
 				padding-bottom: 10px;
 				@include sp{
+					font-size: 14px;
 					padding: 15px 30px 15px 0;
 					flex-direction : row-reverse;
 					justify-content: space-between;
@@ -267,7 +272,7 @@
 					}
 					@include sp{
 						right: 10px;
-						top:50%;
+						top:52%;
 						transform:translateY(-50%);
 						@include icon_down('00A73C');
 					}
@@ -276,6 +281,7 @@
 					display: block;
 					color: #00A73C;
 					font-size: 14px;
+					letter-spacing: 0.05em;
 				}
 			}
 		}
@@ -900,8 +906,9 @@ body.active{
 				gap:20px;
 				color: #00A73C;
 				@include sp{
+					font-size: 16px;
 					display: block;
-					margin-bottom: 10px;
+					margin-bottom: 5px;
 				}
 				div{
 					font-family: "Lato", sans-serif;
@@ -1425,6 +1432,11 @@ body.active{
 	max-width: 1040px;
 	margin: auto;
 	padding: 0 20px;
+	.con__header--mt{
+		@include sp{
+			padding: 0;
+		}
+	}
 }
 .color-box{
 	padding: 20px;
@@ -1565,7 +1577,7 @@ body.active{
 		&.active{
 			span{
 				&::after{
-					transform: translate(-50%) rotate(90deg);
+					transform: translate(-50%) rotate(0deg);
 				}
 			}
 		}
@@ -1597,7 +1609,7 @@ body.active{
 				position: absolute;
 				left: 50%;
 				top:50%;
-				transform: translate(-50%) rotate(0deg);
+				transform: translate(-50%) rotate(90deg);
 				z-index: 2;
 				transition: all 0.4s ease;
 			}
@@ -1659,6 +1671,9 @@ body.active{
 		display: flex;
 		flex-direction: column;
 		gap:13px;
+		@include sp{
+			gap:8px;
+		}
 		li{
 			dl,dt,dd{
 				padding: 0;
@@ -2036,6 +2051,7 @@ body.active{
 				top:-4px;
 				width: 120px;
 				height: 4px;
+				left: 20px;
 			}
 		}
 		@include sp{
