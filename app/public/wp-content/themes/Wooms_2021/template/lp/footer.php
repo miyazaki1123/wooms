@@ -1,6 +1,6 @@
 <footer class="site-footer">
     <div class="foot-menuwrap">
-        <a class="footlogo-F" href="/" data-a="fade-up" data-a-offset="0">
+        <a class="footlogo-F" href="<?php echo get_home_url()?>/<?php echo LP_DIR;?>" data-a="fade-up" data-a-offset="0">
             <img src="<?php echo get_template_directory_uri(); ?>/images/WOOMsLogo.png">
         </a>
         <div data-a="fade-up" data-a-offset="0">
