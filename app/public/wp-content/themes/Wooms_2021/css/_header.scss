@@ -468,7 +468,7 @@ ul#menu-headmenu>li a[href^="#"]::after{
   transform: translateY(-90px);
   position: fixed;
   top: 0;
-  z-index: 200;
+  z-index: 1200;
   right: 0;
   left: 0;
   transition: transform 0.5s;

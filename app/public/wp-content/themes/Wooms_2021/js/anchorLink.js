@@ -47,12 +47,12 @@ export function anchorLink(MQ) {
                       mediaHeight = 0;
                       offset = 0;
                     } else {
-                      mediaHeight = -height;
+                      mediaHeight = -document.querySelector('.site-header').clientHeight;
                       offset = 0;
                     }
                     
                   }else{
-                    mediaHeight = -height;
+                    mediaHeight = -document.querySelector('.site-header').clientHeight;
                     offset = 0;
                   }
                   

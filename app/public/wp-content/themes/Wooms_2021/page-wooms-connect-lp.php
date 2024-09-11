@@ -12,9 +12,14 @@
 	<div class="page-header__inner">
 		<div class="page-header__img">
 			<picture>
-				<source media="(min-width: 768px)" srcset="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_img@2x.jpg">
+				<source media="(min-width: 768px)" srcset="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_img@2x.png">
 				<source media="(max-width: 767px)" srcset="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_img_sp.jpg">
-				<img src="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_img@2x.jpg" alt="">
+				<img src="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_img@2x.png" alt="">
+			</picture>
+		</div>
+		<div class="page-header__bg">
+			<picture>
+				<img src="<?php echo get_template_directory_uri(); ?>/images/wooms_connect_lp/header_bg@2x.png" alt="">
 			</picture>
 		</div>
 		<div class="page-header-read">
@@ -71,7 +76,7 @@
 													<dl>
 														<dt><strong>現状把握</strong></dt>
 														<dd>
-															<p>資源化の状況、オペレーション、コスト、コンプラなど気になる観点で診断いたします。</p>
+															<p>資源化の状況、オペレーション、コスト、コンプライアンスなど気になる観点で診断いたします。</p>
 															<small>※サンプル調査による診断は無料です。</small>
 														</dd>
 													</dl>
@@ -106,7 +111,7 @@
 													<dl>
 														<dt><strong>契約書・許可証の一元管理</strong></dt>
 														<dd>
-															<small>※クラウドサービスを提供</small>
+															<small>※クラウドサービスを提供します。</small>
 														</dd>
 													</dl>
 												</li>
@@ -199,9 +204,6 @@
 											<strong class="fc--green">無料診断には以下の情報提供が必要となります。</strong>
 											<p><span>契約内容、排出量、請求情報など・</span><span>必要に応じ機密保持契約の締結</span></p>
 										</div>
-										<div>
-										<strong class="fc--green">原則排出量100t/年以上の事業者様が対象となります。</strong>
-										</div>
 									</div>
 
 									<div class="nav-contact">
@@ -265,7 +267,7 @@
 												<dl>
 													<dt><strong>成果</strong></dt>
 													<dd>
-														<p>一般廃棄物の排出量が半減したため、リサイクル率が大幅に向上。また、一般廃棄物の処分費の削減、MIXペーパーの有価買取への切り替えを実現することで、廃棄物処理費用も大幅削減しました。</p>
+														<p>一般廃棄物の排出量が半減したため、リサイクル率が大幅に向上。また、一般廃棄物の処分費の削減、MIXペーパーの有価買取への切り替えを実現することで、廃棄物処理費用も大幅に削減できました。</p>
 													</dd>
 												</dl>
 											</div>
@@ -297,7 +299,7 @@
 												<dl>
 													<dt><strong>ソリューション</strong></dt>
 													<dd>
-														<p>数社でリサイクルを実施し、回収ルートを構築することで、収集車の積載効率を上げ、運搬コストを下げる施策を立案します現在、複数の地域にて、食品などの特定の品目でのモデル実証を計画しております。さまざまな共創パートナーと共に、このような取り組みを実行していきます。</p>
+														<p>数社でリサイクルを実施し、回収ルートを構築することで、収集車の積載効率を上げ、運搬コストを下げる施策を立案します。<br>現在、複数の地域にて、食品などの特定の品目でのモデル実証を計画しております。さまざまな共創パートナーと共に、このような取り組みを実行していきます。</p>
 													</dd>
 												</dl>
 												<div>

@@ -4,3 +4,26 @@ AH00558: httpd: Could not reliably determine the server's fully qualified domain
 AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
 [Wed Aug 14 14:32:57.874430 2024] [mpm_event:notice] [pid 67932:tid 8661262912] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
 [Wed Aug 14 14:32:57.874750 2024] [core:notice] [pid 67932:tid 8661262912] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Tue Aug 20 09:22:07.813647 2024] [mpm_event:notice] [pid 2978:tid 8601166400] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Tue Aug 20 09:22:07.813918 2024] [core:notice] [pid 2978:tid 8601166400] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Thu Aug 22 17:43:45.130117 2024] [mpm_event:notice] [pid 2978:tid 8601166400] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Fri Aug 23 09:05:35.793157 2024] [mpm_event:notice] [pid 27543:tid 8603595328] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Fri Aug 23 09:05:35.793440 2024] [core:notice] [pid 27543:tid 8603595328] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Mon Sep 02 10:32:56.205475 2024] [mpm_event:notice] [pid 27543:tid 8603595328] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Mon Sep 02 10:33:00.242468 2024] [mpm_event:notice] [pid 44078:tid 8627434048] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Mon Sep 02 10:33:00.242756 2024] [core:notice] [pid 44078:tid 8627434048] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Mon Sep 02 21:19:22.730937 2024] [mpm_event:notice] [pid 44078:tid 8627434048] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Tue Sep 03 11:24:29.419796 2024] [mpm_event:notice] [pid 98356:tid 8606904896] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Tue Sep 03 11:24:29.420121 2024] [core:notice] [pid 98356:tid 8606904896] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Tue Sep 03 11:50:42.336306 2024] [mpm_event:notice] [pid 98356:tid 8606904896] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Tue Sep 03 14:11:17.483767 2024] [mpm_event:notice] [pid 2239:tid 8610964032] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Tue Sep 03 14:11:17.484092 2024] [core:notice] [pid 2239:tid 8610964032] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Sat Sep 07 09:19:19.440482 2024] [mpm_event:notice] [pid 2239:tid 8610964032] AH00491: caught SIGTERM, shutting down
+[Sat Sep 07 16:08:06.507769 2024] [mpm_event:notice] [pid 86292:tid 8594272832] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Sat Sep 07 16:08:06.508247 2024] [core:notice] [pid 86292:tid 8594272832] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Mon Sep 09 12:55:17.509134 2024] [mpm_event:notice] [pid 86292:tid 8594272832] AH00491: caught SIGTERM, shutting down
