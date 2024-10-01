@@ -27,3 +27,10 @@ AH00558: httpd: Could not reliably determine the server's fully qualified domain
 [Sat Sep 07 16:08:06.507769 2024] [mpm_event:notice] [pid 86292:tid 8594272832] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
 [Sat Sep 07 16:08:06.508247 2024] [core:notice] [pid 86292:tid 8594272832] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
 [Mon Sep 09 12:55:17.509134 2024] [mpm_event:notice] [pid 86292:tid 8594272832] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Thu Sep 26 04:59:06.649471 2024] [mpm_event:notice] [pid 54252:tid 8628757056] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Thu Sep 26 04:59:06.649905 2024] [core:notice] [pid 54252:tid 8628757056] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'
+[Sat Sep 28 06:31:57.802163 2024] [mpm_event:notice] [pid 54252:tid 8628757056] AH00491: caught SIGTERM, shutting down
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using KatsushiMiyazakinoMacBook-Pro.local. Set the 'ServerName' directive globally to suppress this message
+[Sat Sep 28 06:32:12.384105 2024] [mpm_event:notice] [pid 26325:tid 8628023872] AH00489: Apache/2.4.43 (Unix) configured -- resuming normal operations
+[Sat Sep 28 06:32:12.384495 2024] [core:notice] [pid 26325:tid 8628023872] AH00094: Command line: '/Users/katsushimiyazaki/Library/Application Support/Local/lightning-services/apache-2.4.43+8/bin/darwin/bin/httpd -D FOREGROUND -f /Users/katsushimiyazaki/Library/Application Support/Local/run/yIvvSmOp0/conf/apache/apache2.conf'

@@ -1,0 +1,1019 @@
+@import "_mixin.scss";
+@keyframes anime-pop-up {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	75% {
+		transform: scale(0.95);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes anime-pop-up-out {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
+}
+
+@keyframes fadein-zoom {
+	0% {
+		transform: scale(0.8, 0.8);
+		-webkit-transform: scale(0.8, 0.8);
+	}
+
+	25% {
+		opacity: 1;
+	}
+
+	70% {
+		opacity: 1;
+		transform: scale(1.1, 1.1);
+		-webkit-transform: scale(1.1, 1.1);
+	}
+
+	90% {
+		opacity: 1;
+		transform: scale(0.95, 0.95);
+		-webkit-transform: scale(0.95, 0.95);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1, 1);
+		-webkit-transform: scale(1, 1);
+	}
+}
+
+/*--------------------------------------------------------------
+animation
+--------------------------------------------------------------*/
+
+@keyframes anime-fade-out {
+	0% {
+		opacity: 1
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes anime-fade-out-out {
+	0% {
+		opacity: 0
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes anime-fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes anime-fade-in-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes anime-fade-in2 {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes anime-fade-up {
+	0% {
+		-webkit-transform: translateY(30px);
+		transform: translateY(30px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0%);
+		transform: translateY(0%);
+		opacity: 1;
+	}
+}
+@keyframes anime-up {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+@keyframes anime-up-out {
+	0% {
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+@keyframes anime-fade-up-out {
+	0% {
+		transform: translateY(0%);
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(70px);
+		opacity: 0;
+	}
+}
+@keyframes anime-fade-left {
+	0% {
+		transform: translateX(70px);
+		opacity: 0;
+	}
+
+	70% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(0%);
+		opacity: 1;
+	}
+}
+@keyframes anime-fade-left-out {
+	0% {
+		transform: translateX(0%);
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(70px);
+		opacity: 0;
+	}
+}
+@keyframes anime-fade-right {
+	0% {
+		transform: translateX(-70px);
+		opacity: 0;
+	}
+
+	70% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(0%);
+		opacity: 1;
+	}
+}
+@keyframes anime-fade-right-out {
+	0% {
+		transform: translateX(0%);
+		opacity: 1;
+	}
+	
+	70% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(-70px);
+		opacity: 0;
+	}
+}
+@keyframes anime-move-right {
+	0% {
+		opacity: 0;
+		transform: translate(20%,-50%);
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0%,-50%);
+		opacity: 1;
+	}
+}
+@keyframes anime-move-left {
+	0% {
+		opacity: 0;
+		transform: translate(-100%,-50%);
+	}
+	30% {
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0%,-50%);
+		opacity: 1;
+	}
+}
+
+*[data-a="pop-up"] {
+	transform: scale(0);
+}
+*[data-a="pop-up-out"] {
+	transform: scale(1);
+}
+*[data-a="fade-in-out"] {
+	opacity: 0;
+}
+*[data-a="fade-in"] {
+	opacity: 0;
+	animation-timing-function:ease-out;
+}
+*[data-a="fade-in2"] {
+	opacity: 0;
+}
+*[data-a="fade-out"] {
+	opacity: 1;
+}
+*[data-a="fade-up"] {
+	opacity: 0;
+	animation-timing-function:ease-out;
+}
+*[data-a="fade-down"] {
+	opacity: 0;
+	animation-timing-function:ease-out;
+}
+
+
+@keyframes anime-fade-down {
+	0% {
+		-webkit-transform: translateY(-30px);
+		transform: translateY(-30px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translateY(0%);
+		transform: translateY(0%);
+		opacity: 1;
+	}
+}
+*[data-a="up"] {
+	transform: translateY(100%);
+	animation-timing-function:ease-out;
+}
+*[data-a="fade-left"] {
+	opacity: 0;
+}
+
+*[data-a="fade-right"] {
+	opacity: 0;
+}
+
+*[data-a="move-left"] {
+	opacity: 0;
+	transform: translateX(-100%);
+}
+*[data-a="move-right"] {
+	opacity: 0;
+	transform: translateX(100%);
+}
+
+
+*[data-a="tra-fade-in"] {
+	opacity: 0!important;
+	&.anime-active{
+		opacity: 1!important;
+	}
+ }
+*[data-a="zoom-up"] {
+	opacity: 0;
+}
+@keyframes anime-zoom-up {
+	0% {
+		opacity: 0;
+		transform: scale(0.8, 0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1, 1);
+	}
+}
+@keyframes anime-zoom-up-out {
+	0% {
+		opacity: 1;
+		transform: scale(1, 1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.8, 0.8);
+		
+	}
+}
+*[data-a="zoom-in"] {
+	transform: scale(1.4, 1.4);
+}
+@keyframes anime-zoom-in {
+	0% {
+		transform: scale(1.4, 1.4);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
+@keyframes anime-zoom-in-out {
+	0% {
+		transform: scale(1, 1);
+	}
+	100% {
+		transform: scale(1.4, 1.4);
+		
+	}
+}
+.anime-fade-in2 {
+	animation-name: anime-fade-in;
+	animation-duration: 1s;
+	animation-timing-function: ease-in;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.anime-fade-out {
+	animation-name: anime-fade-out;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-in-out {
+	animation-name: anime-fade-in-out;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.anime-pop-up {
+	animation-name: anime-pop-up;
+	animation-timing-function: cubic-bezier(0, 1.07, 0.71, 1.4);
+}
+.anime-pop-up-out {
+	animation-name: anime-pop-up-out;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-left {
+	animation-name: anime-fade-left;
+	animation-duration: 1s;
+	animation-timing-function: ease;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-left-out {
+	animation-name: anime-fade-left-out;
+	animation-duration: 1s;
+	animation-timing-function: ease;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-right {
+	animation-name: anime-fade-right;
+	animation-duration: 1s;
+	animation-timing-function: ease;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-right-out {
+	animation-name: anime-fade-right-out;
+	animation-duration: 1s;
+	animation-timing-function: ease;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-move-left {
+	animation-name: anime-move-left;
+	animation-duration: 3s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-move-right {
+	animation-name: anime-move-right;
+	animation-duration: 3s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+*[data-a="slide-mask"] {
+	width: fit-content;
+	display: block;
+	position: relative;
+	text-indent: 102%;
+	overflow: hidden;
+	white-space: nowrap;
+	&::before {
+		content: "";
+		width: 0%;
+		height: 110%;
+		position: absolute;
+		left: 0;
+		top: -5%;
+		background: #000;
+	}
+	&.anime-active{
+		&::before{
+			animation: anime-sm-mask 1s infinite;
+			animation-timing-function: cubic-bezier(0, 0.74, 0.33, 1);
+			animation-fill-mode: forwards;
+			animation-iteration-count: 1;
+			z-index: 2;
+		}
+	}
+}
+*[data-a="slide-mask-b"] {
+	width: fit-content;
+	display: block;
+	position: relative;
+	text-indent: 102%;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0px 0 10px;
+	margin: 0 0 -10px;
+	&::before {
+		content: "";
+		width: 0%;
+		height: 110%;
+		position: absolute;
+		left: 0;
+		top: -5%;
+		background: rgb(0, 255, 157);
+		background: -moz-linear-gradient(-45deg, rgba(0, 255, 157, 1) 0%, rgba(117, 180, 253, 1) 100%);
+		background: -webkit-linear-gradient(-45deg, rgba(0, 255, 157, 1) 0%, rgba(117, 180, 253, 1) 100%);
+		background: linear-gradient(135deg, rgba(0, 255, 157, 1) 0%, rgba(117, 180, 253, 1) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ff9d', endColorstr='#75b4fd',GradientType=1 );
+	}
+}
+.anime-slide-mask-b::before {
+	animation: anime-sm-mask 1s infinite;
+	animation-timing-function: cubic-bezier(0, 0.74, 0.33, 1);
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	z-index: 2;
+}
+
+.anime-slide-mask-b {
+	animation: anime-sm-txt 1s infinite;
+	animation-timing-function: cubic-bezier(0, 0.74, 0.33, 1);
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+.anime-slide-mask::before {
+	/*
+	animation: anime-sm-mask 1s infinite;
+	animation-timing-function: cubic-bezier(0, 0.74, 0.33, 1);
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+	z-index: 2;
+	*/
+}
+@keyframes anime-slide-mask {
+	0% {
+		text-indent: 102%;
+	}
+	50% {
+		text-indent: 102%;
+	}
+	51% {
+		text-indent: 0%;
+	}
+	100% {
+		text-indent: 0%;
+	}
+}
+
+@keyframes anime-sm-txt {
+	0% {
+		text-indent: 102%;
+	}
+	50% {
+		text-indent: 102%;
+	}
+	51% {
+		text-indent: 0%;
+	}
+	100% {
+		text-indent: 0%;
+	}
+}
+
+@keyframes anime-sm-mask {
+	0% {
+		width: 0%;
+		left: 0;
+		right: auto;
+	}
+
+	50% {
+		width: 102%;
+		left: 0;
+		right: auto;
+	}
+
+	51% {
+		width: 102%;
+		left: auto;
+		right: -2%;
+	}
+
+	100% {
+		width: 0%;
+		left: auto;
+		right: -2%;
+	}
+}
+
+*[data-a="mask"] {
+	mask-image: url("../img/specer.png");
+	mask-repeat: no-repeat;
+	mask-position: 0 0;
+	mask-size: 100% 0%;
+}
+.anime-mask {
+	animation-name: anime-mask;
+	animation-duration: 4s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+@keyframes anime-mask {
+	0% {
+		mask-image: url("../img/specer.png");
+		mask-repeat: no-repeat;
+		mask-position: 0 0;
+		mask-size: 100% 0%;
+	}
+	100% {
+		mask-size: 100% 100%;
+	}
+}
+.anm-fade-up{
+	animation-name: anime-fade-up;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anm-fade-up-out{
+	animation-name: anime-fade-up-out;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-fade-blur {
+	animation-name: anime-fade-blur;
+	animation-duration: 2s;
+	animation-timing-function: ease-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+*[data-a="bg--gray"] {
+	&.anime-active{
+		background: #858585!important;
+	}
+	
+}
+*[data-a="fade-blur"] {
+	opacity: 0;
+	filter: blur(10px);
+}
+@keyframes anime-fade-blur {
+	0% {
+		opacity: 0;
+		filter: blur(10px);
+	}
+	100% {
+		opacity: 1;
+		filter: blur(0px);
+	}
+}
+*[data-a="fade-blur"] {
+	opacity: 0;
+	filter: blur(30px);
+}
+.anime-shake{
+    animation-name: anime-shake;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 100ms;
+}
+@keyframes anime-shake{
+    0%{transform: translate(0px,-1px)}
+    10%{transform: translate(0px,0px)}
+    20%{transform: translate(0px,1px)}
+    30%{transform: translate(-1px,1px)}
+    40%{transform: translate(-1px,1px)}
+    50%{transform: translate(0px,1px)}
+    60%{transform: translate(1px,1px)}
+    70%{transform: translate(1px,1px)}
+    80%{transform: translate(1px,-1px)}
+    90%{transform: translate(0px,-1px)}
+    100%{transform: translate(0px,0px)}
+}
+.anime-shake-x{
+    animation-name: anime-shake-x;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 100ms;
+}
+@keyframes anime-shake-x{
+    0%{transform: translate(0px,-2px)}
+    10%{transform: translate(0px,0px)}
+    20%{transform: translate(0px,2px)}
+    30%{transform: translate(-2px,2px)}
+    40%{transform: translate(-2px,2px)}
+    50%{transform: translate(0px,2px)}
+    60%{transform: translate(2px,2px)}
+    70%{transform: translate(2px,2px)}
+    80%{transform: translate(2px,-2px)}
+    90%{transform: translate(0px,-2px)}
+    100%{transform: translate(0px,0px)}
+}
+.anime-shake-end{
+    animation-name: anime-shake;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 100ms;
+	animation-iteration-count:3;
+}
+@keyframes anime-shake-end{
+	0%{transform: translate(0px,-2px)}
+    10%{transform: translate(0px,0px)}
+    20%{transform: translate(0px,2px)}
+    30%{transform: translate(-2px,2px)}
+    40%{transform: translate(-2px,2px)}
+    50%{transform: translate(0px,2px)}
+    60%{transform: translate(2px,2px)}
+    70%{transform: translate(2px,2px)}
+    80%{transform: translate(2px,-2px)}
+    90%{transform: translate(0px,-2px)}
+    100%{transform: translate(0px,0px)}
+}
+.anime-hop{
+    animation-name: anime-hop;
+    animation-iteration-count: infinite;
+    animation-duration: 100ms;
+}
+@keyframes anime-hop{
+	0% {
+		transform: scale(1);
+	}
+	9% {
+		transform: scale(1.04);
+	}
+	13% {
+		transform: scale(0.98);
+	}
+	17% {
+		transform: scale(1);
+	}
+}
+.anime-sec--hide{
+    display: none;
+}
+*[data-a="sec--view"] {
+	display: none;
+}
+.anime-sec--view{
+    display: block;
+}
+
+*[data-a="txt--view"] {
+	display: inline;
+	opacity: 0;
+	transform: translateY(0.5em);
+}
+.anime-txt--view {
+	animation-name: anime-txt--view;
+	animation-duration: 0.2s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+@keyframes anime-txt--view {
+	0% {
+		opacity: 0;
+		transform: translateY(0.5em);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0em);
+	}
+}
+.anime-btn-active {
+	.off{
+		pointer-events: none;
+		display: none;
+	}
+	button,a{
+		pointer-events: all!important;
+		position: relative;
+		z-index: 10;
+	}
+}
+.anime-sec-mask{
+	pointer-events: all!important;
+}
+*[data-a-btn="sec-mask"] {
+	pointer-events: none;
+}
+.anime-fade-h-title {
+	span{
+		animation-name: anime-fade-in;
+		animation-duration: 1s;
+		animation-timing-function: ease-out;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+	&::before{
+		animation-name: anime-h-title-before;
+		animation-duration: 0.6s;
+		animation-timing-function: ease-out;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+}
+*[data-a="fade-h-title"] {
+	span{
+		opacity: 0;
+	}
+}
+@keyframes anime-fade-h-title {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes anime-h-title-before {
+	0% {
+		height: 0px;
+	}
+	100% {
+		height: 200px;
+	}
+}
+*[data-a="fade-test"]{
+	opacity: 0;
+	&.anime-active{
+		opacity: 1;
+		transition: all 1s ease;
+	}
+}
+
+.anime-reverse{
+	animation-direction: reverse;;
+}
+*[data-a="stroke-line"]{
+	opacity: 0;
+	path{
+		stroke-dasharray:3000px;
+		stroke-dashoffset:3000px;
+	}
+	&.anime-active{
+		opacity: 1;
+		path{
+			animation:just 1.2s infinite;
+			animation-delay: 0.2s;
+			animation-timing-function: ease-out;
+			animation-iteration-count: 1;
+			animation-fill-mode: forwards;
+		}
+	}
+}
+@keyframes just {
+	0% {
+		stroke-dashoffset:3000px;
+	}
+	100% {
+		stroke-dashoffset:0px;
+	}
+}
+*[data-a="tra-fade-up"]{
+	opacity: 0!important;
+	transform: translateY(30px)!important;
+	&.anime-active{
+		opacity: 1!important;
+		transform: translateY(0px)!important;
+	}
+}
+*[data-a="tra-fade-in"]{
+	opacity: 0!important;
+	&.anime-active{
+		opacity: 1!important;
+	}
+}
+*[data-a="tra-fade-up"]{
+	opacity: 0!important;
+	transform: translateY(30px)!important;
+	&.anime-active{
+		opacity: 1!important;
+		transform: translateY(0px)!important;
+	}
+}
+*[data-a="mask-move-up"]{
+	>*{
+		display: block;
+		overflow: hidden;
+		$delay-increment: 0.15s;
+			@for $i from 1 through 10 {
+				&:nth-child(#{$i}) {
+					>*{
+						transition-delay: $delay-increment * $i;
+					}
+				}
+			}
+		>*{
+			display: block;
+			transform: translateY(150%);
+			position: relative;
+			transition: all 0.8s ease;
+			
+		}
+	}
+	&.anime-active{
+		>*{
+			>*{
+				transform: translateY(0%);
+			}
+		}
+	}
+}
+*[data-a="mask-right"]{
+	will-change: filter;
+    position: relative;
+	overflow: hidden;
+    clip-path:inset(0 100% 0 0);
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0% 0 0);
+	}
+}
+*[data-a="mask-up"]{
+	will-change: filter;
+    position: relative;
+	overflow: hidden;
+    clip-path:inset(100% 0% 0 0%);
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0% 0 0);
+	}
+}
+*[data-a="mask-left"]{
+	will-change: filter;
+    position: relative;
+	overflow: hidden;
+    clip-path:inset(0 0% 0 100%);
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0% 0 0);
+	}
+}
+@keyframes anime-mask-right {
+	0% {
+		mask-size: 0% 100%;
+	}
+	100% {
+		mask-size: 100% 100%;
+	}
+}
+*[data-a="mask-down"]{
+	will-change: filter;
+    position: relative;
+	overflow: hidden;
+    clip-path:inset(0 0% 100% 0%);
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0% 0 0);
+	}
+}
+@keyframes anime-mask-down {
+	0% {
+		mask-size: 0% 100%;
+	}
+	100% {
+		mask-size: 100% 100%;
+	}
+}
+*[data-a="slide-zoom"] {
+	opacity: 0;
+	clip-path:inset(10% 10% 10% 10%);
+	position: relative;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		opacity: 1;
+		clip-path:inset(0 0 0 0);
+	}
+}
+*[data-a="slide-bottom"] {
+	clip-path:inset(0% 0% 100% 0);
+	position: relative;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0 0 0);
+	}
+}
+*[data-a="slide-top"] {
+	clip-path:inset(100% 0% 0% 0);
+	position: relative;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0 0 0);
+	}
+}
+*[data-a="slide-right"] {
+	clip-path:inset(0 100% 0 0);
+	position: relative;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0 0 0);
+	}
+}
+*[data-a="slide-left"] {
+	clip-path:inset(0 0% 0 100%);
+	position: relative;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		clip-path:inset(0 0 0 0);
+	}
+}
+*[data-a="square"] {
+	opacity: 0;
+	right: 0px!important;
+	bottom:260px!important;
+	transition-timing-function: cubic-bezier(.68,0,.4,.99);
+	&.anime-active{
+		opacity: 1;
+		right: -80px!important;
+		bottom:60px!important;
+	}
+}
+*[data-a="move-down"] {
+	transform: translateY(-100%);
+}
+.anime-move-down{
+	animation-name: anime-move-down;
+	animation-duration: 0.4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.anime-move-down-out{
+	animation-name: anime-move-down-out;
+	animation-duration: 0.4s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+@keyframes anime-move-down {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+} 
+@keyframes anime-move-down-out {
+	0% {
+		
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(-100%);
+	}
+}
+.anime-hikari{
+	animation-name: anime-hikari;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+@keyframes anime-hikari {
+	0% {
+		filter: brightness(1);
+	}
+	70% {
+		filter: brightness(2);
+	}
+	100% {
+		filter: brightness(1);
+	}
+}         

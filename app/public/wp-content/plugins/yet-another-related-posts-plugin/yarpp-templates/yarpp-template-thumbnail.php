@@ -16,8 +16,8 @@ If you've ever had to tweak or build a WordPress theme before, you’ll immediat
 
 // Special template tags which only work within a YARPP Loop:
 
-1. the_score()		// this will print the YARPP match score of that particular related post
-2. get_the_score()		// or return the YARPP match score of that particular related post
+1. the_score()      // this will print the YARPP match score of that particular related post
+2. get_the_score()      // or return the YARPP match score of that particular related post
 
 Notes:
 1. If you would like Pinterest not to save an image, add `data-pin-nopin="true"` to the img tag.
@@ -35,20 +35,16 @@ if ( isset( $_wp_additional_image_sizes['yarpp-thumbnail'] ) ) {
 }
 ?>
 
+<h3>Related Photos</h3>
 <?php if ( have_posts() ) : ?>
 <ul>
 	<?php
 	while ( have_posts() ) :
 		the_post();
 		?>
-		<li>
 		<?php if ( has_post_thumbnail() ) : ?>
-		<?php the_post_thumbnail( $dimensions['size'], array( 'data-pin-nopin' => 'true' ) ); ?>
-		<?php else: ?>
-		<p>no-image</p>
+		<li><a href="<?php the_permalink(); ?>" rel="bookmark norewrite" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail( $dimensions['size'], array( 'data-pin-nopin' => 'true' ) ); ?></a></li>
 		<?php endif; ?>
-		<a href="<?php the_permalink(); ?>" rel="bookmark norewrite" title="<?php the_title_attribute(); ?>">More</a>
-		</li>
 	<?php endwhile; ?>
 </ul>
 

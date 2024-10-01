@@ -1,23 +1,19 @@
 import { get } from 'lodash';
 import rgb2hex from 'rgb2hex';
-import hexToRgba from 'hex-to-rgba';
 
 import {
+	useCachedTruthy,
 	__experimentalColorGradientControl as ColorGradientControl,
-	URLPopover,
+	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
-import { withSpokenMessages } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { useCallback, useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import {
-	applyFormat,
-	removeFormat,
-	getActiveFormat,
-} from '@wordpress/rich-text';
 
-import { useMultipleOriginColorsAndGradients } from '../../hooks/hooks';
-import { useAnchorRef } from './use-anchor-ref';
+import { getActiveFormat, useAnchor } from '@wordpress/rich-text';
+
+import { withSpokenMessages, Popover } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+
 import hexLong2Short from '../helper/hex-long2short';
 
 export function getActiveColor( formatName, formatValue ) {
@@ -42,48 +38,23 @@ export function getActiveColor( formatName, formatValue ) {
 	}
 }
 
-const ColorPicker = ( { name, value, onChange, onClose } ) => {
+const ColorPicker = ( { name, value, onChange } ) => {
 	const colors = useSelect( ( select ) => {
 		const { getSettings } = select( 'core/block-editor' );
 		return get( getSettings(), [ 'colors' ], [] );
 	} );
 
-	const onColorChange = useCallback(
-		( color ) => {
-			if ( color ) {
-				onChange(
-					applyFormat( value, {
-						type: name,
-						attributes: {
-							style: `background-image: linear-gradient(transparent 60%, ${ hexToRgba(
-								color,
-								0.5
-							) } 60%)`,
-						},
-					} )
-				);
-			} else {
-				onChange( removeFormat( value, name ) );
-				onClose();
-			}
-		},
-		[ colors, onChange ]
+	const activeColor = useMemo(
+		() => getActiveColor( name, value, colors ),
+		[ name, value, colors ]
 	);
-
-	const activeColor = useMemo( () => getActiveColor( name, value, colors ), [
-		name,
-		value,
-		colors,
-	] );
-
-	const multipleOriginColorsAndGradients = useMultipleOriginColorsAndGradients();
 
 	return (
 		<ColorGradientControl
 			label={ __( 'Color', 'snow-monkey-editor' ) }
 			colorValue={ activeColor }
-			onColorChange={ onColorChange }
-			{ ...multipleOriginColorsAndGradients }
+			onColorChange={ onChange }
+			{ ...useMultipleOriginColorsAndGradients() }
 			__experimentalHasMultipleOrigins={ true }
 			__experimentalIsRenderedInSidebar={ true }
 		/>
@@ -98,21 +69,22 @@ const InlineColorUI = ( {
 	contentRef,
 	settings,
 } ) => {
-	const anchorRef = useAnchorRef( { ref: contentRef, value, settings } );
+	const popoverAnchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings,
+	} );
+
+	const cachedRect = useCachedTruthy( popoverAnchor.getBoundingClientRect() );
+	popoverAnchor.getBoundingClientRect = () => cachedRect;
+
 	return (
-		<URLPopover
-			value={ value }
+		<Popover
+			anchor={ popoverAnchor }
 			onClose={ onClose }
 			className="sme-popover sme-popover--inline-color components-inline-color-popover"
-			anchorRef={ anchorRef }
 		>
-			<ColorPicker
-				name={ name }
-				value={ value }
-				onChange={ onChange }
-				onClose={ onClose }
-			/>
-		</URLPopover>
+			<ColorPicker name={ name } value={ value } onChange={ onChange } />
+		</Popover>
 	);
 };
 

@@ -71,6 +71,24 @@ abstract class WPForms_Template {
 	public $icon = '';
 
 	/**
+	 * Form template preview URL.
+	 *
+	 * @since 1.7.5.3
+	 *
+	 * @var string
+	 */
+	public $url = '';
+
+	/**
+	 * Form template thumbnail url.
+	 *
+	 * @since 1.8.2
+	 *
+	 * @var string
+	 */
+	public $thumbnail = '';
+
+	/**
 	 * Array of data that is assigned to the post_content on form creation.
 	 *
 	 * @since 1.0.0
@@ -150,7 +168,9 @@ abstract class WPForms_Template {
 			'description' => $this->description,
 			'includes'    => $this->includes,
 			'icon'        => $this->icon,
+			'url'         => ! empty( $this->url ) ? $this->url : '',
 			'plugin_dir'  => $this->get_plugin_dir(),
+			'thumbnail'   => ! empty( $this->thumbnail ) ? $this->thumbnail : '',
 		];
 
 		return $templates;
@@ -163,9 +183,9 @@ abstract class WPForms_Template {
 	 *
 	 * @return string
 	 */
-	private function get_plugin_dir() {
+	private function get_plugin_dir(): string {
 
-		$reflection         = new \ReflectionClass( $this );
+		$reflection         = new ReflectionClass( $this );
 		$template_file_path = wp_normalize_path( $reflection->getFileName() );
 
 		// Cutting out the WP_PLUGIN_DIR from the beginning of the template file path.
@@ -186,19 +206,25 @@ abstract class WPForms_Template {
 	 *
 	 * @return array
 	 */
-	public function template_data( $args, $data ) {
+	public function template_data( $args, $data ): array {
 
-		if ( ! empty( $data ) && ! empty( $data['template'] ) ) {
-			if ( $data['template'] === $this->slug ) {
-
-				// Enable Notifications by default.
-				$this->data['settings']['notification_enable'] = isset( $this->data['settings']['notification_enable'] )
-					? $this->data['settings']['notification_enable']
-					: 1;
-
-				$args['post_content'] = wpforms_encode( $this->data );
-			}
+		if ( empty( $data['template'] ) || $data['template'] !== $this->slug ) {
+			return $args;
 		}
+
+		// Enable Notifications by default.
+		$this->data['settings']['notification_enable'] = $this->data['settings']['notification_enable'] ?? '1';
+
+		/**
+		 * Allow modifying form data when a template is applied to the new form.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param array $form_data New form data.
+		 */
+		$this->data = (array) apply_filters( 'wpforms_templates_class_base_template_modify_data', $this->data );
+
+		$args['post_content'] = wpforms_encode( $this->data );
 
 		return $args;
 	}
@@ -214,15 +240,52 @@ abstract class WPForms_Template {
 	 *
 	 * @return array
 	 */
-	public function template_replace( $form, $data, $args ) {
+	public function template_replace( $form, $data, $args ): array { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		if ( ! empty( $args['template'] ) ) {
-			if ( $args['template'] === $this->slug ) {
-				$new                  = $this->data;
-				$new['settings']      = ! empty( $form['post_content']['settings'] ) ? $form['post_content']['settings'] : [];
-				$form['post_content'] = wpforms_encode( $new );
-			}
+		// We should proceed only if the template slug passed via $args['template'] is equal to the current template slug.
+		// This will work only for offline templates: Blank Form, all the Addons Templates, and all the custom templates.
+		// All the online (modern) templates use the hash as the identifier,
+		// and they are handled by `\WPForms\Admin\Builder\Templates::apply_to_existing_form()`.
+		if ( empty( $args['template'] ) || $args['template'] !== $this->slug ) {
+			return $form;
 		}
+
+		$form_data = wpforms_decode( wp_unslash( $form['post_content'] ) );
+
+		// Something is wrong with the form data.
+		if ( empty( $form_data ) ) {
+			return $form;
+		}
+
+		// Compile the new form data preserving needed data from the existing form.
+		$new             = $this->data;
+		$new['id']       = $form_data['id'] ?? 0;
+		$new['settings'] = $form_data['settings'] ?? [];
+		$new['payments'] = $form_data['payments'] ?? [];
+		$new['meta']     = $form_data['meta'] ?? [];
+
+		$template_id = $this->data['meta']['template'] ?? '';
+
+		// Preserve template ID `wpforms-user-template-{$form_id}` when overwriting it with core template.
+		if ( wpforms_is_form_template( $form['ID'] ) ) {
+			$template_id = $form_data['meta']['template'] ?? '';
+		}
+
+		$new['meta']['template'] = $template_id;
+
+		/**
+		 * Allow modifying form data when a template is replaced.
+		 *
+		 * @since 1.7.9
+		 *
+		 * @param array $new       Updated form data.
+		 * @param array $form_data Current form data.
+		 * @param array $template  Template data.
+		 */
+		$new = (array) apply_filters( 'wpforms_templates_class_base_template_replace_modify_data', $new, $form_data, $this );
+
+		// Update the form with new data.
+		$form['post_content'] = wpforms_encode( $new );
 
 		return $form;
 	}
@@ -272,7 +335,7 @@ abstract class WPForms_Template {
 	 *
 	 * @return bool
 	 */
-	public function template_modal_conditional( $form_data ) {
+	public function template_modal_conditional( $form_data ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		return false;
 	}

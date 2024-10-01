@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin name: Snow Monkey Editor
- * Version: 7.0.1
+ * Version: 10.0.4
  * Description: Extends gutenberg block editor
  * Author: inc2734
  * Author URI: https://2inc.org
@@ -18,7 +18,7 @@ namespace Snow_Monkey\Plugin\Editor;
 
 use WP_Block_Type_Registry;
 
-require_once( __DIR__ . '/vendor/autoload.php' );
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Directory url of this plugin
@@ -34,21 +34,34 @@ define( 'SNOW_MONKEY_EDITOR_URL', untrailingslashit( plugin_dir_url( __FILE__ ) 
  */
 define( 'SNOW_MONKEY_EDITOR_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
+/**
+ * Whether pro edition.
+ *
+ * @return boolean
+ */
+function is_pro() {
+	$is_pro = 'snow-monkey' === get_template() || 'snow-monkey/resources' === get_template();
+	return apply_filters( 'snow_monkey_editor_pro', $is_pro );
+}
+
+/**
+ * @codingStandardsIgnoreFile Universal.Files.SeparateFunctionsFromOO.Mixed
+ */
 class Bootstrap {
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', [ $this, '_bootstrap' ] );
+		add_action( 'plugins_loaded', array( $this, '_bootstrap' ) );
 
 		if ( ! is_admin() ) {
-			add_action( 'render_block', [ $this, '_hidden_by_roles' ], 10, 2 );
-			add_action( 'render_block', [ $this, '_date_time' ], 10, 2 );
-			add_action( 'render_block', [ $this, '_ordered_list_counter' ], 10, 2 );
-			add_action( 'render_block', [ $this, '_animation_delay' ], 10, 2 );
-			add_action( 'render_block', [ $this, '_animation_duration' ], 10, 2 );
-			add_action( 'init', [ $this, '_add_attributes_to_blocks' ], 11 );
+			add_action( 'render_block', array( $this, '_hidden_by_roles' ), 10, 2 );
+			add_action( 'render_block', array( $this, '_date_time' ), 10, 2 );
+			add_action( 'render_block', array( $this, '_ordered_list_counter' ), 10, 2 );
+			add_action( 'render_block', array( $this, '_animation_delay' ), 10, 2 );
+			add_action( 'render_block', array( $this, '_animation_duration' ), 10, 2 );
+			add_action( 'init', array( $this, '_add_attributes_to_blocks' ), 11 );
 		}
 	}
 
@@ -56,10 +69,39 @@ class Bootstrap {
 	 * Bootstrap.
 	 */
 	public function _bootstrap() {
+		add_filter( 'load_textdomain_mofile', array( $this, '_load_textdomain_mofile' ), 10, 2 );
+
+		load_plugin_textdomain(
+			'snow-monkey-editor',
+			false,
+			basename( SNOW_MONKEY_EDITOR_PATH ) . '/languages'
+		);
+
 		new App\Setup\Assets();
+		new App\Setup\BlockStyles();
 		new App\Setup\CurrentUser();
 		new App\Setup\Endpoint();
-		new App\Setup\TextDomain();
+	}
+
+	/**
+	 * When local .mo file exists, load this.
+	 *
+	 * @param string $mofile Path to the MO file.
+	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+	 * @return string
+	 */
+	public function _load_textdomain_mofile( $mofile, $domain ) {
+		if ( 'snow-monkey-editor' !== $domain ) {
+			return $mofile;
+		}
+
+		$mofilename   = basename( $mofile );
+		$local_mofile = SNOW_MONKEY_EDITOR_PATH . '/languages/' . $mofilename;
+		if ( ! file_exists( $local_mofile ) ) {
+			return $mofile;
+		}
+
+		return $local_mofile;
 	}
 
 	/**
@@ -70,6 +112,10 @@ class Bootstrap {
 	 * @return string
 	 */
 	public function _hidden_by_roles( $content, $block ) {
+		if ( ! isset( $block['attrs'] ) ) {
+			return $content;
+		}
+
 		$attributes          = $block['attrs'];
 		$has_hidden_by_roles = isset( $attributes['smeIsHiddenRoles'] ) ? $attributes['smeIsHiddenRoles'] : false;
 		if ( $has_hidden_by_roles ) {
@@ -77,7 +123,7 @@ class Bootstrap {
 			foreach ( $has_hidden_by_roles as $role ) {
 				if (
 					in_array( $role, (array) $user->roles, true )
-					|| 'sme-guest' === $role && ! $user->roles
+					|| ( 'sme-guest' === $role && ! $user->roles )
 				) {
 					return '';
 				}
@@ -94,6 +140,10 @@ class Bootstrap {
 	 * @return string
 	 */
 	public function _date_time( $content, $block ) {
+		if ( ! isset( $block['attrs'] ) ) {
+			return $content;
+		}
+
 		// Dates entered in the block editor are localized.
 		$attributes      = $block['attrs'];
 		$start_date_time = isset( $attributes['smeStartDateTime'] ) ? $attributes['smeStartDateTime'] : false;
@@ -137,6 +187,10 @@ class Bootstrap {
 			return $content;
 		}
 
+		if ( ! isset( $block['attrs'] ) ) {
+			return $content;
+		}
+
 		$attributes = $block['attrs'];
 		$class_name = isset( $attributes['className'] ) ? $attributes['className'] : false;
 
@@ -170,6 +224,10 @@ class Bootstrap {
 	 * @return string
 	 */
 	public function _animation_delay( $content, $block ) {
+		if ( ! isset( $block['attrs'] ) ) {
+			return $content;
+		}
+
 		$attributes = $block['attrs'];
 		$delay      = isset( $attributes['smeAnimationDelay'] )
 			? $attributes['smeAnimationDelay']
@@ -195,6 +253,10 @@ class Bootstrap {
 	 * @return string
 	 */
 	public function _animation_duration( $content, $block ) {
+		if ( ! isset( $block['attrs'] ) ) {
+			return $content;
+		}
+
 		$attributes = $block['attrs'];
 		$duration   = isset( $attributes['smeAnimationDuration'] )
 			? $attributes['smeAnimationDuration']
@@ -218,10 +280,10 @@ class Bootstrap {
 	 * @see https://github.com/Codeinwp/gutenberg-animation/blob/a0efe29a3ce023e0f562bb9a51d34b345431b642/class-gutenberg-animation.php#L105-L119
 	 */
 	public function _add_attributes_to_blocks() {
-		$attributes = [];
+		$attributes = array();
 		foreach ( glob( SNOW_MONKEY_EDITOR_PATH . '/src/extension/*', GLOB_ONLYDIR ) as $dir ) {
 			foreach ( glob( $dir . '/attributes.json' ) as $file ) {
-				$_attributes = file_get_contents( $file );
+				$_attributes = file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 				$_attributes = json_decode( $_attributes, true );
 				$attributes  = array_merge( $attributes, $_attributes );
 			}
@@ -230,6 +292,9 @@ class Bootstrap {
 		$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
 		foreach ( $registered_blocks as $name => $block ) {
+			if ( ! isset( $block->attributes ) || ! is_array( $block->attributes ) ) {
+				$block->attributes = array();
+			}
 			foreach ( $attributes as $name => $detail ) {
 				$block->attributes[ $name ] = $detail;
 			}

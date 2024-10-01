@@ -217,7 +217,7 @@ final class OAuth_Client extends OAuth_Client_Base {
 		$granted_scopes     = $this->get_granted_scopes();
 		$unsatisfied_scopes = array_filter(
 			$scopes,
-			function( $scope ) use ( $granted_scopes ) {
+			function ( $scope ) use ( $granted_scopes ) {
 				return ! Scopes::is_satisfied_by( $scope, $granted_scopes );
 			}
 		);
@@ -399,8 +399,8 @@ final class OAuth_Client extends OAuth_Client_Base {
 	 * @since 1.49.0 Uses the new `Google_Proxy::setup_url_v2` method when the `serviceSetupV2` feature flag is enabled.
 	 */
 	public function authorize_user() {
-		$code       = $this->context->input()->filter( INPUT_GET, 'code', FILTER_SANITIZE_STRING );
-		$error_code = $this->context->input()->filter( INPUT_GET, 'error', FILTER_SANITIZE_STRING );
+		$code       = htmlspecialchars( $this->context->input()->filter( INPUT_GET, 'code' ) ?? '' );
+		$error_code = htmlspecialchars( $this->context->input()->filter( INPUT_GET, 'error' ) ?? '' );
 		// If the OAuth redirects with an error code, handle it.
 		if ( ! empty( $error_code ) ) {
 			$this->user_options->set( self::OPTION_ERROR_CODE, $error_code );
@@ -450,14 +450,14 @@ final class OAuth_Client extends OAuth_Client_Base {
 		if ( isset( $token_response['scope'] ) ) {
 			$scopes = explode( ' ', sanitize_text_field( $token_response['scope'] ) );
 		} elseif ( $this->context->input()->filter( INPUT_GET, 'scope' ) ) {
-			$scope  = $this->context->input()->filter( INPUT_GET, 'scope', FILTER_SANITIZE_STRING );
+			$scope  = htmlspecialchars( $this->context->input()->filter( INPUT_GET, 'scope' ) );
 			$scopes = explode( ' ', $scope );
 		} else {
 			$scopes = $this->get_required_scopes();
 		}
 		$scopes = array_filter(
 			$scopes,
-			function( $scope ) {
+			function ( $scope ) {
 				if ( ! is_string( $scope ) ) {
 					return false;
 				}
@@ -528,16 +528,20 @@ final class OAuth_Client extends OAuth_Client_Base {
 	 * @param int $retry_after Optional. Number of seconds to retry data fetch if unsuccessful.
 	 */
 	public function refresh_profile_data( $retry_after = 0 ) {
+		$client        = $this->get_client();
+		$restore_defer = $client->withDefer( false );
+
 		try {
-			$people_service = new Google_Service_PeopleService( $this->get_client() );
+			$people_service = new Google_Service_PeopleService( $client );
 			$response       = $people_service->people->get( 'people/me', array( 'personFields' => 'emailAddresses,photos,names' ) );
 
 			if ( isset( $response['emailAddresses'][0]['value'], $response['photos'][0]['url'], $response['names'][0]['displayName'] ) ) {
 				$this->profile->set(
 					array(
-						'email'     => $response['emailAddresses'][0]['value'],
-						'photo'     => $response['photos'][0]['url'],
-						'full_name' => $response['names'][0]['displayName'],
+						'email'        => $response['emailAddresses'][0]['value'],
+						'photo'        => $response['photos'][0]['url'],
+						'full_name'    => $response['names'][0]['displayName'],
+						'last_updated' => time(),
 					)
 				);
 			}
@@ -556,6 +560,8 @@ final class OAuth_Client extends OAuth_Client_Base {
 				self::CRON_REFRESH_PROFILE_DATA,
 				array( $this->user_options->get_user_id() )
 			);
+		} finally {
+			$restore_defer();
 		}
 	}
 

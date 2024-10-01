@@ -22,6 +22,8 @@ class Responsive {
 
 	/**
 	 * The Elementor breakpoint prefix.
+	 *
+	 * @deprecated 3.2.0
 	 */
 	const BREAKPOINT_OPTION_PREFIX = 'viewport_';
 
@@ -31,6 +33,7 @@ class Responsive {
 	 * Holds the default responsive breakpoints.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 3.2.0
 	 * @access private
 	 * @static
 	 *
@@ -51,6 +54,7 @@ class Responsive {
 	 * Holds the editable breakpoint keys.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 3.2.0
 	 * @access private
 	 * @static
 	 *
@@ -67,12 +71,15 @@ class Responsive {
 	 * Retrieve the default responsive breakpoints.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 3.2.0 Use `Elementor\Core\Breakpoints\Manager::get_default_config()` instead.
 	 * @access public
 	 * @static
 	 *
 	 * @return array Default breakpoints.
 	 */
 	public static function get_default_breakpoints() {
+		Plugin::$instance->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function( __METHOD__, '3.2.0', 'Elementor\Core\Breakpoints\Manager::get_default_config()' );
+
 		return self::$default_breakpoints;
 	}
 
@@ -82,6 +89,7 @@ class Responsive {
 	 * Retrieve the editable breakpoints.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 3.2.0
 	 * @access public
 	 * @static
 	 *
@@ -99,6 +107,7 @@ class Responsive {
 	 * Retrieve the responsive breakpoints.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 3.2.0
 	 * @access public
 	 * @static
 	 *
@@ -122,6 +131,7 @@ class Responsive {
 
 	/**
 	 * @since 2.1.0
+	 * @deprecated 3.2.0 Use `Plugin::$instance->breakpoints->has_custom_breakpoints()` instead.
 	 * @access public
 	 * @static
 	 */
@@ -133,6 +143,7 @@ class Responsive {
 
 	/**
 	 * @since 2.1.0
+	 * @deprecated 3.2.0 Use `Elementor\Core\Breakpoints\Manager::get_stylesheet_templates_path()` instead.
 	 * @access public
 	 * @static
 	 */
@@ -144,6 +155,7 @@ class Responsive {
 
 	/**
 	 * @since 2.1.0
+	 * @deprecated 3.2.0 Use `Elementor\Core\Breakpoints\Manager::compile_stylesheet_templates()` instead.
 	 * @access public
 	 * @static
 	 */

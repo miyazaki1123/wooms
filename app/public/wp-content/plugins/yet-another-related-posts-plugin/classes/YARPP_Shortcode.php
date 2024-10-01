@@ -1,12 +1,9 @@
 <?php
-
-
-
 /**
  * Class YARPP_Shortcode
  * Adds the YARPP shortcode.
  *
- * @author         Mike Nelson
+ * @package        YARPP
  * @since          5.4.0
  */
 class YARPP_Shortcode {
@@ -18,54 +15,68 @@ class YARPP_Shortcode {
 	}
 
 	/**
-	 * @param $atts
+	 * @param array $atts see https://wordpress.org/plugins/yet-another-related-posts-plugin/#installation for acceptable arguments
 	 *
 	 * @return string
 	 */
 	public function render( $atts ) {
-		$atts = shortcode_atts(
+		/** @global $yarpp YARPP */
+		global $yarpp;
+		// don't use shortcode_atts() as it's DRYer to all the validation in YARPP::display_related()
+		// but do use the same filter as shortcode_atts, with all the same parameters as before the backward-compatibility
+		$atts = apply_filters(
+			'shortcode_atts_yarpp',
+			(array) $atts,
+			$atts,
 			array(
 				'reference_id' => null,
 				'template'     => null,
 				'limit'        => null,
+				'recent'       => null,
 			),
+			'yarpp'
+		);
+		$atts = array_map(function ( $item ) {
+			// Sanitize user input.
+			$trimmed_value = trim( esc_attr ($item) );
+			// check for the strings "true" and "false" to mean boolean true and false
+			if ( is_string($trimmed_value) ) {
+				$lower_trimmed_value = strtolower($trimmed_value);
+				if ( $lower_trimmed_value === 'true' ) {
+					$trimmed_value = true;
+				} elseif ( $lower_trimmed_value === 'false' ) {
+					$trimmed_value = false;
+				}
+			}
+			return $trimmed_value;
+		},
 			$atts
 		);
-		/** @global $yarpp YARPP */
-		global $yarpp;
-		$post       = get_post( (int) $atts['reference_id'] );
-		$yarpp_args = array(
-			'domain' => 'shortcode',
-		);
 
-		// Custom templates require .php extension.
-		if ( isset( $atts['template'] ) && $atts['template'] ) {
-			// Normalize parameter.
-			$yarpp_args['template'] = trim( $atts['template'] );
-			if ( ( strpos( $yarpp_args['template'], 'yarpp-template-' ) === 0 ) && ( strpos( $yarpp_args['template'], '.php' ) === false ) ) {
-				$yarpp_args['template'] .= '.php';
-			}
-		}
-
+		// Validate "limit" user input.
 		if ( isset( $atts['limit'] ) && $atts['limit'] ) {
-			// Normalize parameter.
-			$atts['limit'] = trim( $atts['limit'] );
-
-			// Use only if numeric value is passed.
-			if ( is_numeric( $atts['limit'] ) ) {
-				$yarpp_args['limit'] = (int) $atts['limit'];
+			// Use user input only if numeric value is passed.
+			if ( filter_var( $atts['limit'], FILTER_VALIDATE_INT) !== false ) {
+				// Variable is an integer.
+				$atts['limit'] = (int) $atts['limit'];
+			} else {
+				unset($atts['limit']);
 			}
 		}
 
+		// We have hardcoded the "domain" as it should not be editable by users.
+		$atts['domain'] = 'shortcode';
+
+		$post = get_post( isset($atts['reference_id']) ? (int) $atts['reference_id'] : null );
+		unset($atts['reference_id']);
 		if ( $post instanceof WP_Post ) {
 			return $yarpp->display_related(
 				$post->ID,
-				$yarpp_args,
+				$atts,
 				false
 			);
 		} else {
-			return '<!-- YARPP shortcode called but no reference post found. It was probably called outside "the loop" or the reference_id provided was invalid.-->';
+			return '<!-- YARPP shortcode called but no reference post found. Shortcode was likely called outside "the loop" or the reference_id provided is invalid. -->';
 		}
-
 	}
 }

@@ -79,6 +79,7 @@ class Translations implements IntegrationInterface {
 							'plugins' => [
 								'wpforms-lite/wpforms.php' => $plugin_data,
 							],
+							'active'  => [],
 						]
 					),
 					'locale'  => wp_json_encode( get_available_languages() ),
@@ -141,9 +142,7 @@ class Translations implements IntegrationInterface {
 			[
 				'package'                     => $language->package,
 				'destination'                 => WP_LANG_DIR . '/plugins',
-				'clear_destination'           => true,
 				'abort_if_destination_exists' => false,
-				'clear_working'               => true,
 				'is_multi'                    => true,
 				'hook_extra'                  => [
 					'language_update_type' => $language->type,

@@ -1,13 +1,15 @@
-import { URLPopover } from '@wordpress/block-editor';
-import { RangeControl, withSpokenMessages } from '@wordpress/components';
-import { useCallback, useMemo } from '@wordpress/element';
 import {
-	applyFormat,
-	removeFormat,
-	getActiveFormat,
-} from '@wordpress/rich-text';
+	RangeControl,
+	withSpokenMessages,
+	Popover,
+	Button,
+} from '@wordpress/components';
 
-import { useAnchorRef } from './use-anchor-ref';
+import { getActiveFormat, useAnchor } from '@wordpress/rich-text';
+
+import { useCachedTruthy } from '@wordpress/block-editor';
+import { useMemo } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 export function getActiveLetterSpacing( formatName, formatValue ) {
 	const activeLetterSpacingFormat = getActiveFormat(
@@ -17,7 +19,8 @@ export function getActiveLetterSpacing( formatName, formatValue ) {
 	if ( ! activeLetterSpacingFormat ) {
 		return;
 	}
-	const styleLetterSpacing = activeLetterSpacingFormat.attributes.style;
+
+	const styleLetterSpacing = activeLetterSpacingFormat.attributes?.style;
 	if ( styleLetterSpacing ) {
 		return parseFloat(
 			styleLetterSpacing
@@ -27,42 +30,33 @@ export function getActiveLetterSpacing( formatName, formatValue ) {
 	}
 }
 
-const LetterSpacingPicker = ( { name, title, value, onChange, onClose } ) => {
-	const onLetterSpacingChange = useCallback(
-		( letterSpacing ) => {
-			if ( letterSpacing ) {
-				onChange(
-					applyFormat( value, {
-						type: name,
-						attributes: {
-							style: `letter-spacing: ${ letterSpacing }rem`,
-						},
-					} )
-				);
-			} else {
-				onChange( removeFormat( value, name ) );
-				onClose();
-			}
-		},
-		[ onChange ]
-	);
-
+const LetterSpacingPicker = ( { name, title, value, onChange, onReset } ) => {
 	const activeLetterSpacing = useMemo(
 		() => getActiveLetterSpacing( name, value ),
 		[ name, value ]
 	);
 
 	return (
-		<RangeControl
-			label={ title }
-			value={ activeLetterSpacing }
-			onChange={ onLetterSpacingChange }
-			min="0"
-			max="2"
-			step="0.1"
-			initialPosition={ undefined }
-			allowReset
-		/>
+		<>
+			<RangeControl
+				label={ title }
+				value={ activeLetterSpacing }
+				onChange={ onChange }
+				min="0"
+				max="2"
+				step="0.1"
+				initialPosition={ undefined }
+			/>
+
+			<Button
+				disabled={ value === undefined }
+				variant="secondary"
+				isSmall
+				onClick={ onReset }
+			>
+				{ __( 'Reset' ) }
+			</Button>
+		</>
 	);
 };
 
@@ -72,16 +66,23 @@ const InlineLetterSpacingUI = ( {
 	value,
 	onChange,
 	onClose,
+	onReset,
 	contentRef,
 	settings,
 } ) => {
-	const anchorRef = useAnchorRef( { ref: contentRef, value, settings } );
+	const popoverAnchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings,
+	} );
+
+	const cachedRect = useCachedTruthy( popoverAnchor.getBoundingClientRect() );
+	popoverAnchor.getBoundingClientRect = () => cachedRect;
+
 	return (
-		<URLPopover
-			value={ value }
+		<Popover
+			anchor={ popoverAnchor }
 			onClose={ onClose }
 			className="sme-popover sme-popover--inline-letter-spacing components-inline-color-popover"
-			anchorRef={ anchorRef }
 		>
 			<fieldset>
 				<LetterSpacingPicker
@@ -89,10 +90,10 @@ const InlineLetterSpacingUI = ( {
 					title={ title }
 					value={ value }
 					onChange={ onChange }
-					onClose={ onClose }
+					onReset={ onReset }
 				/>
 			</fieldset>
-		</URLPopover>
+		</Popover>
 	);
 };
 

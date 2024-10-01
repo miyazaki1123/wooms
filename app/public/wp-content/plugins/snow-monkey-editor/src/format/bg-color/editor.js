@@ -1,16 +1,22 @@
-import { isEmpty } from 'lodash';
+import classnames from 'classnames';
 
-import { useSetting } from '@wordpress/block-editor';
+import {
+	useSettings,
+	getColorClassName,
+	getColorObjectByColorValue,
+} from '@wordpress/block-editor';
+
 import { Icon } from '@wordpress/components';
-import { useState, useCallback, useMemo } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
+import { removeFormat, applyFormat } from '@wordpress/rich-text';
 import { __ } from '@wordpress/i18n';
-import { removeFormat } from '@wordpress/rich-text';
 
-import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 import {
 	default as InlineColorUI,
 	getActiveBackgroundColor,
 } from '../component/inline-background-color';
+
+import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 
 const name = 'snow-monkey-editor/bg-color';
 const title = __( 'Background color', 'snow-monkey-editor' );
@@ -20,29 +26,12 @@ const EMPTY_ARRAY = [];
 const Edit = ( props ) => {
 	const { value, onChange, isActive, activeAttributes, contentRef } = props;
 
-	const allowCustomControl = useSetting( 'color.custom' );
-	const colors = useSetting( 'color.palette' ) || EMPTY_ARRAY;
+	const [ colors = EMPTY_ARRAY ] = useSettings( 'color.palette' );
 	const [ isAddingColor, setIsAddingColor ] = useState( false );
-	const enableIsAddingColor = useCallback( () => setIsAddingColor( true ), [
-		setIsAddingColor,
-	] );
-	const disableIsAddingColor = useCallback( () => setIsAddingColor( false ), [
-		setIsAddingColor,
-	] );
-	const colorIndicatorStyle = useMemo( () => {
-		const activeColor = getActiveBackgroundColor( name, value, colors );
-		if ( ! activeColor ) {
-			return undefined;
-		}
-		return {
-			backgroundColor: activeColor,
-		};
-	}, [ value, colors ] );
 
-	const hasColorsToChoose = ! isEmpty( colors ) || ! allowCustomControl;
-	if ( ! hasColorsToChoose && ! isActive ) {
-		return null;
-	}
+	const activeColor = useMemo( () => {
+		return getActiveBackgroundColor( name, value, colors );
+	}, [ value, colors ] );
 
 	return (
 		<>
@@ -50,33 +39,48 @@ const Edit = ( props ) => {
 				key={ isActive ? 'sme-bg-color' : 'sme-bg-color-not-active' }
 				name={ isActive ? 'sme-bg-color' : undefined }
 				title={ title }
-				className="format-library-text-color-button sme-toolbar-button"
-				onClick={
-					hasColorsToChoose
-						? enableIsAddingColor
-						: () => onChange( removeFormat( value, name ) )
-				}
-				icon={
-					<>
-						<Icon icon="buddicons-topics" />
-						{ isActive && (
-							<span
-								className="format-library-text-color-button__indicator sme-toolbar-button__indicator"
-								style={ colorIndicatorStyle }
-							/>
-						) }
-					</>
-				}
+				style={ { color: activeColor } }
+				className={ classnames( 'sme-toolbar-button', {
+					'is-pressed': !! isActive,
+				} ) }
+				onClick={ () => {
+					setIsAddingColor( ! isAddingColor );
+				} }
+				icon={ <Icon icon="tag" /> }
 			/>
 
 			{ isAddingColor && (
 				<InlineColorUI
 					name={ name }
-					onClose={ disableIsAddingColor }
 					activeAttributes={ activeAttributes }
 					value={ value }
-					onChange={ ( ...args ) => {
-						onChange( ...args );
+					onClose={ () => setIsAddingColor( false ) }
+					onChange={ ( newValue ) => {
+						if ( !! newValue ) {
+							const colorObject = getColorObjectByColorValue(
+								colors,
+								newValue
+							);
+
+							onChange(
+								applyFormat( value, {
+									type: name,
+									attributes: colorObject
+										? {
+												class: getColorClassName(
+													'background-color',
+													colorObject.slug
+												),
+										  }
+										: {
+												style: `background-color: ${ newValue }`,
+										  },
+								} )
+							);
+						} else {
+							onChange( removeFormat( value, name ) );
+							setIsAddingColor( false );
+						}
 					} }
 					contentRef={ contentRef }
 					settings={ settings }

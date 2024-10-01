@@ -1,7 +1,9 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Page_Assets\Data_Managers\Responsive_Widgets as Responsive_Widgets_Data_Manager;
 use Elementor\Core\Page_Assets\Data_Managers\Widgets_Css as Widgets_Css_Data_Manager;
+use Elementor\Core\Utils\Promotions\Filtered_Promotions_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -33,6 +35,8 @@ abstract class Widget_Base extends Element_Base {
 	 */
 	protected $_has_template_content = true;
 
+	private $is_first_section = true;
+
 	/**
 	 * Registered Runtime Widgets.
 	 *
@@ -49,6 +53,8 @@ abstract class Widget_Base extends Element_Base {
 	public static $registered_inline_css_widgets = [];
 
 	private static $widgets_css_data_manager;
+
+	private static $responsive_widgets_data_manager;
 
 	/**
 	 * Get element type.
@@ -108,6 +114,20 @@ abstract class Widget_Base extends Element_Base {
 	}
 
 	/**
+	 * Get widget upsale data.
+	 *
+	 * Retrieve the widget promotion data.
+	 *
+	 * @since 3.18.0
+	 * @access protected
+	 *
+	 * @return array|null Widget promotion data.
+	 */
+	protected function get_upsale_data() {
+		return null;
+	}
+
+	/**
 	 * Widget base constructor.
 	 *
 	 * Initializing the widget base class.
@@ -127,7 +147,7 @@ abstract class Widget_Base extends Element_Base {
 		$is_type_instance = $this->is_type_instance();
 
 		if ( ! $is_type_instance && null === $args ) {
-			throw new \Exception( '`$args` argument is required when initializing a full widget instance.' );
+			throw new \Exception( 'An `$args` argument is required when initializing a full widget instance.' );
 		}
 
 		if ( $is_type_instance ) {
@@ -221,6 +241,19 @@ abstract class Widget_Base extends Element_Base {
 	}
 
 	/**
+	 * Hide on search.
+	 *
+	 * Whether to hide the widget on search in the panel or not. By default returns false.
+	 *
+	 * @access public
+	 *
+	 * @return bool Whether to hide the widget when searching for widget or not.
+	 */
+	public function hide_on_search() {
+		return false;
+	}
+
+	/**
 	 * Start widget controls section.
 	 *
 	 * Used to add a new section of controls to the widget. Regular controls and
@@ -238,12 +271,10 @@ abstract class Widget_Base extends Element_Base {
 	public function start_controls_section( $section_id, array $args = [] ) {
 		parent::start_controls_section( $section_id, $args );
 
-		static $is_first_section = true;
-
-		if ( $is_first_section ) {
+		if ( $this->is_first_section ) {
 			$this->register_skin_control();
 
-			$is_first_section = false;
+			$this->is_first_section = false;
 		}
 	}
 
@@ -301,10 +332,10 @@ abstract class Widget_Base extends Element_Base {
 	 *
 	 * @since 1.7.12
 	 * @access protected
-	 * @deprecated 3.1.0
+	 * @deprecated 3.1.0 Use `register_skins()` method instead.
 	 */
 	protected function _register_skins() {
-		Plugin::$instance->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function( __METHOD__, '3.1.0', __CLASS__ . '::register_skins()' );
+		Plugin::$instance->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function( __METHOD__, '3.1.0', 'register_skins()' );
 
 		$this->register_skins();
 	}
@@ -347,7 +378,19 @@ abstract class Widget_Base extends Element_Base {
 			'categories' => $this->get_categories(),
 			'html_wrapper_class' => $this->get_html_wrapper_class(),
 			'show_in_panel' => $this->show_in_panel(),
+			'hide_on_search' => $this->hide_on_search(),
+			'upsale_data' => $this->get_upsale_data(),
+			'is_dynamic_content' => $this->is_dynamic_content(),
 		];
+
+		if ( isset( $config['upsale_data'] ) && is_array( $config['upsale_data'] ) ) {
+			$filter_name = 'elementor/widgets/' . $this->get_name() . '/custom_promotion';
+			$config['upsale_data'] = Filtered_Promotions_Manager::get_filtered_promotion_data( $config['upsale_data'], $filter_name, 'upgrade_url' );
+		}
+
+		if ( isset( $config['upsale_data']['image'] ) ) {
+			$config['upsale_data']['image'] = esc_url( $config['upsale_data']['image'] );
+		}
 
 		$stack = Plugin::$instance->controls_manager->get_element_stack( $this );
 
@@ -356,7 +399,7 @@ abstract class Widget_Base extends Element_Base {
 			$config['tabs_controls'] = $this->get_tabs_controls();
 		}
 
-		return array_merge( parent::get_initial_config(), $config );
+		return array_replace_recursive( parent::get_initial_config(), $config );
 	}
 
 	/**
@@ -498,7 +541,7 @@ abstract class Widget_Base extends Element_Base {
 	 *
 	 * @param array|string $element         The link HTML element.
 	 * @param int $id                       The ID of the image
-	 * @param string $lightbox_setting_key  The setting key that dictates weather to open the image in a lightbox
+	 * @param string $lightbox_setting_key  The setting key that dictates whether to open the image in a lightbox
 	 * @param string $group_id              Unique ID for a group of lightbox images
 	 * @param bool $overwrite               Optional. Whether to overwrite existing
 	 *                                      attribute. Default is false, not to overwrite.
@@ -527,8 +570,17 @@ abstract class Widget_Base extends Element_Base {
 
 		$attributes['data-elementor-open-lightbox'] = 'yes';
 
+		$action_hash_params = [];
+
+		if ( $id ) {
+			$action_hash_params['id'] = $id;
+			$action_hash_params['url'] = wp_get_attachment_url( $id );
+		}
+
 		if ( $group_id ) {
 			$attributes['data-elementor-lightbox-slideshow'] = $group_id;
+
+			$action_hash_params['slideshow'] = $group_id;
 		}
 
 		if ( $id ) {
@@ -542,6 +594,8 @@ abstract class Widget_Base extends Element_Base {
 				$attributes['data-elementor-lightbox-description'] = $lightbox_image_attributes['description'];
 			}
 		}
+
+		$attributes['data-e-action-hash'] = Plugin::instance()->frontend->create_action_hash( 'lightbox', $action_hash_params );
 
 		$this->add_render_attribute( $element, $attributes, null, $overwrite );
 
@@ -593,7 +647,7 @@ abstract class Widget_Base extends Element_Base {
 				$this->register_runtime_widget( $this->get_group_name() );
 			}
 
-			$this->print_widget_css();
+			// $this->print_widget_css();
 
 			// get_name
 
@@ -995,7 +1049,20 @@ abstract class Widget_Base extends Element_Base {
 		);
 
 		$this->end_controls_section();
+	}
 
+	/**
+	 * Init controls.
+	 *
+	 * Reset the `is_first_section` flag to true, so when the Stacks are cleared
+	 * all the controls will be registered again with their skins and settings.
+	 *
+	 * @since 3.14.0
+	 * @access protected
+	 */
+	protected function init_controls() {
+		$this->is_first_section = true;
+		parent::init_controls();
 	}
 
 	public function register_runtime_widget( $widget_name ) {
@@ -1005,20 +1072,122 @@ abstract class Widget_Base extends Element_Base {
 	public function get_widget_css_config( $widget_name ) {
 		$direction = is_rtl() ? '-rtl' : '';
 
-		$css_file_path = 'css/widget-' . $widget_name . $direction . '.min.css';
+		$has_custom_breakpoints = $this->is_custom_breakpoints_widget();
+
+		$file_name = 'widget-' . $widget_name . $direction . '.min.css';
+
+		// The URL of the widget's external CSS file that is loaded in case that the CSS content is too large to be printed inline.
+		$file_url = Plugin::$instance->frontend->get_frontend_file_url( $file_name, $has_custom_breakpoints );
+
+		// The local path of the widget's CSS file that is being read and saved in the DB when the CSS content should be printed inline.
+		$file_path = Plugin::$instance->frontend->get_frontend_file_path( $file_name, $has_custom_breakpoints );
+
+		$file_timestamp = file_exists( $file_path ) ? filemtime( $file_path ) : ELEMENTOR_VERSION;
 
 		return [
 			'key' => $widget_name,
 			'version' => ELEMENTOR_VERSION,
-			'file_path' => ELEMENTOR_ASSETS_PATH . $css_file_path,
+			'file_path' => $file_path,
 			'data' => [
-				'file_url' => ELEMENTOR_ASSETS_URL . $css_file_path,
+				'file_url' => $file_url . '?ver=' . $file_timestamp,
 			],
 		];
 	}
 
 	public function get_css_config() {
 		return $this->get_widget_css_config( $this->get_group_name() );
+	}
+
+	public function get_responsive_widgets_config() {
+		$responsive_widgets_data_manager = $this->get_responsive_widgets_data_manager();
+
+		return [
+			'key' => $responsive_widgets_data_manager::RESPONSIVE_WIDGETS_DATABASE_KEY,
+			'version' => ELEMENTOR_VERSION,
+			'file_path' => ELEMENTOR_ASSETS_PATH . $responsive_widgets_data_manager::RESPONSIVE_WIDGETS_FILE_PATH,
+		];
+	}
+
+	public function get_responsive_widgets() {
+		$responsive_widgets_data_manager = $this->get_responsive_widgets_data_manager();
+
+		$config = $this->get_responsive_widgets_config();
+
+		return $responsive_widgets_data_manager->get_asset_data_from_config( $config );
+	}
+
+	/**
+	 * Mark widget as deprecated.
+	 *
+	 * Use `get_deprecation_message()` method to print the message control at specific location in register_controls().
+	 *
+	 * @param $version string           The version of Elementor that deprecated the widget.
+	 * @param $message string         A message regarding the deprecation.
+	 * @param $replacement string   The widget that should be used instead.
+	 */
+	protected function add_deprecation_message( $version, $message, $replacement ) {
+		// Expose the config for handling in JS.
+		$this->set_config( 'deprecation', [
+			'version' => $version,
+			'message' => $message,
+			'replacement' => $replacement,
+		] );
+
+		$this->add_control(
+			'deprecation_message',
+			[
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'info',
+				'content' => $message,
+				'separator' => 'after',
+			]
+		);
+	}
+
+	/**
+	 * Get Responsive Widgets Data Manager.
+	 *
+	 * Retrieve the data manager that handles widgets that are using media queries for custom-breakpoints values.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 *
+	 * @return Responsive_Widgets_Data_Manager
+	 */
+	protected function get_responsive_widgets_data_manager() {
+		if ( ! self::$responsive_widgets_data_manager ) {
+			self::$responsive_widgets_data_manager = new Responsive_Widgets_Data_Manager();
+		}
+
+		return self::$responsive_widgets_data_manager;
+	}
+
+	/**
+	 * Is Custom Breakpoints Widget.
+	 *
+	 * Checking if there are active custom-breakpoints and if the widget use them.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 *
+	 * @return boolean
+	 */
+	protected function is_custom_breakpoints_widget() {
+		$has_custom_breakpoints = Plugin::$instance->breakpoints->has_custom_breakpoints();
+
+		if ( $has_custom_breakpoints ) {
+			$responsive_widgets = $this->get_responsive_widgets();
+
+			// The $widget_name can also represents a widgets group name, therefore we need to use the current widget name to check if it's responsive widget.
+			$current_widget_name = $this->get_name();
+
+			// If the widget is not implementing custom-breakpoints media queries then it has no custom- css file.
+			if ( ! isset( $responsive_widgets[ $current_widget_name ] ) ) {
+				$has_custom_breakpoints = false;
+			}
+		}
+
+		return $has_custom_breakpoints;
 	}
 
 	private function get_widget_css() {
@@ -1046,7 +1215,7 @@ abstract class Widget_Base extends Element_Base {
 					$config = $is_core_dependency ? self::get_widget_css_config( $widget_name ) : $this->get_widget_css_config( $widget_name );
 				}
 
-				$widget_css .= $widgets_css_data_manager->get_asset_data( $config );
+				$widget_css .= $widgets_css_data_manager->get_asset_data_from_config( $config );
 
 				self::$registered_inline_css_widgets[] = $widget_name;
 			}

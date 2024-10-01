@@ -5,8 +5,8 @@ Donate link: https://yarpp.com
 Requires at least: 3.7
 Requires PHP: 5.3
 License: GPLv2 or later
-Tested up to: 5.8
-Stable tag: 5.27.2
+Tested up to: 6.4
+Stable tag: 5.30.10
 
 The best WordPress plugin for displaying related posts. Simple and flexible, with a powerful proven algorithm and inbuilt caching.
 
@@ -124,6 +124,8 @@ To add to post content, use the shortcode:
 
 `[yarpp]` to show content related to the current post. You may use more than one YARPP shortcode in a given post or template.
 
+All the parameters accepted by `yarpp_related()` (see below) can also be used in the shortcode. Here are some examples...
+
 If you know the reference Post ID that you want to show content related to, use:
 
 `[yarpp reference_id=123]` to show content related to post 123
@@ -137,6 +139,37 @@ To specify which YARPP template to use, use the "template" attribute like so:
 To specify maximum number of posts to show, use the "limit" attribute like so:
 
 `[yarpp template="list" limit=3]`
+
+To only show recent posts, use the "recent" attribute (provide it with a number, a space, and then either "day", "week" or "month")
+
+`[yarpp recent="6 month"]`
+
+To show another post type, use the "post_type" parameter.
+
+`
+[yarpp post_type="page"]
+`
+
+If you need to provide multiple values (eg posts and pages, or a list of categorires of posts to exlude), separate them with a comma but no space.
+`
+[yarpp post_type="post,page"] - include both posts and pages in results
+[yarpp exclude="1,2,3"] - exclude posts with categories with IDs 1,2 and 3
+`
+
+To adjust the weights and taxonomy requirements, provide the value as JSON (using the same structure as for `yarpp_related()` below). Eg
+
+`
+[yarpp weight='{"body":1}'] - only consider body content
+[yarpp weight='{"body":2,"title":2,"tax":{"category":0, "post_tag":0}}'] - give extra weight to bodies and titles, but none to categories
+[yarpp require_tax='{"category": 2, "post_tag": 0}'] - require at least one category in common
+`
+
+To order results:
+
+`
+[yarpp order="score DESC"] - high relevance score to low
+[yarpp order="rand"] - random
+`
 
 To add YARPP shortcode to your theme files (eg. single.php), use:
 
@@ -182,8 +215,9 @@ yarpp_related(
   array(
     // Pool options: these determine the "pool" of entities which are considered
     'post_type' => array('post', 'page', 'wc_product', ...), //  post types to include in results
-    'show_pass_post' => false, // show password-protected posts
-    'past_only' => false, // show only posts which were published before the reference post
+    'show_pass_post' => true, // show password-protected posts
+    'show_sticky_posts' => true, // show sticky posts
+    'past_only' => true, // show only posts which were published before the reference post
     'exclude' => array(), // a list of term_taxonomy_ids. entities with any of these terms will be excluded from consideration.
     'recent' => false, // to limit to entries published recently, set to like '15 day', '20 week', or '12 month' (https://www.mysqltutorial.org/mysql-interval/)
     
@@ -209,6 +243,8 @@ yarpp_related(
     'limit' => 5, // maximum number of results
     'order' => 'score DESC', // column on "wp_posts" to order by, then a space, and whether to order in ascending ("ASC") or descending ("DESC") order
     'promote_yarpp' => true, // boolean indicating whether to add 'Powered by YARPP' below related posts
+    'generate_missing_thumbnails' => true, // automatically generate missing thumbnail sizes on the fly
+    'extra_css_class' => 'class_1 class_2', // add CSS classes to YARPP's parent div
   ),
  $reference_ID, // second argument: (optional) the post ID. If not included, will use the current post.
  true // third argument: (optional) true to echo the HTML block; false to return it
@@ -271,6 +307,40 @@ if(! $related_posts){
   }
 }
 </code>
+
+Show results ordered by score (high relevance to low):
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'score DESC',
+  )
+);
+</code>
+
+Show results ordered by post publish date (new to old):
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'post_date DESC',
+  )
+);
+</code>
+
+Show results ordered randomly:
+
+<code>
+yarpp_related(
+  array(
+    'order' => 'rand',
+  )
+);
+</code>
+
+= YARPP Filters =
+
+Documentation: [https://support.shareaholic.com/hc/en-us/articles/4408775687060](https://support.shareaholic.com/hc/en-us/articles/4408775687060)
 
 == Frequently Asked Questions ==
 
@@ -529,6 +599,71 @@ Beginning with version 4.0.7, YARPP includes clean uninstall functionality. If y
 
 
 == Changelog ==
+
+= 5.30.10 (17-February-2023) =
+* Bugfix: Resolves stored Cross-Site Scripting bug
+
+= 5.30.9 (22-November-2023) =
+* Enhancement: Better input sanitization for a more predictable output
+* Enhancement: Misc performance improvements
+
+= 5.30.8 (21-November-2023) =
+* [Enhancement](https://wordpress.org/support/topic/yarpp-shows-me-the-same-related-posts/): Adds ability to set sort order to Random from the YARPP Admin UI
+
+= 5.30.7 (20-November-2023) =
+* Tested on WordPress 6.4
+* Bugfix: Fixes PHP 8.2 warnings that were filling up server logs
+
+= 5.30.6 (09-August-2023) =
+* Tested on WordPress 6.3
+
+= 5.30.5 (18-July-2023) =
+* [Bugfix](https://wordpress.org/support/topic/bug-report-title-anchor-tag-includes-extra-space-at-tail-end-of-title/): Fixes extra space at tail end of title anchor tag that was appearing for admins in the default template
+* [Bugfix] Template preview will now work even if server configuration does not have `allow_url_fopen` on (Thank you Ken @ krdev)
+* [Bugfix](https://wpscan.com/vulnerability/b34976b3-54c3-45b7-86a0-387ee0a4b680): Improves how YARPP function attributes are sanitized to avoid possible security issues
+
+= 5.30.4 (17-July-2023) =
+* [Bugfix](https://wpscan.com/vulnerability/2858b67e-17ac-4a2a-8a46-24367d248454): Improves how YARPP function attributes are sanitized to avoid possible security issues
+* [Bugfix](https://wordpress.org/support/topic/wordpress-bug-related-to-yarpp/): Fixes translation bug in fr_FR locale
+* [Bugfix](https://wordpress.org/support/topic/settings-page-does-not-work-3/): Fixes YARPP settings page compatibility with WordPress versions 4.8 and below
+
+= 5.30.3 (28-APRIL-2023) =
+* [Bugfix](https://wpscan.com/vulnerability/574f7607-96d8-4ef8-b96c-0425ad7e7690): Improves how function attributes are sanitized to avoid possible security issues
+
+= 5.30.2 (29-January-2023) =
+* [Bugfix](https://wpscan.com/vulnerability/c6cf792b-054c-4d77-bcae-3b700f42130b): Improves how function attributes are sanitized to avoid possible security issues
+
+= 5.30.1 (08-November-2022) =
+* [Bugfix](https://wordpress.org/support/topic/something-wrong-with-yaarp-plugin-this-morning/): Fixes issue caused by stricter type checks for arithmetic operators in PHP8
+
+= 5.27.8 (01-December-2021) =
+* New: `[yarpp]` shortcode supports all the same parameters as `yarpp_related()`. [See the updated documentation.](https://wordpress.org/plugins/yet-another-related-posts-plugin/#installation)
+* Bugfix: Apply the additional CSS class(es) defined in YARPP Advanced Block settings
+
+= 5.27.7 (29-October-2021) =
+* Enhancement: CSS improvements for better cross-theme compatibility
+* Documentation: [Available YARPP filters](https://support.shareaholic.com/hc/en-us/articles/4408775687060)
+
+= 5.27.6 (12-October-2021) =
+* Bugfix: Support for drop-in caches. Resolves `Undefined variable: found` warnings.
+* Bugfix: Add missing string for translations
+* Bugfix: Workaround for [WordPress ca-bundle.crt issue](https://core.trac.wordpress.org/ticket/54207)
+* Bugfix: Properly update the template preview in YARPP's admin console when Thumbnail size selection is updated
+* Bugfix: Use dummy example thumbnail in previews
+* Enhancement: For RSS Feed Display Options use dropdown select for thumbnail sizes instead of radio buttons
+
+= 5.27.5 (15-September-2021) =
+* New: Add support for "show_sticky_posts" and "generate_missing_thumbnails" to the [yarpp_related() function](https://wordpress.org/plugins/yet-another-related-posts-plugin/#installation)
+* New: Add support for "recent" in [YARPP shortcode](https://wordpress.org/plugins/yet-another-related-posts-plugin/#installation)
+    + For example, to limit results to those published in the past 12 months: `[yarpp recent="12 month"]`
+* Enhancement: For Automatic Display Options use dropdown select for thumbnail sizes instead of radio buttons
+
+= 5.27.4 (25-August-2021) = 
+* [Bugfix](https://wordpress.org/support/topic/php-8-deprecated-required-parameter-follows-optional/): PHP 8 compatibility by making `$args` optional on `YARPP::get_template_content()` 
+
+= 5.27.3 (16-August-2021) =
+* [Bugfix](https://wordpress.org/support/topic/fatal-error-for-custom-template-after-upgrading-5-27-2/): Make `$related_query` available to custom templates
+
 = 5.27.2 (12-August-2021) =
 * New: Conversion of legacy widget YARPP block into YARPP Block
 * [Bugfix](https://wordpress.org/support/topic/display-in-sidebart-but-not-on-the-main-page/): New Blocks on widget's sections were showing on homepage
@@ -1410,5 +1545,5 @@ After a break of many years, the plugin is 100% supported now that the baton has
 * Initial upload
 
 == Upgrade Notice ==
-= 5.27.2 =
-We update this plugin regularly so we can make it better for you. Update to the latest version for all of the available features and improvements. Thank you for using YARPP!
+= 5.30.10 =
+We update YARPP regularly so we can keep making it better for you. Update to the latest version for the latest features and improvements. Thank you for using YARPP!

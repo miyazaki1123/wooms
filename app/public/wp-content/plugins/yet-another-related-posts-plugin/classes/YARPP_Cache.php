@@ -199,8 +199,11 @@ abstract class YARPP_Cache {
 			'exclude',
 			'recent',
 			'limit',
+			'include_sticky_posts',
+			'show_sticky_posts',
 		);
 		extract( $this->core->parse_args( $args, $options ) );
+
 		// The maximum number of items we'll ever want to cache
 		$limit = max( $limit, $this->core->get_option( 'rss_limit' ) );
 
@@ -209,7 +212,7 @@ abstract class YARPP_Cache {
 
 		// SELECT
 		$newsql  = $wpdb->prepare(
-			'SELECT %d as reference_ID, ID, ',
+			'SELECT %d AS reference_ID, ID, ',
 			$reference_ID
 		);
 		$newsql .= 'ROUND(0';
@@ -237,9 +240,9 @@ abstract class YARPP_Cache {
 			}
 		}
 
-		$newsql .= ',4) as score';
+		$newsql .= ',4) AS score';
 
-		$newsql .= "\n from $wpdb->posts \n";
+		$newsql .= "\n FROM $wpdb->posts \n";
 
 		$exclude_tt_ids = wp_parse_id_list( $exclude );
 		if ( count( $exclude_tt_ids ) || ( isset( $weight ) && isset( $weight['tax'] ) && count( (array) $weight['tax'] ) ) || count( $require_tax ) ) {
@@ -250,18 +253,18 @@ abstract class YARPP_Cache {
 		 * Where
 		 */
 
-		$newsql .= " where post_status in ( 'publish', 'static' )";
+		$newsql .= " WHERE post_status IN ( 'publish', 'static' )";
 		/**
 		 * @since 3.1.8 Revised $past_only option
 		 */
 		if ( $past_only && ! is_null( $reference_post ) ) {
 			$newsql .= $wpdb->prepare(
-				' and post_date <= %s ',
+				' AND post_date <= %s ',
 				$reference_post->post_date
 			);
 		}
 		if ( ! $show_pass_post ) {
-			$newsql .= " and post_password ='' ";
+			$newsql .= " AND post_password ='' ";
 		}
 		if ( (bool) $recent ) {
 			$recent_parts = explode( ' ', $recent );
@@ -278,7 +281,7 @@ abstract class YARPP_Cache {
 					$recent_unit = 'day';
 				}
 				$newsql .= $wpdb->prepare(
-					" and post_date > date_sub(now(), interval %d {$recent_unit}) ",
+					" AND post_date > date_sub(now(), INTERVAL %d {$recent_unit}) ",
 					$recent_number
 				);
 			}
@@ -286,16 +289,18 @@ abstract class YARPP_Cache {
 
 		$post_types           = $this->core->get_query_post_types( $reference_post, $args );
 		$sanitized_post_types = (array) array_map(
-			function( $item ) {
+			function ( $item ) {
 				global $wpdb;
 				return $wpdb->prepare( '%s', $item );
 			},
 			$post_types
 		);
-		$newsql              .= ' and post_type IN (' . implode( ',', $sanitized_post_types ) . ')';
+		$newsql              .= ' AND post_type IN (' . implode( ',', $sanitized_post_types ) . ')';
 		$post_ids_to_exclude  = array( (int) $reference_ID );
-		$include_sticky_posts = $this->core->get_option( 'include_sticky_posts' );
-		if ( 1 !== (int) $include_sticky_posts ) {
+		// Check if include_sticky_posts or show_sticky_posts is being passed in args.
+		$include_sticky_posts = isset($show_sticky_posts) ? $show_sticky_posts : $include_sticky_posts;
+		$include_sticky_posts = ( isset( $include_sticky_posts ) ) ? $include_sticky_posts : $this->core->get_option( 'include_sticky_posts' );
+		if ( ! $include_sticky_posts ) {
 			$get_sticky_posts    = get_option( 'sticky_posts' );
 			$post_ids_to_exclude = wp_parse_args( $get_sticky_posts, $post_ids_to_exclude );
 		}
@@ -304,7 +309,7 @@ abstract class YARPP_Cache {
 		$post__not_in        = implode( ',', array_map( 'absint', $post_ids_to_exclude ) );
 		$newsql             .= " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
 		// GROUP BY
-		$newsql .= "\n group by ID \n";
+		$newsql .= "\n GROUP BY ID \n";
 
 		// HAVING
 		// number_format fix suggested by vkovalcik! :)
@@ -313,12 +318,12 @@ abstract class YARPP_Cache {
 		 * @since 3.5.3: ID=0 is a special value; never save such a result.
 		 */
 		$newsql .= $wpdb->prepare(
-			' having score >= %f and ID != 0',
+			' HAVING score >= %f AND ID != 0',
 			$safethreshold
 		);
 		if ( count( $exclude_tt_ids ) ) {
 			// $exclude_tt_ids already ran through wp_parse_id_list
-			$newsql .= ' and bit_or(terms.term_taxonomy_id in (' . join( ',', $exclude_tt_ids ) . ')) = 0';
+			$newsql .= ' AND bit_or(terms.term_taxonomy_id IN (' . join( ',', $exclude_tt_ids ) . ')) = 0';
 		}
 
 		$post_type_taxonomies = ! is_null( $reference_post ) ? get_object_taxonomies( $reference_post->post_type, 'names' ) : array();
@@ -335,7 +340,7 @@ abstract class YARPP_Cache {
 		}
 
 		$newsql .= $wpdb->prepare(
-			' order by score desc limit %d',
+			' ORDER BY score DESC LIMIT %d',
 			$limit
 		);
 
@@ -360,7 +365,7 @@ abstract class YARPP_Cache {
 			return '(1 = 0)';
 		}
 		$tt_ids = join( ',', $make_term_object_to_array );
-		return 'count(distinct if( terms.term_taxonomy_id in (' . $tt_ids . '), terms.term_taxonomy_id, null ))';
+		return 'COUNT(DISTINCT IF( terms.term_taxonomy_id IN (' . $tt_ids . '), terms.term_taxonomy_id, null ))';
 	}
 	/*
 	 * KEYWORDS
@@ -482,7 +487,7 @@ abstract class YARPP_Cache {
 		$overusedwords = apply_filters( 'yarpp_keywords_overused_words', $overusedwords );
 		if ( is_array( $overusedwords ) ) {
 			foreach ( $overusedwords as $word ) {
-				 unset( $tokens[ $word ] );
+				unset( $tokens[ $word ] );
 			}
 		}
 		// Remove words which are only a letter

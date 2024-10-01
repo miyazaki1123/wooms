@@ -10,15 +10,6 @@ namespace WPForms\Admin\Builder;
 class Help {
 
 	/**
-	 * Settings.
-	 *
-	 * @since 1.6.3
-	 *
-	 * @var array
-	 */
-	private $settings;
-
-	/**
 	 * Docs data.
 	 *
 	 * @since 1.6.4
@@ -34,45 +25,15 @@ class Help {
 	 */
 	public function init() {
 
-		// This should be here, otherwise sheduled task doesn't executes.
-		add_action( 'wpforms_builder_help_cache_update', [ $this, 'update_docs' ] );
-
 		// Terminate initialization if not in builder.
-		if ( ! wpforms_is_admin_page( 'builder' ) ) {
+		if ( ! wpforms_current_user_can( [ 'create_forms', 'edit_forms' ] ) || ! wpforms_is_admin_page( 'builder' ) ) {
 			return;
 		}
 
-		$this->setup();
+		$builder_help_cache = wpforms()->obj( 'builder_help_cache' );
+		$this->docs         = $builder_help_cache ? $builder_help_cache->get() : [];
+
 		$this->hooks();
-	}
-
-	/**
-	 * Setup settings and other things.
-	 *
-	 * @since 1.6.3
-	 */
-	private function setup() {
-
-		$upload_dir  = wpforms_upload_dir();
-		$upload_path = ! empty( $upload_dir['path'] ) ? trailingslashit( wp_normalize_path( $upload_dir['path'] ) ) : trailingslashit( UPLOADS ) . 'wpforms/';
-
-		$this->settings = [
-
-			// Remote source URL.
-			'docs_remote_source' => 'https://wpforms.com/wp-content/docs.json',
-
-			// Docs cache file (full path).
-			'cache_file'         => $upload_path . 'cache/docs.json',
-
-			// Docs cache time to live in seconds.
-			'cache_ttl'          => (int) apply_filters( 'wpforms_admin_builder_help_cache_ttl', WEEK_IN_SECONDS ),
-
-			// Static URLs.
-			'docs_url'           => 'https://wpforms.com/docs/',
-			'support_ticket_url' => 'https://wpforms.com/account/support/',
-			'upgrade_url'        => 'https://wpforms.com/pricing/',
-
-		];
 	}
 
 	/**
@@ -97,7 +58,7 @@ class Help {
 
 		wp_enqueue_script(
 			'wpforms-builder-help',
-			WPFORMS_PLUGIN_URL . "assets/js/components/admin/builder/help{$min}.js",
+			WPFORMS_PLUGIN_URL . "assets/js/admin/builder/help{$min}.js",
 			[ 'wpforms-builder' ],
 			WPFORMS_VERSION,
 			true
@@ -120,7 +81,7 @@ class Help {
 	public function get_localized_data() {
 
 		return [
-			'docs'       => $this->get_docs(),
+			'docs'       => $this->docs,
 			'categories' => $this->get_categories(),
 			'context'    => [
 				'terms' => $this->get_context_terms(),
@@ -132,116 +93,68 @@ class Help {
 	/**
 	 * Get docs from the cache.
 	 *
-	 * @since 1.6.3
+	 * @since      1.6.3
+	 * @deprecated 1.8.2
 	 *
 	 * @return array Docs data.
+	 * @noinspection PhpUnused, NullPointerExceptionInspection
 	 */
 	public function get_docs() {
 
-		if ( file_exists( $this->settings['cache_file'] ) ) {
-			$docs = json_decode( file_get_contents( $this->settings['cache_file'] ), true );
-		}
+		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->obj( \'builder_help_cache\' )->get()' );
 
-		clearstatcache();
-
-		if (
-			empty( $docs ) ||
-			(int) filemtime( $this->settings['cache_file'] ) + $this->settings['cache_ttl'] > time()
-		) {
-			// This code should execute once when the method called the first time,
-			// Next update_docs() should be executed by schedule.
-			$docs = $this->update_docs();
-		}
-
-		// Store in class private variable for further use.
-		$this->docs = ! empty( $docs ) ? $docs : [];
-
-		return $this->docs;
+		return wpforms()->obj( 'builder_help_cache' )->get();
 	}
 
 	/**
 	 * Update docs cache with actual data retrieved from the remote source.
 	 *
-	 * @since 1.6.3
+	 * @since      1.6.3
+	 * @deprecated 1.8.2
 	 *
 	 * @return array|boolean Updated docs data. Or false on error.
+	 * @noinspection PhpUnused, NullPointerExceptionInspection
 	 */
 	public function update_docs() {
 
-		// Unfortunately, we need to call setup() here for properly scheduled execution.
-		$this->setup();
+		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->obj( \'builder_help_cache\' )->get()' );
 
-		$request = wp_remote_get(
-			$this->settings['docs_remote_source'],
-			[
-				// Limit the processing time to half of the default PHP max execution time,
-				// so we will have a chance to see the Form Builder even without the docs data.
-				'timeout' => 15,
-			]
-		);
-
-		if ( is_wp_error( $request ) ) {
-			return false;
-		}
-
-		$content   = wp_remote_retrieve_body( $request );
-		$cache_dir = dirname( $this->settings['cache_file'] );
-
-		// Check cache directory and create it if needed.
-		if ( ! file_exists( $cache_dir ) || ! wp_is_writable( $cache_dir ) ) {
-			wp_mkdir_p( $cache_dir );
-			wpforms_create_upload_dir_htaccess_file();
-			wpforms_create_index_html_file( $cache_dir );
-		}
-
-		// Attempt to decode the json data.
-		$docs = json_decode( $content, true );
-
-		// If the data successfully decoded to array we caching the content.
-		if ( is_array( $docs ) ) {
-			file_put_contents( $this->settings['cache_file'], $content ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
-		} else {
-			$docs = [];
-		}
-
-		// Schedule recurring updates.
-		$this->schedule_update_docs();
-
-		return $docs;
+		return wpforms()->obj( 'builder_help_cache' )->get();
 	}
 
 	/**
 	 * Schedule docs updates.
 	 *
-	 * @since 1.6.3
+	 * @since      1.6.3
+	 * @deprecated 1.8.2
+	 *
+	 * @noinspection PhpUnused
 	 */
 	public function schedule_update_docs() {
 
-		$tasks = wpforms()->get( 'tasks' );
-
-		if ( empty( $tasks->is_scheduled( 'wpforms_builder_help_cache_update' ) ) ) {
-			$tasks->create( 'wpforms_builder_help_cache_update' )
-			      ->recurring( time() + $this->settings['cache_ttl'], $this->settings['cache_ttl'] )
-			      ->params()
-			      ->register();
-		}
+		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin' );
 	}
 
 	/**
 	 * Get categories.
 	 *
+	 * @return array Categories data.
 	 * @since 1.6.3
 	 *
-	 * @return array Categories data.
 	 */
 	public function get_categories() {
 
 		return [
-			'getting-started' => esc_html__( 'Getting Started', 'wpforms-lite' ),
-			'functionality'   => esc_html__( 'Functionality', 'wpforms-lite' ),
-			'styling'         => esc_html__( 'Styling', 'wpforms-lite' ),
-			'extending'       => esc_html__( 'Extending', 'wpforms-lite' ),
-			'addons'          => esc_html__( 'Addons', 'wpforms-lite' ),
+			'getting-started'              => esc_html__( 'Getting Started', 'wpforms-lite' ),
+			'form-creation'                => esc_html__( 'Form Creation', 'wpforms-lite' ),
+			'entry-management'             => esc_html__( 'Entry Management', 'wpforms-lite' ),
+			'form-management'              => esc_html__( 'Form Management', 'wpforms-lite' ),
+			'marketing-integrations'       => esc_html__( 'Marketing Integrations', 'wpforms-lite' ),
+			'payment-forms'                => esc_html__( 'Payment Forms', 'wpforms-lite' ),
+			'payment-processing'           => esc_html__( 'Payment Processing', 'wpforms-lite' ),
+			'spam-prevention-and-security' => esc_html__( 'Spam Prevention and Security', 'wpforms-lite' ),
+			'extending-functionality'      => esc_html__( 'Extending Functionality', 'wpforms-lite' ),
+			'troubleshooting-and-support'  => esc_html__( 'Troubleshooting and Support', 'wpforms-lite' ),
 		];
 	}
 
@@ -254,73 +167,90 @@ class Help {
 	 */
 	public function get_context_terms() {
 
-		// phpcs:disable
 		return [
-			'new_form'                                           => 'add form',
-			'setup'                                              => 'form template',
-			'fields/add_fields'                                  => 'add fields',
-			'fields/field_options'                               => 'field options',
-			'fields/field_options/text'                          => 'single line text',
-			'fields/field_options/textarea'                      => 'paragraph text',
-			'fields/field_options/number-slider'                 => 'number slider',
-			'fields/field_options/select'                        => 'dropdown',
-			'fields/field_options/radio'                         => 'multiple choice',
-			'fields/field_options/checkbox'                      => 'checkboxes',
-			'fields/field_options/gdpr-checkbox'                 => 'gdpr agreement',
-			'fields/field_options/email'                         => 'email',
-			'fields/field_options/address'                       => 'address',
-			'fields/field_options/url'                           => 'website / url',
-			'fields/field_options/name'                          => 'name',
-			'fields/field_options/hidden'                        => 'hidden field',
-			'fields/field_options/html'                          => 'html',
-			'fields/field_options/page-break'                    => 'page break',
-			'fields/field_options/password'                      => 'password',
-			'fields/field_options/date-time'                     => 'date/time',
-			'fields/field_options/divider'                       => 'section divider',
-			'fields/field_options/phone'                         => 'phone',
-			'fields/field_options/number'                        => 'numbers',
-			'fields/field_options/file-upload'                   => 'file upload',
-			'fields/field_options/custom-captcha'                => 'custom captcha',
-			'fields/field_options/rating'                        => 'rating',
-			'fields/field_options/likert_scale'                  => 'likert scale',
-			'fields/field_options/payment-single'                => 'single item',
-			'fields/field_options/payment-multiple'              => 'multiple items',
-			'fields/field_options/payment-checkbox'              => 'checkbox items',
-			'fields/field_options/payment-stripe-credit-card'    => 'stripe credit card',
-			'fields/field_options/payment-authorize-credit-card' => 'authorize.net',
-			'fields/field_options/payment-select'                => 'dropdown items',
-			'fields/field_options/payment-total'                 => 'total',
-			'fields/field_options/signature'                     => 'signature',
-			'fields/field_options/net_promoter_score'            => 'net promoter score',
-			'settings/general'                                   => 'settings',
-			'settings/notifications'                             => 'notification emails',
-			'settings/confirmation'                              => 'confirmation message',
-			'settings/form_abandonment'                          => 'form abandonment',
-			'settings/post_submissions'                          => 'post submissions',
-			'settings/user_registration'                         => 'user registration',
-			'settings/surveys_polls'                             => 'surveys and polls',
-			'settings/conversational_forms'                      => 'conversational forms',
-			'settings/form_locker'                               => 'form locker',
-			'settings/form_pages'                                => 'form pages',
-			'settings/webhooks'                                  => 'webhooks',
-			'providers'                                          => '',
-			'providers/aweber'                                   => 'aweber',
-			'providers/activecampaign'                           => 'activecampaign',
-			'providers/campaign_monitor'                         => 'campaign monitor',
-			'providers/constant_contact'                         => 'constant contact',
-			'providers/drip'                                     => 'drip',
-			'providers/getresponse'                              => 'getresponse',
-			'providers/getresponse_v3'                           => 'getresponse',
-			'providers/mailchimp'                                => 'mailchimp',
-			'providers/mailchimpv3'                              => 'mailchimp',
-			'providers/zapier'                                   => 'zapier',
-			'providers/salesforce'                               => 'salesforce',
-			'payments'                                           => '',
-			'payments/paypal_standard'                           => 'paypal standard',
-			'payments/stripe'                                    => 'stripe',
-			'payments/authorize_net'                             => 'authorize.net',
+			'new_form'                                => 'add form',
+			'setup'                                   => 'form template',
+			'fields/add_fields'                       => 'add fields',
+			'fields/field_options'                    => 'field options',
+			'fields/field_options/text'               => 'single line text',
+			'fields/field_options/textarea'           => 'paragraph text',
+			'fields/field_options/number-slider'      => 'number slider',
+			'fields/field_options/select'             => 'dropdown',
+			'fields/field_options/radio'              => 'multiple choice',
+			'fields/field_options/checkbox'           => 'checkboxes',
+			'fields/field_options/gdpr-checkbox'      => 'gdpr agreement',
+			'fields/field_options/email'              => 'email',
+			'fields/field_options/address'            => 'address',
+			'fields/field_options/url'                => 'website/url',
+			'fields/field_options/name'               => 'name',
+			'fields/field_options/hidden'             => 'hidden',
+			'fields/field_options/html'               => 'html',
+			'fields/field_options/content'            => 'content',
+			'fields/field_options/pagebreak'          => 'page break',
+			'fields/field_options/entry-preview'      => 'entry preview',
+			'fields/field_options/password'           => 'password',
+			'fields/field_options/date-time'          => 'date time',
+			'fields/field_options/divider'            => 'section divider',
+			'fields/field_options/phone'              => 'phone',
+			'fields/field_options/number'             => 'numbers',
+			'fields/field_options/file-upload'        => 'file upload',
+			'fields/field_options/captcha'            => 'custom captcha',
+			'fields/field_options/rating'             => 'rating',
+			'fields/field_options/richtext'           => 'rich text',
+			'fields/field_options/layout'             => 'layout',
+			'fields/field_options/likert_scale'       => 'likert scale',
+			'fields/field_options/payment-single'     => 'single item',
+			'fields/field_options/payment-multiple'   => 'multiple items',
+			'fields/field_options/payment-checkbox'   => 'checkbox items',
+			'fields/field_options/payment-select'     => 'dropdown items',
+			'fields/field_options/payment-total'      => 'total',
+			'fields/field_options/paypal-commerce'    => 'paypal checkout',
+			'fields/field_options/stripe-credit-card' => 'stripe credit card',
+			'fields/field_options/authorize_net'      => 'authorize.net credit card',
+			'fields/field_options/square'             => 'square credit card',
+			'fields/field_options/signature'          => 'signature',
+			'fields/field_options/net_promoter_score' => 'net promoter score',
+			'fields/field_options/payment-coupon'     => 'coupon',
+			'fields/field_options/repeater'           => 'repeater',
+			'settings/general'                        => 'settings',
+			'settings/anti_spam'                      => 'spam',
+			'settings/notifications'                  => 'notification emails',
+			'settings/confirmation'                   => 'confirmation message',
+			'settings/lead_forms'                     => 'lead forms',
+			'settings/form_abandonment'               => 'form abandonment',
+			'settings/post_submissions'               => 'post submissions',
+			'settings/user_registration'              => 'user registration',
+			'settings/surveys_polls'                  => 'surveys and polls',
+			'settings/conversational_forms'           => 'conversational forms',
+			'settings/form_locker'                    => 'form locker',
+			'settings/form_pages'                     => 'form pages',
+			'settings/save_resume'                    => 'save and resume',
+			'settings/google_sheets'                  => 'google sheets',
+			'settings/webhooks'                       => 'webhooks',
+			'providers'                               => '',
+			'providers/aweber'                        => 'aweber',
+			'providers/activecampaign'                => 'activecampaign',
+			'providers/campaign_monitor'              => 'campaign monitor',
+			'providers/constant_contact'              => 'constant contact',
+			'providers/convertkit'                    => 'convertkit',
+			'providers/drip'                          => 'drip',
+			'providers/getresponse'                   => 'getresponse',
+			'providers/getresponse_v3'                => 'getresponse',
+			'providers/mailchimp'                     => 'mailchimp',
+			'providers/mailchimpv3'                   => 'mailchimp',
+			'providers/mailerlite'                    => 'mailerlite',
+			'providers/zapier'                        => 'zapier',
+			'providers/salesforce'                    => 'salesforce',
+			'providers/sendinblue'                    => 'sendinblue',
+			'providers/hubspot'                       => 'hubspot',
+			'payments'                                => '',
+			'payments/paypal_commerce'                => 'paypal commerce',
+			'payments/paypal_standard'                => 'paypal standard',
+			'payments/stripe'                         => 'stripe',
+			'payments/authorize_net'                  => 'authorize.net',
+			'payments/square'                         => 'square',
+			'revisions'                               => 'revisions',
 		];
-		// phpcs:enable
 	}
 
 	/**
@@ -358,8 +288,11 @@ class Help {
 				'/docs/setup-captcha-wpforms/',
 			],
 			'spam'                      => [
+				'/docs/how-to-prevent-spam-in-wpforms/',
 				'/docs/setup-captcha-wpforms/',
 				'/docs/how-to-install-and-use-custom-captcha-addon-in-wpforms/',
+				'/docs/setting-up-akismet-anti-spam-protection/',
+				'/docs/viewing-and-managing-spam-entries/',
 			],
 			'fields'                    => [
 				'/docs/how-to-choose-the-right-form-field-for-your-forms/',
@@ -381,24 +314,28 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'paragraph'                 => [
 				'/docs/how-to-limit-words-or-characters-in-a-form-field/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'paragraph text'            => [
 				'/docs/how-to-limit-words-or-characters-in-a-form-field/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'textarea'                  => [
 				'/docs/how-to-limit-words-or-characters-in-a-form-field/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'input mask'                => [
 				'/docs/how-to-use-custom-input-masks/',
@@ -429,26 +366,31 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'select'                    => [
 				'/docs/how-to-allow-multiple-selections-to-a-dropdown-field-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'multiple options'          => [
 				'/docs/how-to-allow-multiple-selections-to-a-dropdown-field-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'bulk add'                  => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
 			],
 			'multiple columns'          => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 			],
 			'columns'                   => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 			],
 			'randomize'                 => [
@@ -457,23 +399,30 @@ class Help {
 			'image choices'             => [
 				'/docs/how-to-add-image-choices-to-fields/',
 			],
+			'icon choices'              => [
+				'/docs/using-icon-choices/',
+			],
 			'multiple choice'           => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 				'/docs/how-to-randomize-checkbox-and-multiple-choice-options/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'radio'                     => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 				'/docs/how-to-randomize-checkbox-and-multiple-choice-options/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'checkboxes'                => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -481,9 +430,11 @@ class Help {
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 				'/docs/how-to-randomize-checkbox-and-multiple-choice-options/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'checkbox'                  => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -491,9 +442,11 @@ class Help {
 				'/docs/how-to-create-a-multi-column-layout-for-radio-buttons-and-checkboxes/',
 				'/docs/how-to-randomize-checkbox-and-multiple-choice-options/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'gdpr'                      => [
 				'/docs/how-to-create-gdpr-compliant-forms/',
@@ -521,6 +474,7 @@ class Help {
 			],
 			'email'                     => [
 				'/docs/setup-form-notification-wpforms/',
+				'/docs/customizing-form-notification-emails/',
 				'/docs/how-to-create-conditional-form-notifications-in-wpforms/',
 				'/docs/troubleshooting-email-notifications/',
 				'/docs/how-to-fix-wordpress-contact-form-not-sending-email-with-smtp/',
@@ -582,8 +536,10 @@ class Help {
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
 			'hidden'                    => [
+				'/docs/how-to-choose-the-right-form-field-for-your-forms/',
 				'/docs/how-to-use-smart-tags-in-wpforms/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/calculations-addon/',
 			],
 			'rating'                    => [
 				'/docs/how-to-add-a-rating-field-to-wpforms/',
@@ -599,6 +555,50 @@ class Help {
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
+			'rich text'                 => [
+				'/docs/how-to-use-the-rich-text-field-in-wpforms/',
+			],
+			'wysiwyg'                   => [
+				'/docs/how-to-use-the-rich-text-field-in-wpforms/',
+			],
+			'editor'                    => [
+				'/docs/how-to-use-the-rich-text-field-in-wpforms/',
+			],
+			'rich editor'               => [
+				'/docs/how-to-use-the-rich-text-field-in-wpforms/',
+			],
+			'layout'                    => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+			],
+			'two columns'               => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'three columns'             => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'four columns'              => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'fields horizontally'       => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'fields in a row'           => [
+				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'repeater'                  => [
+				'/docs/using-the-repeater-field/',
+			],
+			'repeatable'                => [
+				'/docs/using-the-repeater-field/',
+			],
+			'replicate fields'          => [
+				'/docs/using-the-repeater-field/',
+			],
 			'page break'                => [
 				'/docs/how-to-create-multi-page-forms-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
@@ -606,6 +606,11 @@ class Help {
 			],
 			'page'                      => [
 				'/docs/how-to-create-multi-page-forms-in-wpforms/',
+				'/docs/how-to-customize-form-field-options/',
+				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+			],
+			'entry preview'             => [
+				'/docs/how-to-show-entry-previews-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
@@ -644,10 +649,17 @@ class Help {
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
+			'custom captcha'            => [
+				'/docs/how-to-install-and-use-custom-captcha-addon-in-wpforms/',
+				'/docs/how-to-customize-form-field-options/',
+				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+			],
 			'numbers'                   => [
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'website/url'               => [
 				'/docs/how-to-customize-form-field-options/',
@@ -668,6 +680,9 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+			],
+			'content'                   => [
+				'docs/using-the-content-field/',
 			],
 			'code'                      => [
 				'/docs/how-to-customize-form-field-options/',
@@ -816,29 +831,43 @@ class Help {
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
+			'coupon'                    => [
+				'/docs/coupons-addon/',
+			],
+			'discount'                  => [
+				'/docs/coupons-addon/',
+			],
 			'payment'                   => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 			],
 			'price'                     => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 			],
 			'cost'                      => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 			],
 			'single item'               => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
@@ -846,31 +875,40 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/calculations-addon/',
 			],
 			'multiple items'            => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
 			'checkbox items'            => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 				'/docs/how-to-add-image-choices-to-fields/',
+				'/docs/using-icon-choices/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
 			'dropdown items'            => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
@@ -880,8 +918,10 @@ class Help {
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
 			'total'                     => [
+				'/docs/viewing-and-managing-payments/',
 				'/docs/how-to-require-payment-total-with-a-wordpress-form/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
+				'/docs/paypal-commerce-addon/',
 				'/docs/install-use-paypal-addon-wpforms/',
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-create-a-donation-form-with-multiple-amounts/',
@@ -890,16 +930,32 @@ class Help {
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
 			],
+			'paypal checkout'           => [
+				'/docs/paypal-commerce-addon/',
+				'/docs/testing-payments-with-the-paypal-commerce-addon/',
+				'/docs/how-to-customize-form-field-options/',
+				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/viewing-and-managing-payments/',
+			],
 			'stripe credit card'        => [
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
 				'/docs/how-to-test-stripe-payments-on-your-site/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/viewing-and-managing-payments/',
 			],
 			'authorize.net credit card' => [
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/viewing-and-managing-payments/',
+			],
+			'square credit card'        => [
+				'/docs/how-to-install-and-use-the-square-addon-with-wpforms/',
+				'/docs/how-to-test-square-payments-on-your-site/',
+				'/docs/how-to-customize-form-field-options/',
+				'/docs/how-to-use-conditional-logic-with-wpforms/',
+				'/docs/viewing-and-managing-payments/',
 			],
 			'settings'                  => [
 				'/docs/creating-first-form/',
@@ -923,24 +979,28 @@ class Help {
 			],
 			'notification'              => [
 				'/docs/setup-form-notification-wpforms/',
+				'/docs/customizing-form-notification-emails/',
 				'/docs/how-to-create-conditional-form-notifications-in-wpforms/',
 				'/docs/troubleshooting-email-notifications/',
 				'/docs/how-to-fix-wordpress-contact-form-not-sending-email-with-smtp/',
 			],
 			'notifications'             => [
 				'/docs/setup-form-notification-wpforms/',
+				'/docs/customizing-form-notification-emails/',
 				'/docs/how-to-create-conditional-form-notifications-in-wpforms/',
 				'/docs/troubleshooting-email-notifications/',
 				'/docs/how-to-fix-wordpress-contact-form-not-sending-email-with-smtp/',
 			],
 			'notification email'        => [
 				'/docs/setup-form-notification-wpforms/',
+				'/docs/customizing-form-notification-emails/',
 				'/docs/how-to-create-conditional-form-notifications-in-wpforms/',
 				'/docs/troubleshooting-email-notifications/',
 				'/docs/how-to-fix-wordpress-contact-form-not-sending-email-with-smtp/',
 			],
 			'notification emails'       => [
 				'/docs/setup-form-notification-wpforms/',
+				'/docs/customizing-form-notification-emails/',
 				'/docs/how-to-create-conditional-form-notifications-in-wpforms/',
 				'/docs/troubleshooting-email-notifications/',
 				'/docs/how-to-fix-wordpress-contact-form-not-sending-email-with-smtp/',
@@ -968,6 +1028,29 @@ class Help {
 			'conditional confirmation'  => [
 				'/docs/setup-form-confirmation-wpforms/',
 				'/docs/how-to-create-conditional-form-confirmations/',
+			],
+			'calculation'               => [
+				'/docs/calculations-addon/',
+				'/docs/building-formulas-with-the-calculations-addon/',
+				'/calculations-formula-cheatsheet/',
+			],
+			'calculations'              => [
+				'/docs/calculations-addon/',
+				'/docs/building-formulas-with-the-calculations-addon/',
+				'/calculations-formula-cheatsheet/',
+			],
+			'formula'                   => [
+				'/docs/calculations-addon/',
+				'/docs/building-formulas-with-the-calculations-addon/',
+				'/calculations-formula-cheatsheet/',
+			],
+			'conditional calculation'   => [
+				'/docs/calculations-addon/',
+				'/docs/building-formulas-with-the-calculations-addon/',
+				'/calculations-formula-cheatsheet/',
+			],
+			'lead forms'                => [
+				'/docs/lead-forms-addon/',
 			],
 			'form abandonment'          => [
 				'/docs/how-to-install-and-use-form-abandonment-with-wpforms/',
@@ -1066,6 +1149,21 @@ class Help {
 			'form pages'                => [
 				'/docs/how-to-install-and-use-the-form-pages-addon/',
 			],
+			'save'                      => [
+				'/docs/how-to-install-and-use-the-save-and-resume-addon-with-wpforms/',
+			],
+			'resume'                    => [
+				'/docs/how-to-install-and-use-the-save-and-resume-addon-with-wpforms/',
+			],
+			'continue'                  => [
+				'/docs/how-to-install-and-use-the-save-and-resume-addon-with-wpforms/',
+			],
+			'save and resume'           => [
+				'/docs/how-to-install-and-use-the-save-and-resume-addon-with-wpforms/',
+			],
+			'save and continue'         => [
+				'/docs/how-to-install-and-use-the-save-and-resume-addon-with-wpforms/',
+			],
 			'webhooks'                  => [
 				'/docs/how-to-install-and-use-the-webhooks-addon-with-wpforms/',
 			],
@@ -1078,14 +1176,24 @@ class Help {
 			'constant contact'          => [
 				'/docs/how-to-connect-constant-contact-with-wpforms/',
 			],
+			'convertkit'                => [
+				'/docs/convertkit-addon/',
+			],
 			'drip'                      => [
 				'/docs/how-to-install-and-use-the-drip-addon-in-wpforms/',
 			],
 			'getresponse'               => [
 				'/docs/how-to-install-and-use-getresponse-addon-with-wpforms/',
 			],
+			'google sheets'             => [
+				'/docs/google-sheets-addon/',
+				'/docs/google-permissions/',
+			],
 			'mailchimp'                 => [
 				'/docs/install-use-mailchimp-addon-wpforms/',
+			],
+			'mailerlite'                => [
+				'/docs/install-use-mailerlite-addon-wpforms/',
 			],
 			'zapier'                    => [
 				'/docs/how-to-install-and-use-zapier-addon-with-wpforms/',
@@ -1093,13 +1201,21 @@ class Help {
 			'salesforce'                => [
 				'/docs/how-to-install-and-use-the-salesforce-addon-with-wpforms/',
 			],
+			'sendinblue'                => [
+				'/docs/how-to-install-and-use-the-sendinblue-addon-with-wpforms/',
+			],
+			'hubspot'                   => [
+				'/docs/how-to-install-and-use-the-hubspot-addon-in-wpforms/',
+			],
 			'integrate'                 => [
 				'/docs/how-to-install-and-use-zapier-addon-with-wpforms/',
 				'/docs/how-to-install-and-use-the-webhooks-addon-with-wpforms/',
+				'/docs/google-sheets-addon/',
 			],
 			'integration'               => [
 				'/docs/how-to-install-and-use-zapier-addon-with-wpforms/',
 				'/docs/how-to-install-and-use-the-webhooks-addon-with-wpforms/',
+				'/docs/google-sheets-addon/',
 			],
 			'crm'                       => [
 				'/docs/how-to-install-and-use-zapier-addon-with-wpforms/',
@@ -1108,11 +1224,11 @@ class Help {
 			'api'                       => [
 				'/docs/how-to-install-and-use-zapier-addon-with-wpforms/',
 				'/docs/how-to-install-and-use-the-webhooks-addon-with-wpforms/',
+				'/docs/google-sheets-addon/',
 			],
-			'paypal'                    => [
-				'/docs/install-use-paypal-addon-wpforms/',
-				'/docs/how-to-test-paypal-payments-before-accepting-real-payments/',
-				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
+			'paypal commerce'           => [
+				'/docs/paypal-commerce-addon/',
+				'/docs/testing-payments-with-the-paypal-commerce-addon/',
 			],
 			'paypal standard'           => [
 				'/docs/install-use-paypal-addon-wpforms/',
@@ -1120,6 +1236,7 @@ class Help {
 				'/docs/how-to-allow-users-to-choose-a-payment-method-on-your-form/',
 			],
 			'stripe'                    => [
+				'/docs/using-stripe-with-wpforms-lite/',
 				'/docs/how-to-install-and-use-the-stripe-addon-with-wpforms/',
 				'/docs/how-to-test-stripe-payments-on-your-site/',
 			],
@@ -1128,6 +1245,16 @@ class Help {
 			],
 			'authorize.net'             => [
 				'/docs/how-to-install-and-use-the-authorize-net-addon-with-wpforms/',
+			],
+			'square'                    => [
+				'/docs/how-to-install-and-use-the-square-addon-with-wpforms/',
+				'/docs/how-to-test-square-payments-on-your-site/',
+			],
+			'revisions'                 => [
+				'/docs/how-to-use-form-revisions-in-wpforms/',
+			],
+			'ai'                        => [
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 		];
 	}
@@ -1159,6 +1286,7 @@ class Help {
 	 * Get doc id.
 	 *
 	 * @since 1.6.3
+	 * @deprecated 1.8.3
 	 *
 	 * @param string $link Absolute link to the doc without the domain part.
 	 *
@@ -1166,19 +1294,45 @@ class Help {
 	 */
 	public function get_doc_id( $link ) {
 
+		_deprecated_function( __METHOD__, '1.8.3 of the WPForms plugin', __CLASS__ . '::get_doc_id_int()' );
+
 		if ( empty( $this->docs ) ) {
 			return [];
 		}
 
 		$result = array_filter(
 			$this->docs,
-			function( $doc ) use ( $link ) {
+			static function( $doc ) use ( $link ) {
 
 				return ! empty( $doc['url'] ) && $doc['url'] === 'https://wpforms.com' . $link;
 			}
 		);
 
-		return ! empty( $result ) && is_array( $result ) ? array_keys( $result ) : [];
+		return array_keys( $result );
+	}
+
+	/**
+	 * Get doc id.
+	 *
+	 * @since 1.8.3
+	 *
+	 * @param string $link Absolute link to the doc without the domain part.
+	 *
+	 * @return int Doc id.
+	 */
+	private function get_doc_id_int( $link ) {
+
+		if ( empty( $this->docs ) ) {
+			return 0;
+		}
+
+		foreach ( $this->docs as $id => $doc ) {
+			if ( ! empty( $doc['url'] ) && $doc['url'] === 'https://wpforms.com' . $link ) {
+				return $id;
+			}
+		}
+
+		return 0;
 	}
 
 	/**
@@ -1192,14 +1346,10 @@ class Help {
 	 */
 	public function get_doc_ids( $links ) {
 
-		if ( empty( $this->docs ) ) {
-			return [];
-		}
-
 		$ids = [];
 
 		foreach ( $links as $link ) {
-			$ids = array_merge( $ids, $this->get_doc_id( $link ) );
+			$ids[] = $this->get_doc_id_int( $link );
 		}
 
 		return $ids;
@@ -1212,10 +1362,15 @@ class Help {
 	 */
 	public function output() {
 
-		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
 			'builder/help',
 			[
-				'settings' => $this->settings,
+				'settings' => [
+					'docs_url'           => 'https://wpforms.com/docs/',
+					'support_ticket_url' => 'https://wpforms.com/account/support/',
+					'upgrade_url'        => 'https://wpforms.com/pricing/',
+				],
 			],
 			true
 		);

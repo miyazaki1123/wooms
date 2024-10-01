@@ -1,13 +1,13 @@
 <?php
-
 /*
 Plugin Name: Search Regex
 Plugin URI: https://searchregex.com/
 Description: Adds search and replace functionality across posts, pages, comments, and meta-data, with full regular expression support
-Version: 2.4.1
+Version: 3.1.0
 Author: John Godley
+Requires PHP: 7.0
+Requires at least: 6.4
 Text Domain: search-regex
-Domain Path: /locale
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -22,17 +22,17 @@ For full license details see license.txt
 */
 
 define( 'SEARCHREGEX_FILE', __FILE__ );
-define( 'SEARCHREGEX_DEV_MODE', false );
 
-// This file must support PHP < 5.6 so as not to crash
-if ( version_compare( phpversion(), '5.6' ) < 0 ) {
-	add_action( 'plugin_action_links_' . basename( dirname( SEARCHREGEX_FILE ) ) . '/' . basename( SEARCHREGEX_FILE ), 'searchregex_deprecated_php', 10, 4 );
+// This file must support PHP < 7.0 so as not to crash
+if ( version_compare( phpversion(), '7.0' ) < 0 ) {
+	// @phpstan-ignore-next-line
+	add_filter( 'plugin_action_links_' . basename( dirname( SEARCHREGEX_FILE ) ) . '/' . basename( SEARCHREGEX_FILE ), 'searchregex_deprecated_php', 10, 4 );
 
 	/**
 	 * Show a deprecated PHP warning in the plugin page
 	 *
-	 * @param Array $links Plugin links.
-	 * @return Array
+	 * @param string[] $links Plugin links.
+	 * @return string[]
 	 */
 	function searchregex_deprecated_php( $links ) {
 		/* translators: 1: server PHP version. 2: required PHP version. */
@@ -43,9 +43,9 @@ if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 	return;
 }
 
-require_once __DIR__ . '/search-regex-version.php';
-require_once __DIR__ . '/search-regex-settings.php';
-require_once __DIR__ . '/search-regex-capabilities.php';
+require_once __DIR__ . '/build/search-regex-version.php';
+require_once __DIR__ . '/includes/plugin/class-settings.php';
+require_once __DIR__ . '/includes/plugin/class-capabilities.php';
 
 /**
  * Is the request for WP CLI?
@@ -79,33 +79,22 @@ function searchregex_is_admin() {
  * @return void
  */
 function searchregex_start_rest() {
-	require_once __DIR__ . '/search-regex-admin.php';
-	require_once __DIR__ . '/api/api.php';
+	require_once __DIR__ . '/includes/search-regex-admin.php';
+	require_once __DIR__ . '/includes/api/class-api.php';
 
-	Search_Regex_Api::init();
-	Search_Regex_Admin::init();
+	SearchRegex\Api\Api::init();
+	SearchRegex\Admin\Admin::init();
 
 	remove_action( 'rest_api_init', 'searchregex_start_rest' );
 }
 
-/**
- * Set the Search Regex text domain
- *
- * @return void
- */
-function searchregex_locale() {
-	/** @psalm-suppress PossiblyFalseArgument */
-	load_plugin_textdomain( 'search-regex', false, dirname( plugin_basename( SEARCHREGEX_FILE ) ) . '/locale/' );
-}
-
 if ( searchregex_is_admin() || searchregex_is_wpcli() ) {
-	require_once __DIR__ . '/search-regex-admin.php';
-	require_once __DIR__ . '/api/api.php';
+	require_once __DIR__ . '/includes/search-regex-admin.php';
+	require_once __DIR__ . '/includes/api/class-api.php';
 }
 
 if ( searchregex_is_wpcli() ) {
-	require_once __DIR__ . '/search-regex-cli.php';
+	require_once __DIR__ . '/includes/search-regex-cli.php';
 }
 
 add_action( 'rest_api_init', 'searchregex_start_rest' );
-add_action( 'init', 'searchregex_locale' );

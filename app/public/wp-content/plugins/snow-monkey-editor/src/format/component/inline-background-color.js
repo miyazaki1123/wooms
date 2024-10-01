@@ -1,24 +1,18 @@
 import { get } from 'lodash';
 
 import {
-	__experimentalColorGradientControl as ColorGradientControl,
-	URLPopover,
-	getColorClassName,
-	getColorObjectByColorValue,
 	getColorObjectByAttributeValues,
+	useCachedTruthy,
+	__experimentalColorGradientControl as ColorGradientControl,
+	__experimentalUseMultipleOriginColorsAndGradients as useMultipleOriginColorsAndGradients,
 } from '@wordpress/block-editor';
-import { withSpokenMessages } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { useCallback, useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import {
-	applyFormat,
-	removeFormat,
-	getActiveFormat,
-} from '@wordpress/rich-text';
 
-import { useMultipleOriginColorsAndGradients } from '../../hooks/hooks';
-import { useAnchorRef } from './use-anchor-ref';
+import { getActiveFormat, useAnchor } from '@wordpress/rich-text';
+
+import { withSpokenMessages, Popover } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 export function getActiveBackgroundColor( formatName, formatValue, colors ) {
 	const activeBackgroundColorFormat = getActiveFormat(
@@ -28,6 +22,7 @@ export function getActiveBackgroundColor( formatName, formatValue, colors ) {
 	if ( ! activeBackgroundColorFormat ) {
 		return;
 	}
+
 	const styleBackgroundColor = activeBackgroundColorFormat.attributes.style;
 	if ( styleBackgroundColor ) {
 		return styleBackgroundColor.replace(
@@ -35,6 +30,7 @@ export function getActiveBackgroundColor( formatName, formatValue, colors ) {
 			''
 		);
 	}
+
 	const currentClass = activeBackgroundColorFormat.attributes.class;
 	if ( currentClass ) {
 		const colorSlug = currentClass.replace(
@@ -45,52 +41,23 @@ export function getActiveBackgroundColor( formatName, formatValue, colors ) {
 	}
 }
 
-const ColorPicker = ( { name, value, onChange, onClose } ) => {
+const ColorPicker = ( { name, value, onChange } ) => {
 	const colors = useSelect( ( select ) => {
 		const { getSettings } = select( 'core/block-editor' );
 		return get( getSettings(), [ 'colors' ], [] );
 	} );
-
-	const onBackgroundColorChange = useCallback(
-		( color ) => {
-			if ( color ) {
-				const colorObject = getColorObjectByColorValue( colors, color );
-				onChange(
-					applyFormat( value, {
-						type: name,
-						attributes: colorObject
-							? {
-									class: getColorClassName(
-										'background-color',
-										colorObject.slug
-									),
-							  }
-							: {
-									style: `background-color: ${ color }`,
-							  },
-					} )
-				);
-			} else {
-				onChange( removeFormat( value, name ) );
-				onClose();
-			}
-		},
-		[ colors, onChange ]
-	);
 
 	const activeBackgroundColor = useMemo(
 		() => getActiveBackgroundColor( name, value, colors ),
 		[ name, value, colors ]
 	);
 
-	const multipleOriginColorsAndGradients = useMultipleOriginColorsAndGradients();
-
 	return (
 		<ColorGradientControl
 			label={ __( 'Color', 'snow-monkey-editor' ) }
 			colorValue={ activeBackgroundColor }
-			onColorChange={ onBackgroundColorChange }
-			{ ...multipleOriginColorsAndGradients }
+			onColorChange={ onChange }
+			{ ...useMultipleOriginColorsAndGradients() }
 			__experimentalHasMultipleOrigins={ true }
 			__experimentalIsRenderedInSidebar={ true }
 		/>
@@ -105,21 +72,22 @@ const InlineBackgroundColorUI = ( {
 	contentRef,
 	settings,
 } ) => {
-	const anchorRef = useAnchorRef( { ref: contentRef, value, settings } );
+	const popoverAnchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings,
+	} );
+
+	const cachedRect = useCachedTruthy( popoverAnchor.getBoundingClientRect() );
+	popoverAnchor.getBoundingClientRect = () => cachedRect;
+
 	return (
-		<URLPopover
-			value={ value }
+		<Popover
+			anchor={ popoverAnchor }
 			onClose={ onClose }
 			className="sme-popover sme-popover--inline-background-color components-inline-color-popover"
-			anchorRef={ anchorRef }
 		>
-			<ColorPicker
-				name={ name }
-				value={ value }
-				onChange={ onChange }
-				onClose={ onClose }
-			/>
-		</URLPopover>
+			<ColorPicker name={ name } value={ value } onChange={ onChange } />
+		</Popover>
 	);
 };
 

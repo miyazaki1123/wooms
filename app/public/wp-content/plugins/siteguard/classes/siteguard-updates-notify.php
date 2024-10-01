@@ -66,7 +66,7 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		$error   = new WP_Error( 'siteguard_updates_notify', $message );
 		return $error;
 	}
-	public function feature_on() {
+	public static function feature_on() {
 		// Already scheduled
 		if ( false !== wp_get_schedule( self::CRON_NAME ) ) {
 			return;

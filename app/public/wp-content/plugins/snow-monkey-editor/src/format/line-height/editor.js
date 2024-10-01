@@ -1,10 +1,12 @@
-import { Icon } from '@wordpress/components';
-import { useState, useCallback } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import { removeFormat } from '@wordpress/rich-text';
+import classnames from 'classnames';
 
-import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
+import { Icon } from '@wordpress/components';
+import { useState } from '@wordpress/element';
+import { removeFormat, applyFormat } from '@wordpress/rich-text';
+import { __ } from '@wordpress/i18n';
+
 import { default as InlineLineHeightUI } from '../component/inline-line-height';
+import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 
 const name = 'snow-monkey-editor/line-height';
 const title = __( 'Line height', 'snow-monkey-editor' );
@@ -14,21 +16,6 @@ const Edit = ( props ) => {
 
 	const [ isAddingLineHeight, setIsAddingLineHeight ] = useState( false );
 
-	const enableIsAddingLineHeight = useCallback(
-		() => setIsAddingLineHeight( true ),
-		[ setIsAddingLineHeight ]
-	);
-
-	const disableIsAddingLineHeight = useCallback(
-		() => setIsAddingLineHeight( false ),
-		[ setIsAddingLineHeight ]
-	);
-
-	const hasLineHeightToChoose = true;
-	if ( ! hasLineHeightToChoose && ! isActive ) {
-		return null;
-	}
-
 	return (
 		<>
 			<SnowMonkeyToolbarButton
@@ -37,34 +24,37 @@ const Edit = ( props ) => {
 				}
 				name={ isActive ? 'sme-line-height' : undefined }
 				title={ title }
-				className="format-library-text-color-button sme-toolbar-button"
-				onClick={
-					hasLineHeightToChoose
-						? enableIsAddingLineHeight
-						: () => onChange( removeFormat( value, name ) )
-				}
-				icon={
-					<>
-						<Icon icon="editor-insertmore" />
-						{ isActive && (
-							<span
-								className="format-library-text-color-button__indicator sme-toolbar-button__indicator"
-								style={ { backgroundColor: '#cd162c' } }
-							/>
-						) }
-					</>
-				}
+				className={ classnames( 'sme-toolbar-button', {
+					'is-pressed': !! isActive,
+				} ) }
+				onClick={ () => {
+					setIsAddingLineHeight( ! isAddingLineHeight );
+				} }
+				icon={ <Icon icon="editor-insertmore" /> }
 			/>
 
 			{ isAddingLineHeight && (
 				<InlineLineHeightUI
 					name={ name }
 					title={ title }
-					onClose={ disableIsAddingLineHeight }
 					activeAttributes={ activeAttributes }
 					value={ value }
-					onChange={ ( ...args ) => {
-						onChange( ...args );
+					onClose={ () => {
+						setIsAddingLineHeight( false );
+					} }
+					onReset={ () => {
+						setIsAddingLineHeight( false );
+						onChange( removeFormat( value, name ) );
+					} }
+					onChange={ ( newValue ) => {
+						onChange(
+							applyFormat( value, {
+								type: name,
+								attributes: {
+									style: `line-height: ${ newValue }`,
+								},
+							} )
+						);
 					} }
 					contentRef={ contentRef }
 					settings={ settings }

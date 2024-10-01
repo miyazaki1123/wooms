@@ -3,7 +3,7 @@
 Plugin Name: ACF Columns
 Plugin URI: https://wordpress.org/plugins/acf-columns/
 Description: Adds an ACF field to arrange ACF fields into columns.
-Version: 1.2.3
+Version: 1.2.5
 Author: Thomas Meyer
 Author URI: https://dreihochzwo.de
 Text Domain: acf_column
@@ -16,9 +16,11 @@ Copyright: Thomas Meyer
 if( ! defined( 'ABSPATH' ) ) exit;
 
 // check if class already exists
-if( !class_exists('dhz_acf_plugin_column_field') ) :
+if( !class_exists('DHZ_ACF_PLUGIN_COLUMN_FIELD') ) :
 
-class dhz_acf_plugin_column_field {
+class DHZ_ACF_PLUGIN_COLUMN_FIELD {
+
+	public $settings;
 	
 	function __construct() {
 
@@ -27,7 +29,7 @@ class dhz_acf_plugin_column_field {
 			'plugin'			=> 'ACF Columns',
 			'this_acf_version'	=> 0,
 			'min_acf_version'	=> '5.4.0',
-			'version'			=> '1.2.3',
+			'version'			=> '1.2.5',
 			'url'				=> plugin_dir_url( __FILE__ ),
 			'path'				=> plugin_dir_path( __FILE__ ),
 			'plugin_path'		=> 'https://wordpress.org/plugins/acf-columns/'
@@ -99,7 +101,7 @@ class dhz_acf_plugin_column_field {
 	}
 }
 // initialize
-new dhz_acf_plugin_column_field();
+new DHZ_ACF_PLUGIN_COLUMN_FIELD();
 
 // class_exists check
 endif;

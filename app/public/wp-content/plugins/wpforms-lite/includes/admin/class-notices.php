@@ -10,6 +10,7 @@
  * WPForms_Admin_Notice::warning( 'Do something please.' );
  *
  * @since 1.3.9
+ * @deprecated 1.7.2
  */
 class WPForms_Admin_Notice {
 
@@ -27,7 +28,7 @@ class WPForms_Admin_Notice {
 	 * @since 1.3.9
 	 * @var array
 	 */
-	public $notices = array();
+	public $notices = [];
 
 	/**
 	 * Get the instance.
@@ -37,7 +38,7 @@ class WPForms_Admin_Notice {
 	 */
 	public static function getInstance() {
 
-		if ( is_null( self::$_instance ) ) {
+		if ( self::$_instance === null ) {
 			self::$_instance = new WPForms_Admin_Notice();
 		}
 
@@ -50,7 +51,10 @@ class WPForms_Admin_Notice {
 	 * @since 1.3.9
 	 */
 	public function __construct() {
-		add_action( 'admin_notices', array( &$this, 'display' ) );
+
+		_deprecated_function( __METHOD__, '1.7.2 of the WPForms plugin' );
+
+		add_action( 'admin_notices', [ &$this, 'display' ] );
 	}
 
 	/**
@@ -60,11 +64,12 @@ class WPForms_Admin_Notice {
 	 */
 	public function display() {
 
-		// At least one WPForms capability is needed to see admin notices.
+		// At least one WPForms capability is necessary to see admin notices.
 		if ( ! wpforms_current_user_can( 'any' ) ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo implode( ' ', $this->notices );
 	}
 
@@ -77,6 +82,8 @@ class WPForms_Admin_Notice {
 	 * @param string $type    Type of the notice (default: '').
 	 */
 	public static function add( $message, $type = '' ) {
+
+		_deprecated_function( __METHOD__, '1.7.2 of the WPForms plugin' );
 
 		$instance = self::getInstance();
 		$id       = 'wpforms-notice-' . ( count( $instance->notices ) + 1 );

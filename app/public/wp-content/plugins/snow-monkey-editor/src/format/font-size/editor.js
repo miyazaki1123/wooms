@@ -1,38 +1,23 @@
-import { isEmpty } from 'lodash';
+import classnames from 'classnames';
+import { find, isNumber, isString } from 'lodash';
 
-import { useSetting } from '@wordpress/block-editor';
+import { useSettings, getFontSizeClass } from '@wordpress/block-editor';
 import { Icon } from '@wordpress/components';
-import { useState, useCallback } from '@wordpress/element';
+import { useState } from '@wordpress/element';
+import { removeFormat, applyFormat } from '@wordpress/rich-text';
 import { __ } from '@wordpress/i18n';
-import { removeFormat } from '@wordpress/rich-text';
 
-import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 import { default as InlineFontSizeUI } from '../component/inline-font-size';
+import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 
 const name = 'snow-monkey-editor/font-size';
 const title = __( 'Font size', 'snow-monkey-editor' );
 
-const EMPTY_ARRAY = [];
-
 const Edit = ( props ) => {
 	const { value, onChange, isActive, activeAttributes, contentRef } = props;
 
-	const allowCustomControl = useSetting( 'typography.customFontSize', name );
-	const fontSizes = useSetting( 'typography.fontSizes' ) || EMPTY_ARRAY;
+	const [ fontSizes ] = useSettings( 'typography.fontSizes' );
 	const [ isAddingFontSize, setIsAddingFontSize ] = useState( false );
-	const enableIsAddingFontSize = useCallback(
-		() => setIsAddingFontSize( true ),
-		[ setIsAddingFontSize ]
-	);
-	const disableIsAddingFontSize = useCallback(
-		() => setIsAddingFontSize( false ),
-		[ setIsAddingFontSize ]
-	);
-
-	const hasFontSizesToChoose = ! isEmpty( fontSizes ) || ! allowCustomControl;
-	if ( ! hasFontSizesToChoose && ! isActive ) {
-		return null;
-	}
 
 	return (
 		<>
@@ -40,33 +25,62 @@ const Edit = ( props ) => {
 				key={ isActive ? 'sme-font-size' : 'sme-font-size-not-active' }
 				name={ isActive ? 'sme-font-size' : undefined }
 				title={ title }
-				className="format-library-text-color-button sme-toolbar-button"
-				onClick={
-					hasFontSizesToChoose
-						? enableIsAddingFontSize
-						: () => onChange( removeFormat( value, name ) )
-				}
-				icon={
-					<>
-						<Icon icon="editor-textcolor" />
-						{ isActive && (
-							<span
-								className="format-library-text-color-button__indicator sme-toolbar-button__indicator"
-								style={ { backgroundColor: '#cd162c' } }
-							/>
-						) }
-					</>
-				}
+				className={ classnames( 'sme-toolbar-button', {
+					'is-pressed': !! isActive,
+				} ) }
+				onClick={ () => {
+					setIsAddingFontSize( ! isAddingFontSize );
+				} }
+				icon={ <Icon icon="editor-textcolor" /> }
 			/>
 
 			{ isAddingFontSize && (
 				<InlineFontSizeUI
 					name={ name }
-					onClose={ disableIsAddingFontSize }
 					activeAttributes={ activeAttributes }
 					value={ value }
-					onChange={ ( ...args ) => {
-						onChange( ...args );
+					onClose={ () => setIsAddingFontSize( false ) }
+					onReset={ () => {
+						setIsAddingFontSize( false );
+						onChange( removeFormat( value, name ) );
+					} }
+					onChange={ ( newValue ) => {
+						if ( !! newValue ) {
+							const hasUnits =
+								isString( newValue ) ||
+								( fontSizes[ 0 ] &&
+									isString( fontSizes[ 0 ].size ) );
+
+							let newFontSize;
+							if ( hasUnits ) {
+								newFontSize = newValue;
+							} else if ( isNumber( newValue ) ) {
+								newFontSize = `${ newValue }px`;
+							} else {
+								return;
+							}
+
+							const fontSizeObject = find( fontSizes, {
+								size: newValue,
+							} );
+
+							onChange(
+								applyFormat( value, {
+									type: name,
+									attributes: fontSizeObject
+										? {
+												class: getFontSizeClass(
+													fontSizeObject.slug
+												),
+										  }
+										: {
+												style: `font-size: ${ newFontSize }`,
+										  },
+								} )
+							);
+						} else {
+							onChange( removeFormat( value, name ) );
+						}
 					} }
 					contentRef={ contentRef }
 					settings={ settings }

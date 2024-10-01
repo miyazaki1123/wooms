@@ -48,7 +48,7 @@ if ( current_user_can( 'update_plugins' ) ) {
 				'There is a new version of %1$s available.' .
 				'<a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>' .
 				'or <a href="%5$s">update automatically</a>.',
-				'yarpp'
+				'yet-another-related-posts-plugin'
 			),
 			$plugin_name,
 			esc_url( $details_url ),
@@ -65,7 +65,7 @@ if ( current_user_can( 'update_plugins' ) ) {
 			__(
 				'There is a new beta (%s) of Yet Another Related Posts Plugin. ' .
 				'You can <a href="%s">download it here</a> at your own risk.',
-				'yarpp'
+				'yet-another-related-posts-plugin'
 			),
 			$yarpp_version_info['beta']['version'],
 			$yarpp_version_info['beta']['url']
@@ -86,8 +86,9 @@ if ( isset( $_POST['update_yarpp'] ) && check_admin_referer( 'update_yarpp', 'up
 			$new_options[ $option ] = isset( $_POST[ $option ] );
 		}
 		if ( ( is_string( $default ) || is_int( $default ) ) &&
-			 isset( $_POST[ $option ] ) && is_string( $_POST[ $option ] ) ) {
-			$new_options[ $option ] = stripslashes( $_POST[ $option ] );
+			isset( $_POST[ $option ] ) && is_string( $_POST[ $option ] ) ) {
+			// Sanitize input
+			$new_options[ $option ] = stripslashes( wp_kses_post ($_POST[ $option ]) );
 		}
 	}
 
@@ -173,6 +174,7 @@ if ( isset( $_POST['update_yarpp'] ) && check_admin_referer( 'update_yarpp', 'up
 		( $_POST['rss_use_template'] == 'thumbnails' ? 'thumbnails' : false );
 
 	$new_options = apply_filters( 'yarpp_settings_save', $new_options );
+
 	yarpp_set_option( $new_options );
 
 	echo '<div class="updated fade"><p>' . __( 'Options saved!', 'yet-another-related-posts-plugin' ) . '</p></div>';

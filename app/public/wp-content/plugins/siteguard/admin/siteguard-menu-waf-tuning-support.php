@@ -76,10 +76,10 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 						if ( true == $error || ! isset( $_POST['filename'] ) || ! isset( $_POST['sig'] ) || ! isset( $_POST['comment'] ) ) {
 							// error
 							if ( true === $error ) {
-								siteguard_error_log( 'multisite enabled: ' . __FILENAME__ );
+								siteguard_error_log( 'multisite enabled: ' . __FILE__ );
 							}
 							if ( ! isset( $_POST['sig'] ) ) {
-								siteguard_error_log( 'post value sig not set: ' . __FILENAME__ );
+								siteguard_error_log( 'post value sig not set: ' . __FILE__ );
 							}
 						} else {
 							$filename = $this->set_filename( stripslashes( sanitize_text_field( $_POST['filename'] ) ) );

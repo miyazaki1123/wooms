@@ -1,16 +1,18 @@
-import { isEmpty } from 'lodash';
+import classnames from 'classnames';
+import hexToRgba from 'hex-to-rgba';
 
-import { useSetting } from '@wordpress/block-editor';
+import { useSettings } from '@wordpress/block-editor';
 import { Icon } from '@wordpress/components';
-import { useState, useCallback, useMemo } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
+import { removeFormat, applyFormat } from '@wordpress/rich-text';
 import { __ } from '@wordpress/i18n';
-import { removeFormat } from '@wordpress/rich-text';
 
-import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 import {
 	default as InlineColorUI,
 	getActiveColor,
 } from '../component/inline-gradient';
+
+import { SnowMonkeyToolbarButton } from '../component/snow-monkey-toolbar-button';
 
 const name = 'snow-monkey-editor/highlighter';
 const title = __( 'Highlighter', 'snow-monkey-editor' );
@@ -20,30 +22,12 @@ const EMPTY_ARRAY = [];
 const Edit = ( props ) => {
 	const { value, onChange, isActive, activeAttributes, contentRef } = props;
 
-	const allowCustomControl = useSetting( 'color.custom' );
-	const colors = useSetting( 'color.palette' ) || EMPTY_ARRAY;
+	const [ colors = EMPTY_ARRAY ] = useSettings( 'color.palette' );
 	const [ isAddingColor, setIsAddingColor ] = useState( false );
-	const enableIsAddingColor = useCallback( () => setIsAddingColor( true ), [
-		setIsAddingColor,
-	] );
-	const disableIsAddingColor = useCallback( () => setIsAddingColor( false ), [
-		setIsAddingColor,
-	] );
-	const colorIndicatorStyle = useMemo( () => {
-		const activeColor = getActiveColor( name, value, colors );
-		if ( ! activeColor ) {
-			return undefined;
-		}
 
-		return {
-			backgroundColor: activeColor,
-		};
+	const activeColor = useMemo( () => {
+		return getActiveColor( name, value, colors );
 	}, [ value, colors ] );
-
-	const hasColorsToChoose = ! isEmpty( colors ) || ! allowCustomControl;
-	if ( ! hasColorsToChoose && ! isActive ) {
-		return null;
-	}
 
 	return (
 		<>
@@ -53,33 +37,40 @@ const Edit = ( props ) => {
 				}
 				name={ isActive ? 'sme-highlighter' : undefined }
 				title={ title }
-				className="format-library-text-color-button sme-toolbar-button"
-				onClick={
-					hasColorsToChoose
-						? enableIsAddingColor
-						: () => onChange( removeFormat( value, name ) )
-				}
-				icon={
-					<>
-						<Icon icon="admin-customizer" />
-						{ isActive && (
-							<span
-								className="format-library-text-color-button__indicator sme-toolbar-button__indicator"
-								style={ colorIndicatorStyle }
-							/>
-						) }
-					</>
-				}
+				style={ { color: activeColor } }
+				className={ classnames( 'sme-toolbar-button', {
+					'is-pressed': !! isActive,
+				} ) }
+				onClick={ () => {
+					setIsAddingColor( ! isAddingColor );
+				} }
+				icon={ <Icon icon="tag" /> }
 			/>
 
 			{ isAddingColor && (
 				<InlineColorUI
 					name={ name }
-					onClose={ disableIsAddingColor }
 					activeAttributes={ activeAttributes }
 					value={ value }
-					onChange={ ( ...args ) => {
-						onChange( ...args );
+					onClose={ () => setIsAddingColor( false ) }
+					onChange={ ( newValue ) => {
+						if ( !! newValue ) {
+							if ( newValue.match( /^#/ ) ) {
+								newValue = hexToRgba( newValue, 0.5 );
+							}
+
+							onChange(
+								applyFormat( value, {
+									type: name,
+									attributes: {
+										style: `background-image: linear-gradient(transparent 60%, ${ newValue } 60%)`,
+									},
+								} )
+							);
+						} else {
+							onChange( removeFormat( value, name ) );
+							setIsAddingColor( false );
+						}
 					} }
 					contentRef={ contentRef }
 					settings={ settings }

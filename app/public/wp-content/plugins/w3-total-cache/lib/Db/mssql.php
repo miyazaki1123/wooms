@@ -919,19 +919,23 @@ class DbCache_WpdbBase extends \SQL_Translations {
 
                 // If there is an error then take note of it
                 if ( is_multisite() ) {
-                        $msg = "WordPress database error: [$str]\n{$this->last_query}\n";
-                        if ( defined( 'ERRORLOGFILE' ) )
-                                error_log( $msg, 3, ERRORLOGFILE );
-                        if ( defined( 'DIEONDBERROR' ) )
-                                wp_die( $msg );
+                    $msg = "WordPress database error: [$str]\n{$this->last_query}\n";
+                    if ( defined( 'ERRORLOGFILE' ) )
+                            error_log( $msg, 3, ERRORLOGFILE );
+                    if ( defined( 'DIEONDBERROR' ) )
+                            wp_die( esc_html( $msg ) );
                 } else {
-                        $str   = htmlspecialchars( $str, ENT_QUOTES );
-                        $query = htmlspecialchars( $this->last_query, ENT_QUOTES );
+                    $str   = htmlspecialchars( $str, ENT_QUOTES );
+                    $query = htmlspecialchars( $this->last_query, ENT_QUOTES );
 
-                        print "<div id='error'>
-                        <p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
-                        <code>$query</code></p>
-                        </div>";
+					?>
+                    <div id="error">
+						<p class="<?php echo esc_attr( wpdberror); ?>">
+							<strong>WordPress database error:</strong> [<?php echo esc_html( $str ); ?>]<br />
+                    		<code><?php echo esc_html( $query ); ?></code>
+						</p>
+					</div>
+					<?php
                 }
         }
 
@@ -1147,14 +1151,12 @@ class DbCache_WpdbBase extends \SQL_Translations {
         function _post_query($query, $dbh) {
                 ++$this->num_queries;
                 // If there is an error then take note of it..
-                
+
                 $errs = sqlsrv_errors();
                 $err = is_null($errs)?"":$errs[0]['message'];
-                
+
                 if ( $this->result == FALSE && $this->last_error = $err ) {
                         $this->log_query($this->last_error);
-                        //var_dump($query);
-                        //var_dump($this->translation_changes);
                         $this->print_error();
                         return false;
                 }
@@ -1176,9 +1178,9 @@ class DbCache_WpdbBase extends \SQL_Translations {
                 } else {
 
                         $i = 0;
-                        
+
                         foreach( @sqlsrv_field_metadata($this->result) as $fieldMetadata )
-                        {           
+                        {
                                 $new_field = new stdClass();
                                 $new_field->name = $fieldMetadata["Name"];
                                 $new_field->table = null;
@@ -1191,7 +1193,7 @@ class DbCache_WpdbBase extends \SQL_Translations {
                 $new_field->numeric = null;
                                 $new_field->blob = null;
                                 $new_field->type = $fieldMetadata["Type"];
-                                $new_field->unsigned = null;                         
+                                $new_field->unsigned = null;
                                 $new_field->zerofill = null;
                                 $this->col_info[$i] = $new_field;
                                 $i++;
@@ -1585,14 +1587,14 @@ class DbCache_WpdbBase extends \SQL_Translations {
          * @return false|void
          */
         function bail( $message, $error_code = '500' ) {
-                if ( !$this->show_errors ) {
-                        if ( class_exists( '\WP_Error' ) )
-                                $this->error = new \WP_Error($error_code, $message);
-                        else
-                                $this->error = $message;
-                        return false;
-                }
-                wp_die($message);
+            if ( ! $this->show_errors ) {
+                if ( class_exists( '\WP_Error' ) )
+                    $this->error = new \WP_Error($error_code, $message);
+                else
+                    $this->error = $message;
+                return false;
+            }
+            wp_die( esc_html( $message ) );
         }
 
         /**

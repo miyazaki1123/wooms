@@ -2,6 +2,8 @@
 
 namespace WPForms\Admin;
 
+use WP_Admin_Bar;
+
 /**
  * WPForms admin bar menu.
  *
@@ -69,7 +71,7 @@ class AdminBarMenu {
 	 */
 	public function has_notifications() {
 
-		return wpforms()->get( 'notifications' )->get_count();
+		return wpforms()->obj( 'notifications' )->get_count();
 	}
 
 	/**
@@ -88,12 +90,19 @@ class AdminBarMenu {
 			WPFORMS_VERSION
 		);
 
-		// WordPress 5.7 color set.
-		if ( version_compare( get_bloginfo( 'version' ), '5.7', '>=' ) ) {
-			$inline_styles  = '#wpadminbar .wpforms-menu-notification-indicator { background-color: #d63638 !important; }';
-			$inline_styles .= '#wpadminbar .wpforms-menu-notification-counter { background-color: #d63638 !important; }';
-
-			wp_add_inline_style( 'wpforms-admin-bar', $inline_styles );
+		// Apply WordPress pre/post 5.7 accent color, only when admin bar is displayed on the frontend or we're
+		// inside the Form Builder - it does not load some WP core admin styles, including themes.
+		if ( wpforms_is_admin_page( 'builder' ) || ! is_admin() ) {
+			wp_add_inline_style(
+				'wpforms-admin-bar',
+				sprintf(
+					'#wpadminbar .wpforms-menu-notification-counter, #wpadminbar .wpforms-menu-notification-indicator {
+						background-color: %s !important;
+						color: #ffffff !important;
+					}',
+					version_compare( get_bloginfo( 'version' ), '5.7', '<' ) ? '#ca4a1f' : '#d63638'
+				)
+			);
 		}
 	}
 
@@ -104,9 +113,8 @@ class AdminBarMenu {
 	 */
 	public function enqueue_js() {
 
-		// In WordPress 5.3.1 the `admin-bar.js` file was rewritten and removed all jQuery dependencies.
-		$is_wp_531_plus = version_compare( get_bloginfo( 'version' ), '5.3.1', '>=' );
-		$inline_script  = sprintf(
+		wp_add_inline_script(
+			'admin-bar',
 			"( function() {
 				function wpforms_admin_bar_menu_init() {
 					var template = document.getElementById( 'tmpl-wpforms-admin-menubar-data' ),
@@ -118,17 +126,20 @@ class AdminBarMenu {
 
 					if ( ! notifications ) {
 						var menu = document.getElementById( 'wp-admin-bar-wpforms-menu-default' );
+
+						if ( ! menu ) {
+							return;
+						}
+
 						menu.insertAdjacentHTML( 'afterBegin', template.innerHTML );
 					} else {
 						notifications.insertAdjacentHTML( 'afterend', template.innerHTML );
 					}
 				};
-				%s
+				document.addEventListener( 'DOMContentLoaded', wpforms_admin_bar_menu_init );
 			}() );",
-			$is_wp_531_plus ? "document.addEventListener( 'DOMContentLoaded', wpforms_admin_bar_menu_init );" : "if ( typeof( jQuery ) != 'undefined' ) { jQuery( wpforms_admin_bar_menu_init ); } else { document.addEventListener( 'DOMContentLoaded', wpforms_admin_bar_menu_init ); }"
+			'before'
 		);
-
-		wp_add_inline_script( 'admin-bar', $inline_script, 'before' );
 	}
 
 	/**
@@ -136,9 +147,9 @@ class AdminBarMenu {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function register( \WP_Admin_Bar $wp_admin_bar ) {
+	public function register( WP_Admin_Bar $wp_admin_bar ) {
 
 		$items = (array) apply_filters(
 			'wpforms_admin_adminbarmenu_register',
@@ -146,6 +157,7 @@ class AdminBarMenu {
 				'main_menu',
 				'notification_menu',
 				'all_forms_menu',
+				'all_payments_menu',
 				'add_new_menu',
 				'community_menu',
 				'support_menu',
@@ -166,16 +178,16 @@ class AdminBarMenu {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function main_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function main_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		$indicator     = '';
 		$notifications = $this->has_notifications();
 
 		if ( $notifications ) {
 			$count     = $notifications < 10 ? $notifications : '!';
-			$indicator = ' <div class="wpforms-menu-notification-counter"><span>' . $count . '</span></div>';
+			$indicator = ' <div class="wp-core-ui wp-ui-notification wpforms-menu-notification-counter">' . $count . '</div>';
 		}
 
 		$wp_admin_bar->add_menu(
@@ -192,9 +204,9 @@ class AdminBarMenu {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function notification_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function notification_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		if ( ! $this->has_notifications() ) {
 			return;
@@ -204,7 +216,7 @@ class AdminBarMenu {
 			[
 				'parent' => 'wpforms-menu',
 				'id'     => 'wpforms-notifications',
-				'title'  => esc_html__( 'Notifications', 'wpforms-lite' ) . ' <div class="wpforms-menu-notification-indicator"></div>',
+				'title'  => esc_html__( 'Notifications', 'wpforms-lite' ) . ' <div class="wp-core-ui wp-ui-notification wpforms-menu-notification-indicator"></div>',
 				'href'   => admin_url( 'admin.php?page=wpforms-overview' ),
 			]
 		);
@@ -215,9 +227,9 @@ class AdminBarMenu {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function all_forms_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function all_forms_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu(
 			[
@@ -230,13 +242,37 @@ class AdminBarMenu {
 	}
 
 	/**
+	 * Render All Payments admin bar menu item.
+	 *
+	 * @since 1.8.4
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 */
+	public function all_payments_menu( WP_Admin_Bar $wp_admin_bar ) {
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => 'wpforms-menu',
+				'id'     => 'wpforms-payments',
+				'title'  => esc_html__( 'Payments', 'wpforms-lite' ),
+				'href'   => add_query_arg(
+					[
+						'page' => 'wpforms-payments',
+					],
+					admin_url( 'admin.php' )
+				),
+			]
+		);
+	}
+
+	/**
 	 * Render Add New admin bar menu item.
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function add_new_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function add_new_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu(
 			[
@@ -253,9 +289,9 @@ class AdminBarMenu {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function community_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function community_menu( WP_Admin_Bar $wp_admin_bar ) {
 
 		$wp_admin_bar->add_menu(
 			[
@@ -275,17 +311,28 @@ class AdminBarMenu {
 	 * Render Support admin bar menu item.
 	 *
 	 * @since 1.6.0
+	 * @since 1.7.4 Update the `Support` item title to `Help Docs`.
 	 *
-	 * @param \WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
 	 */
-	public function support_menu( \WP_Admin_Bar $wp_admin_bar ) {
+	public function support_menu( WP_Admin_Bar $wp_admin_bar ) {
+
+		$href = add_query_arg(
+			[
+				'utm_campaign' => wpforms()->is_pro() ? 'plugin' : 'liteplugin',
+				'utm_medium'   => 'admin-bar',
+				'utm_source'   => 'WordPress',
+				'utm_content'  => 'Documentation',
+			],
+			'https://wpforms.com/docs/'
+		);
 
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => 'wpforms-menu',
-				'id'     => 'wpforms-support',
-				'title'  => esc_html__( 'Support', 'wpforms-lite' ),
-				'href'   => 'https://wpforms.com/docs/',
+				'id'     => 'wpforms-help-docs',
+				'title'  => esc_html__( 'Help Docs', 'wpforms-lite' ),
+				'href'   => $href,
 				'meta'   => [
 					'target' => '_blank',
 					'rel'    => 'noopener noreferrer',
@@ -298,6 +345,7 @@ class AdminBarMenu {
 	 * Get form data for JS to modify the admin bar menu.
 	 *
 	 * @since 1.6.5
+	 * @since 1.8.4 Added the View Payments link.
 	 *
 	 * @param array $forms Forms array.
 	 *
@@ -309,9 +357,12 @@ class AdminBarMenu {
 			'has_notifications' => $this->has_notifications(),
 			'edit_text'         => esc_html__( 'Edit Form', 'wpforms-lite' ),
 			'entry_text'        => esc_html__( 'View Entries', 'wpforms-lite' ),
+			'payment_text'      => esc_html__( 'View Payments', 'wpforms-lite' ),
 			'survey_text'       => esc_html__( 'Survey Results', 'wpforms-lite' ),
 			'forms'             => [],
 		];
+
+		$admin_url = admin_url( 'admin.php' );
 
 		foreach ( $forms as $form ) {
 			$form_id = absint( $form['id'] );
@@ -320,10 +371,10 @@ class AdminBarMenu {
 				continue;
 			}
 
-			/* translators: %d - Form ID */
+			/* translators: %d - form ID. */
 			$form_title = sprintf( esc_html__( 'Form ID: %d', 'wpforms-lite' ), $form_id );
 
-			if ( ! empty( $form['settings'] ) && ! empty( $form['settings']['form_title'] ) ) {
+			if ( ! empty( $form['settings']['form_title'] ) ) {
 				$form_title = wp_html_excerpt(
 					sanitize_text_field( $form['settings']['form_title'] ),
 					99,
@@ -331,12 +382,28 @@ class AdminBarMenu {
 				);
 			}
 
+			$has_payments = wpforms()->obj( 'payment' )->get_by( 'form_id', $form_id );
+
 			$data['forms'][] = apply_filters(
 				'wpforms_admin_adminbarmenu_get_form_data',
 				[
-					'form_id'  => $form_id,
-					'title'    => $form_title,
-					'edit_url' => admin_url( 'admin.php?page=wpforms-builder&view=fields&form_id=' . $form_id ),
+					'form_id'      => $form_id,
+					'title'        => $form_title,
+					'edit_url'     => add_query_arg(
+						[
+							'page'    => 'wpforms-builder',
+							'view'    => 'fields',
+							'form_id' => $form_id,
+						],
+						$admin_url
+					),
+					'payments_url' => $has_payments ? add_query_arg(
+						[
+							'page'    => 'wpforms-payments',
+							'form_id' => $form_id,
+						],
+						$admin_url
+					) : '',
 				]
 			);
 		}
@@ -357,7 +424,8 @@ class AdminBarMenu {
 			return;
 		}
 
-		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render(
 			'admin-bar-menu',
 			[
 				'forms_data' => $this->get_forms_data( $forms ),

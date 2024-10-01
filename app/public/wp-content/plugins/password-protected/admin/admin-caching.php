@@ -46,7 +46,7 @@ class Password_Protected_Admin_Caching {
 		// Caching Section
 		add_settings_section(
 			'password_protected_compat_caching',
-			__( 'Caching', 'password-protected' ),
+			__( 'Having issue with Caching?', 'password-protected' ),
 			array( $this, 'section_caching' ),
 			'password-protected-compat'
 		);
@@ -56,6 +56,14 @@ class Password_Protected_Admin_Caching {
 			'password_protected_compat_caching_cookie',
 			__( 'Cookie Name', 'password-protected' ),
 			array( $this, 'field_cookies' ),
+			'password-protected-compat',
+			'password_protected_compat_caching'
+		);
+
+		add_settings_field(
+			'password_protected_documentation',
+			__( 'Documentation', 'password-protected' ),
+			array( $this, 'documentation' ),
 			'password-protected-compat',
 			'password_protected_compat_caching'
 		);
@@ -110,6 +118,10 @@ class Password_Protected_Admin_Caching {
 		echo '<p><code>' . esc_html( $this->plugin->cookie_name() ) . '</code></p>';
 		echo '<p class="description">' . __( 'Can be changed using the `password_protected_cookie_name` filter.', 'password-protected' ) . '</p>';
 
+	}
+
+	public function documentation() {
+		echo '<a href="https://passwordprotectedwp.com/documentation?utm_source=documentation&utm_medium=help-tab">Documentation</a>';
 	}
 
 	/**

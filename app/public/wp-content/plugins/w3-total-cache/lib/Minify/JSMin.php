@@ -329,7 +329,9 @@ class JSMin {
 				$c = null;
 			}
 		}
-		if (ord($c) >= self::ORD_SPACE || $c === "\n" || $c === null) {
+		if ( $c === "\n" || $c === null) {
+			return $c;
+		} elseif ( ord($c) >= self::ORD_SPACE ) {
 			return $c;
 		}
 		if ($c === "\r") {
@@ -380,6 +382,9 @@ class JSMin {
 		$comment = '';
 		while (true) {
 			$get = $this->get();
+			if ( null === $get ) {
+				return;
+			}
 			$comment .= $get;
 			if (ord($get) <= self::ORD_LF) { // end of line reached
 				// if IE conditional comment

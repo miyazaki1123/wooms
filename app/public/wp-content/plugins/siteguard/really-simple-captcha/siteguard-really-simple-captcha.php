@@ -65,7 +65,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 	public function __construct() {
 		$this->lang_mode        = 'jp';
 		$this->char_length      = 4;
-		$this->tmp_dir          = path_join( dirname( __FILE__ ), 'tmp' );
+		$this->tmp_dir          = path_join( WP_CONTENT_DIR, 'siteguard' );
 		$this->img_size         = array( 72, 24 );
 		$this->base             = array( 6, 18 );
 		$this->font_size        = 14;
@@ -86,18 +86,19 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$chars_en = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 		$chars_jp = 'あいうえおかきくけこさしすせそたちつてとなにのひふへまみむもやゆよらりん';
 
+		$chars = '';
 		$word = '';
 
 		if ( 'jp' == $this->lang_mode ) {
-			$this->chars = $chars_jp;
+			$chars = $chars_jp;
 		} else {
-			$this->chars = $chars_en;
+			$chars = $chars_en;
 		}
 
-		$chars_size = mb_strlen( $this->chars );
+		$chars_size = mb_strlen( $chars );
 		for ( $i = 0; $i < $this->char_length; $i++ ) {
-			$pos   = mt_rand( 0, $chars_size - 1 );
-			$char  = mb_substr( $this->chars, $pos, 1 );
+			$pos   = siteguard_rand( 0, $chars_size - 1 );
+			$char  = mb_substr( $chars, $pos, 1 );
 			$word .= $char;
 		}
 
@@ -120,7 +121,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 
 		/* Array of fonts. Randomly picked up per character */
 		if ( 'jp' == $this->lang_mode ) {
-			$this->fonts = array(
+			$fonts = array(
 				dirname( __FILE__ ) . '/mplus-TESTFLIGHT-058/mplus-1c-hiragana-black.ttf',
 				// dirname( __FILE__ ) . '/mplus-TESTFLIGHT-058/mplus-1c-hiragana-bold.ttf',
 				// dirname( __FILE__ ) . '/mplus-TESTFLIGHT-058/mplus-1c-hiragana-heavy.ttf',
@@ -166,7 +167,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 				// dirname( __FILE__ ) . '/mplus-TESTFLIGHT-058/mplus-2p-hiragana-thin.ttf',
 			);
 		} else {
-			$this->fonts = array(
+			$fonts = array(
 				dirname( __FILE__ ) . '/gentium/GenBkBasR.ttf',
 				dirname( __FILE__ ) . '/gentium/GenBkBasI.ttf',
 				dirname( __FILE__ ) . '/gentium/GenBkBasBI.ttf',
@@ -186,22 +187,22 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 			// randam lines
 			for ( $i = 0; $i < 5; $i++ ) {
 				$color = imagecolorallocate( $im, 196, 196, 196 );
-				imageline( $im, mt_rand( 0, $this->img_size[0] - 1 ), mt_rand( 0, $this->img_size[1] - 1 ), mt_rand( 0, $this->img_size[0] - 1 ), mt_rand( 0, $this->img_size[1] - 1 ), $color );
+				imageline( $im, siteguard_rand( 0, $this->img_size[0] - 1 ), siteguard_rand( 0, $this->img_size[1] - 1 ), siteguard_rand( 0, $this->img_size[0] - 1 ), siteguard_rand( 0, $this->img_size[1] - 1 ), $color );
 			}
 
-			$x = $this->base[0] + mt_rand( -2, 2 );
+			$x = $this->base[0] + siteguard_rand( -2, 2 );
 
 			$gd_info   = gd_info();
 			$word_size = mb_strlen( $word );
 			for ( $i = 0; $i < $word_size; $i++ ) {
-				$font = $this->fonts[ array_rand( $this->fonts ) ];
+				$font = $fonts[ array_rand( $fonts ) ];
 				$font = $this->normalize_path( $font );
 				if ( $gd_info['JIS-mapped Japanese Font Support'] ) {
 					$char = mb_convert_encoding( mb_substr( $word, $i, 1 ), 'SJIS', 'UTF-8' );
 				} else {
 					$char = mb_substr( $word, $i, 1 );
 				}
-				imagettftext( $im, $this->font_size, mt_rand( -12, 12 ), $x, $this->base[1] + mt_rand( -2, 2 ), $fg, $font, $char );
+				imagettftext( $im, $this->font_size, siteguard_rand( -12, 12 ), $x, $this->base[1] + siteguard_rand( -2, 2 ), $fg, $font, $char );
 				$x += $this->font_char_width;
 			}
 
@@ -253,7 +254,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 			fwrite( $fh, $code );
 			fclose( $fh );
 		} else {
-			siteguard_error_log( 'failed to open file (' . $answer_file . '). : ' . __FILENAME__ );
+			siteguard_error_log( 'failed to open file (' . $answer_file . '). : ' . __FILE__ );
 		}
 
 		@chmod( $answer_file, $this->answer_file_mode );
@@ -327,14 +328,14 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$dir = $this->normalize_path( $dir );
 
 		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) ) {
-			siteguard_error_log( $dir . ' is not directory or readable. :' . __FILENAME__ );
+			siteguard_error_log( $dir . ' is not directory or readable. :' . __FILE__ );
 			return false;
 		}
 
 		$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
 
 		if ( ! ( $is_win ? win_is_writable( $dir ) : @is_writable( $dir ) ) ) {
-			siteguard_error_log( $dir . ' is not writable. :' . __FILENAME__ );
+			siteguard_error_log( $dir . ' is not writable. :' . __FILE__ );
 			return false;
 		}
 
@@ -376,7 +377,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$dir = $this->normalize_path( $dir );
 
 		if ( ! wp_mkdir_p( $dir ) ) {
-			siteguard_error_log( 'failed to make directory (' . $dir . '). :' . __FILENAME__ );
+			siteguard_error_log( 'failed to make directory (' . $dir . '). :' . __FILE__ );
 			return false;
 		}
 
@@ -393,7 +394,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 				fwrite( $handle, 'RewriteRule \.txt - [F]' . "\n" );
 				fclose( $handle );
 			} else {
-				siteguard_error_log( 'failed to open file (' . $htaccess_file . '). :' . __FILENAME__ );
+				siteguard_error_log( 'failed to open file (' . $htaccess_file . '). :' . __FILE__ );
 			}
 		}
 

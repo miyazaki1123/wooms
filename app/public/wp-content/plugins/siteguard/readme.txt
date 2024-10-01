@@ -3,8 +3,8 @@ Contributors: jp-secure
 Donate link: -
 Tags: security, waf, brute force, password list, login lock, login alert, captcha, pingback, fail once
 Requires at least: 3.9
-Tested up to: 6.1
-Stable tag: 1.7.3
+Tested up to: 6.6
+Stable tag: 1.7.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,17 @@ If you have created your own language pack, or have an update of an existing one
 [Japanese Page](https://www.jp-secure.com/siteguard_wp_plugin/faq/)
 
 == Changelog ==
+= 1.7.8 =
+* Fix a warning that occurred from ver1.7.7
+= 1.7.7 =
+* Fix a bug where renamed login URL was leaked when wp-register.php was accessed
+= 1.7.6 =
+* Fix a problem that a warning occurred on the Login screen in the PHP8.x environment
+= 1.7.5 =
+* Fix a problem that a serious error occurred on the Updates Notify screen in the PHP8.x environment
+= 1.7.4 =
+* Changed the directory to store CAPTCHA image files to wp-content/siteguard/
+* Fix some bugs
 = 1.7.3 =
 * Fix an issue where password reset could not be sent from the management page when CAPTCHA was enabled
 = 1.7.2 =

@@ -126,8 +126,11 @@ abstract class Module extends Base_Object {
 	 * @access public
 	 */
 	public function __clone() {
-		// Cloning instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'elementor' ), '1.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf( 'Cloning instances of the singleton "%s" class is forbidden.', get_class( $this ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'1.0.0'
+		);
 	}
 
 	/**
@@ -139,8 +142,11 @@ abstract class Module extends Base_Object {
 	 * @access public
 	 */
 	public function __wakeup() {
-		// Unserializing instances of the class is forbidden
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Something went wrong.', 'elementor' ), '1.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf( 'Unserializing instances of the singleton "%s" class is forbidden.', get_class( $this ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'1.0.0'
+		);
 	}
 
 	/**
@@ -281,6 +287,25 @@ abstract class Module extends Base_Object {
 	}
 
 	/**
+	 * Get Frontend File URL
+	 *
+	 * Returns the URL for the CSS file to be loaded in the front end. If requested via the second parameter, a custom
+	 * file is generated based on a passed template file name. Otherwise, the URL for the default CSS file is returned.
+	 *
+	 * @since 3.24.0
+	 *
+	 * @access public
+	 *
+	 * @param string $file_name
+	 * @param boolean $has_custom_breakpoints
+	 *
+	 * @return string frontend file URL
+	 */
+	public function get_frontend_file_url( $file_name, $has_custom_breakpoints ) {
+		return Plugin::$instance->frontend->get_frontend_file_url( $file_name, $has_custom_breakpoints );
+	}
+
+	/**
 	 * Get assets base url
 	 *
 	 * @since 2.6.0
@@ -322,11 +347,11 @@ abstract class Module extends Base_Object {
 		foreach ( $this->get_widgets() as $widget ) {
 			$class_name = $this->get_reflection()->getNamespaceName() . '\Widgets\\' . $widget;
 
-			$widget_manager->register_widget_type( new $class_name() );
+			$widget_manager->register( new $class_name() );
 		}
 	}
 
 	public function __construct() {
-		add_action( 'elementor/widgets/widgets_registered', [ $this, 'init_widgets' ] );
+		add_action( 'elementor/widgets/register', [ $this, 'init_widgets' ] );
 	}
 }

@@ -2,10 +2,10 @@
 Contributors: inc2734, rocketmartue
 Donate link: https://www.amazon.co.jp/registry/wishlist/39ANKRNSTNW40
 Tags: gutenberg, block, blocks, editor, gutenberg blocks, page builder
-Requires at least: 5.9
-Tested up to: 5.9
-Stable tag: 7.0.1
-Requires PHP: 5.6
+Requires at least: 6.6
+Tested up to: 6.6
+Stable tag: 10.0.4
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Click Snow Monkey button in toolbar.
 * Text highlighter
 * Text color
 * Text letter spacing
+* Line break per screen size
 * Format clear
 
 = Extensions =
@@ -40,6 +41,12 @@ You can settings in inspector.
 * Unpublish date time settings
 * Edit lock by user roles. (Only administrators can set it)
 
+= Block presets =
+
+This feature allows you to save the settings of a block and set them for other blocks of the same type at the touch of a button.
+
+(The number of blocks/attributes that can be used by the block preset feature is limited by default.)
+
 = Block styles =
 
 There can be used in paragraph blocks, group blocks, image blocks, etc.
@@ -52,7 +59,10 @@ There can be used in paragraph blocks, group blocks, image blocks, etc.
 * Post-it
 * Post-it (Narrow)
 * Shadowed
-* Speech
+* Speech (Top)
+* Speech (Right)
+* Speech (Bottom)
+* Speech (Left)
 * List (Arrow)
 * List (Check)
 * List (Remarks)
@@ -181,6 +191,97 @@ Yes! You can use the Snow Monkey Editor with any theme, but we recommend using o
 28. List (Times)
 
 == Changelog ==
+
+= 10.0.4 =
+* Replace node-sass to sass.
+
+= 10.0.3 =
+* Fixed a bug that caused the editor to crash when converting paragraph blocks to list blocks.
+
+= 10.0.2 =
+* Fixed a bug that caused the editor to crash when converting paragraph blocks to list blocks.
+
+= 10.0.1 =
+* Fixed a bug where CSS for animations was also being applied in the editor.
+* Update block styles Specificity.
+
+= 10.0.0 =
+* WordPress 6.6 compatible.
+
+= 9.4.0 =
+* Requires WordPress 6.5 or later.
+* Add new format "Line break per screen size".
+
+= 9.3.3 =
+* The width of the format popover is now the same as the width of the popover in the block settings panel.
+* Fixed a bug that caused the popover to move to the upper left corner of the screen when formatting unformatted text.
+
+= 9.3.1 =
+* Fix for JavaScript alert message.
+
+= 9.3.0 =
+* Set `defer` attribute to `wp_enqueue_script()`.
+
+= 9.2.5 =
+* Fixed a bug that blocks with display settings by window size may switch display at unintended timing.
+
+= 9.2.4 =
+* Fix PHP fatal error.
+
+= 9.2.3 =
+* Fix PHP fatal error.
+
+= 9.2.2 =
+* Fixed a bug that caused a blank screen in the post editor for custom post types with their own permissions set.
+
+= 9.2.1 =
+* Changed the display position of the presets and extensions settings panel to the bottom.
+
+= 9.2.0 =
+* Fixed a bug that could cause text to disappear when a preset is applied to a paragraph block.
+* Update CSS.
+* Add block styles. "Speech (Left)", "Speech (Top)" and "Speech (Right)".
+* Change `Popover.isAlternate` to `Popover.variant`.
+
+= 9.1.2 =
+* Fix PHP Warning error.
+* Fixed a bug that broke blocks when selecting colors defined in CSS vars in the highlighter.
+* Update badge style.
+
+= 9.1.1 =
+* Fixed a bug that block was broken when changing the block style with a user belonging to a custom role.
+* Fixed a bug that when the font size format picker was opened with the font size format already set, the set font size was sometimes not selected.
+
+= 9.1.0 =
+* Add block presets feature.
+
+= 9.0.3 =
+* Fixed a bug that the extension panel of "Snow Monkey Editor" displayed an empty panel even for blocks that did not need it.
+
+= 9.0.2 =
+* Update the extension panel UI.
+
+= 9.0.1 =
+* Added reset button to font size format.
+* Fixed a bug that popover sometimes jumps to the upper left corner of the screen when setting colors in text color, background color, highlighter, and badge.
+* Changed Popover to close when letter spacing, line height, and fon tsize are reset.
+
+= 9.0.0 =
+* Requires WordPress 6.1 or later.
+* Updated the display to make it easier to see the display restrictions by role on the editor.
+* Fixed a bug where margins were not given inside the formatting popover for non-Snow Monkey themes.
+
+= 8.0.2 =
+* Fixed that the picker closes when a number is crossed out or 0 is entered for font size, letter spacing, and line height.
+
+= 8.0.1 =
+* Fix PHP error.
+
+= 8.0.0 =
+* Requires WordPress 6.0 or later.
+* Changed font-size and line-height format `display` from `inline-block` to `inline` in the list.
+* Changed so that extensions settings are not displayed in the classic block.
+* Fixed a bug that the icons displayed on the block toolbar did not reflect the proper color when formatting was applied.
 
 = 7.0.1 =
 * Update sass-basis@17.0.0

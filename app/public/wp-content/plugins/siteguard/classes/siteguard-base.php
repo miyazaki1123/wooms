@@ -17,6 +17,17 @@ function siteguard_error_dump( $title, $obj ) {
 	siteguard_error_log( "$title: $msg" );
 }
 
+function siteguard_rand( $min = null, $max = null ) {
+	$ret = 0;
+	mt_srand();
+	if ( $min === null or $max === null ) {
+		$ret = mt_rand();
+	} else {
+		$ret = mt_rand( $min, $max );
+	}
+	return $ret;
+}
+
 function siteguard_check_multisite() {
 	if ( ! is_multisite() ) {
 		return true;

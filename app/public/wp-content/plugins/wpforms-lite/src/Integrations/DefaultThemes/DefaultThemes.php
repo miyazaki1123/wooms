@@ -26,6 +26,13 @@ class DefaultThemes implements IntegrationInterface {
 	const TT1 = 'twentytwentyone';
 
 	/**
+	 * OceanWP theme name.
+	 *
+	 * @since 1.9.1
+	 */
+	const OCEANWP = 'oceanwp';
+
+	/**
 	 * Current theme name.
 	 *
 	 * @since 1.6.6
@@ -35,7 +42,7 @@ class DefaultThemes implements IntegrationInterface {
 	private $current_theme;
 
 	/**
-	 * Determinate default theme.
+	 * Determine if WordPress default theme is used.
 	 *
 	 * @since 1.6.6
 	 *
@@ -43,7 +50,7 @@ class DefaultThemes implements IntegrationInterface {
 	 */
 	private function get_current_default_theme() {
 
-		$allowed_themes = [ self::TT, self::TT1 ];
+		$allowed_themes = [ self::TT, self::TT1, self::OCEANWP ];
 		$theme          = wp_get_theme();
 		$theme_name     = $theme->get_template();
 		$theme_parent   = $theme->parent();
@@ -53,7 +60,7 @@ class DefaultThemes implements IntegrationInterface {
 	}
 
 	/**
-	 * Allow load integration.
+	 * Indicate if current integration is allowed to load.
 	 *
 	 * @since 1.6.6
 	 *
@@ -67,7 +74,7 @@ class DefaultThemes implements IntegrationInterface {
 	}
 
 	/**
-	 * Load integration.
+	 * Load an integration.
 	 *
 	 * @since 1.6.6
 	 */
@@ -84,24 +91,34 @@ class DefaultThemes implements IntegrationInterface {
 
 			return;
 		}
+
+		if ( $this->current_theme === self::OCEANWP ) {
+			$this->ocean_hooks();
+		}
 	}
 
 	/**
-	 * Load hooks for the Twenty Twenty theme.
+	 * Hooks for the Twenty Twenty theme.
 	 *
 	 * @since 1.6.6
 	 */
-	private function tt_hooks() {
+	private function tt_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'tt_iframe_fix' ], 11 );
+
+		add_action( 'wpforms_frontend_css', [ $this, 'tt_dropdown_fix' ] );
 	}
 
 	/**
-	 * Load hooks for the Twenty Twenty-One theme.
+	 * Hooks for the Twenty Twenty-One theme.
 	 *
 	 * @since 1.6.6
 	 */
-	private function tt1_hooks() {
+	private function tt1_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+		if ( wpforms_get_render_engine() === 'modern' ) {
+			return;
+		}
 
 		$form_styling = wpforms_setting( 'disable-css', '1' );
 
@@ -115,9 +132,62 @@ class DefaultThemes implements IntegrationInterface {
 		}
 	}
 
+	/**
+	 * Hooks for the OceanWP theme.
+	 *
+	 * @since 1.9.1
+	 */
+	private function ocean_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+		add_action( 'wp_enqueue_scripts', [ $this, 'ocean_button_hover' ], 100 );
+	}
 
 	/**
-	 * Apply fix for checkboxes and radio fields in the Twenty Twenty-One theme.
+	 * Apply button hover fix for OceanWP theme.
+	 *
+	 * @since 1.9.1
+	 */
+	public function ocean_button_hover() {
+
+		// Only full styles are supported.
+		if ( (int) wpforms_setting( 'disable-css', 1 ) !== 1 ) {
+			return;
+		}
+
+		$styles = wpforms_get_render_engine() === 'modern' ?
+			/** @lang CSS */
+			'body div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			body div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			body div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			body div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form .wpforms-page-button:active {
+					background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--wpforms-button-background-color-alt, var(--wpforms-button-background-color)) !important;
+			}' :
+			/** @lang CSS */
+			'div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			div.wpforms-container-full .wpforms-form input[type=submit]:focus,
+			div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			div.wpforms-container-full .wpforms-form button[type=submit]:focus,
+			div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:active,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:focus {
+				border: none;
+			}';
+
+		wp_add_inline_style( 'oceanwp-style', $styles );
+	}
+
+	/**
+	 * Apply fix for Checkboxes and Radio fields in the Twenty Twenty-One theme.
 	 *
 	 * @since 1.6.6
 	 */
@@ -125,7 +195,7 @@ class DefaultThemes implements IntegrationInterface {
 
 		wp_add_inline_style(
 			'twenty-twenty-one-style',
-			// language=CSS PhpStorm.
+			/** @lang CSS */
 			'@supports (-webkit-appearance: none) or (-moz-appearance: none) {
 				div.wpforms-container-full .wpforms-form input[type=checkbox] {
 					-webkit-appearance: checkbox;
@@ -144,7 +214,7 @@ class DefaultThemes implements IntegrationInterface {
 	}
 
 	/**
-	 * Apply fix for dropdown field arrow, when it disappeared from select in the Twenty Twenty-One theme.
+	 * Apply fix for Dropdown field arrow, when it disappeared from select in the Twenty Twenty-One theme.
 	 *
 	 * @since 1.6.8
 	 */
@@ -152,17 +222,18 @@ class DefaultThemes implements IntegrationInterface {
 
 		wp_add_inline_style(
 			'twenty-twenty-one-style',
-			// language=CSS PhpStorm.
+			/** @lang CSS */
 			'div.wpforms-container-full form.wpforms-form select {
 				background-image: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' fill=\'%2328303d\'><polygon points=\'0,0 10,0 5,5\'/></svg>");
 				background-repeat: no-repeat;
 				background-position: right var(--form--spacing-unit) top 60%;
+				padding-right: calc(var(--form--spacing-unit) * 2.5);
 			}'
 		);
 	}
 
 	/**
-	 * Apply fix for checkboxes and radio fields width in the Twenty Twenty-One theme, when the user uses only base styles.
+	 * Apply fix for Checkboxes and Radio fields width in the Twenty Twenty-One theme, when the user uses only base styles.
 	 *
 	 * @since 1.6.8
 	 */
@@ -170,7 +241,7 @@ class DefaultThemes implements IntegrationInterface {
 
 		wp_add_inline_style(
 			'twenty-twenty-one-style',
-			// language=CSS PhpStorm.
+			/** @lang CSS */
 			'.wpforms-container .wpforms-field input[type=checkbox],
 			.wpforms-container .wpforms-field input[type=radio] {
 				width: 25px;
@@ -184,7 +255,7 @@ class DefaultThemes implements IntegrationInterface {
 	}
 
 	/**
-	 * Apply resize-fix for iframe HTML element, when the next page was clicked in the Twenty Twenty theme.
+	 * Apply resize fix for iframe HTML element, when the next page was clicked in the Twenty Twenty theme.
 	 *
 	 * @since 1.6.6
 	 */
@@ -192,22 +263,52 @@ class DefaultThemes implements IntegrationInterface {
 
 		wp_add_inline_script(
 			'twentytwenty-js',
-			// language=JavaScript PhpStorm.
+			/** @lang JavaScript */
 			'window.addEventListener( "load", function() {
 
 				if ( typeof jQuery === "undefined" ) {
 					return;
 				}
 
-				jQuery( document ).on( "wpformsPageChange", function() { 
+				jQuery( document ).on( "wpformsPageChange wpformsShowConditionalsField", function() {
 
 					if ( typeof twentytwenty === "undefined" || typeof twentytwenty.intrinsicRatioVideos === "undefined" || typeof twentytwenty.intrinsicRatioVideos.makeFit === "undefined" ) {
 						return;
 					}
-	
+
 					twentytwenty.intrinsicRatioVideos.makeFit();
+				} );
+
+				jQuery( document ).on( "wpformsRichTextEditorInit", function( e, editor ) {
+
+					jQuery( editor.container ).find( "iframe" ).addClass( "intrinsic-ignore" );
 				} );
 			} );'
 		);
 	}
+
+	/**
+	 * Apply fix for the dropdown list in Twenty Twenty theme.
+	 *
+	 * @since 1.7.3
+	 */
+	public function tt_dropdown_fix() {
+
+		static $fixed = false;
+
+		if ( $fixed ) {
+			return;
+		}
+
+		?>
+		<style>
+			#site-content {
+				overflow: visible !important;
+			}
+		</style>
+		<?php
+
+		$fixed = true;
+	}
+
 }

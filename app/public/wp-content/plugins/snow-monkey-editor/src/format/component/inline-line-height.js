@@ -1,19 +1,22 @@
-import { URLPopover } from '@wordpress/block-editor';
-import { RangeControl, withSpokenMessages } from '@wordpress/components';
-import { useCallback, useMemo } from '@wordpress/element';
 import {
-	applyFormat,
-	removeFormat,
-	getActiveFormat,
-} from '@wordpress/rich-text';
+	RangeControl,
+	withSpokenMessages,
+	Popover,
+	Button,
+} from '@wordpress/components';
 
-import { useAnchorRef } from './use-anchor-ref';
+import { getActiveFormat, useAnchor } from '@wordpress/rich-text';
+
+import { useCachedTruthy } from '@wordpress/block-editor';
+import { useMemo } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 export function getActiveLineHeight( formatName, formatValue ) {
 	const activeLineHeightFormat = getActiveFormat( formatValue, formatName );
 	if ( ! activeLineHeightFormat ) {
 		return;
 	}
+
 	const styleLineHeight = activeLineHeightFormat.attributes.style;
 	if ( styleLineHeight ) {
 		return parseFloat(
@@ -22,42 +25,33 @@ export function getActiveLineHeight( formatName, formatValue ) {
 	}
 }
 
-const LineHeightPicker = ( { name, title, value, onChange, onClose } ) => {
-	const onLineHeightChange = useCallback(
-		( lineHeight ) => {
-			if ( lineHeight ) {
-				onChange(
-					applyFormat( value, {
-						type: name,
-						attributes: {
-							style: `line-height: ${ lineHeight }`,
-						},
-					} )
-				);
-			} else {
-				onChange( removeFormat( value, name ) );
-				onClose();
-			}
-		},
-		[ onChange ]
-	);
-
+const LineHeightPicker = ( { name, title, value, onChange, onReset } ) => {
 	const activeLineHeight = useMemo(
 		() => getActiveLineHeight( name, value ),
 		[ name, value ]
 	);
 
 	return (
-		<RangeControl
-			label={ title }
-			value={ activeLineHeight }
-			onChange={ onLineHeightChange }
-			min="0"
-			max="5"
-			step="0.1"
-			initialPosition={ undefined }
-			allowReset
-		/>
+		<>
+			<RangeControl
+				label={ title }
+				value={ activeLineHeight }
+				onChange={ onChange }
+				min="0"
+				max="5"
+				step="0.1"
+				initialPosition={ undefined }
+			/>
+
+			<Button
+				disabled={ value === undefined }
+				variant="secondary"
+				isSmall
+				onClick={ onReset }
+			>
+				{ __( 'Reset' ) }
+			</Button>
+		</>
 	);
 };
 
@@ -67,16 +61,23 @@ const InlineLineHeightUI = ( {
 	value,
 	onChange,
 	onClose,
+	onReset,
 	contentRef,
 	settings,
 } ) => {
-	const anchorRef = useAnchorRef( { ref: contentRef, value, settings } );
+	const popoverAnchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings,
+	} );
+
+	const cachedRect = useCachedTruthy( popoverAnchor.getBoundingClientRect() );
+	popoverAnchor.getBoundingClientRect = () => cachedRect;
+
 	return (
-		<URLPopover
-			value={ value }
+		<Popover
+			anchor={ popoverAnchor }
 			onClose={ onClose }
 			className="sme-popover sme-popover--inline-line-height components-inline-color-popover"
-			anchorRef={ anchorRef }
 		>
 			<fieldset>
 				<LineHeightPicker
@@ -84,10 +85,10 @@ const InlineLineHeightUI = ( {
 					title={ title }
 					value={ value }
 					onChange={ onChange }
-					onClose={ onClose }
+					onReset={ onReset }
 				/>
 			</fieldset>
-		</URLPopover>
+		</Popover>
 	);
 };
 

@@ -3,8 +3,8 @@ Contributors: tmconnect
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XMLKD8H84HXB4&lc=US&item_name=Donation%20for%20WordPress%20Plugins&no_note=0&cn=Add%20a%20message%3a&no_shipping=1&currency_code=EUR
 Tags: acf, acfpro, advanced custom fields, column
 Requires at least: 4.7
-Tested up to: 6.1.1
-Stable tag: 1.2.3
+Tested up to: 6.3
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ However, since the column plugin have to modify the DOM tree, so that the column
 
 
 == Changelog ==
+
+= v1.2.5 =
+* PHP 8 Support
 
 = v1.2.3 =
 * Minor CSS changes

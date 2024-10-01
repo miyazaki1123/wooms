@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Includes\Elements\Container;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -248,6 +250,12 @@ class Elements_Manager {
 			$this->register_element_type( new $class_name() );
 		}
 
+		$experiments_manager = Plugin::$instance->experiments;
+
+		if ( $experiments_manager->is_feature_active( 'container' ) ) {
+			$this->register_element_type( new Container() );
+		}
+
 		/**
 		 * After elements registered.
 		 *
@@ -268,26 +276,53 @@ class Elements_Manager {
 	 */
 	private function init_categories() {
 		$this->categories = [
+			'layout' => [
+				'title' => esc_html__( 'Layout', 'elementor' ),
+				'hideIfEmpty' => true,
+			],
 			'basic' => [
 				'title' => esc_html__( 'Basic', 'elementor' ),
 				'icon' => 'eicon-font',
 			],
 			'pro-elements' => [
 				'title' => esc_html__( 'Pro', 'elementor' ),
+				'promotion' => [
+					'url' => esc_url( 'https://go.elementor.com/go-pro-section-pro-widget-panel/' ),
+				],
 			],
 			'general' => [
 				'title' => esc_html__( 'General', 'elementor' ),
 				'icon' => 'eicon-font',
 			],
+			'link-in-bio' => [
+				'title' => esc_html__( 'Link In Bio', 'elementor' ),
+				'hideIfEmpty' => true,
+			],
 			'theme-elements' => [
 				'title' => esc_html__( 'Site', 'elementor' ),
 				'active' => false,
+				'promotion' => [
+					'url' => esc_url( 'https://go.elementor.com/go-pro-section-site-widget-panel/' ),
+				],
 			],
 			'woocommerce-elements' => [
 				'title' => esc_html__( 'WooCommerce', 'elementor' ),
 				'active' => false,
+				'promotion' => [
+					'url' => esc_url( 'https://go.elementor.com/go-pro-section-woocommerce-widget-panel/' ),
+				],
 			],
 		];
+
+		// Not using the `add_category` because it doesn't allow 3rd party to inject a category on top the others.
+		$this->categories = array_merge_recursive( [
+			'favorites' => [
+				'title' => esc_html__( 'Favorites', 'elementor' ),
+				'icon' => 'eicon-heart',
+				'sort' => 'a-z',
+				'hideIfEmpty' => false,
+			],
+		], $this->categories );
 
 		/**
 		 * When categories are registered.
@@ -303,11 +338,6 @@ class Elements_Manager {
 		 * @param Elements_Manager $this Elements manager instance.
 		 */
 		do_action( 'elementor/elements/categories_registered', $this );
-
-		$this->categories['pojo'] = [
-			'title' => esc_html__( 'Pojo Themes', 'elementor' ),
-			'icon' => 'eicon-pojome',
-		];
 
 		$this->categories['wordpress'] = [
 			'title' => esc_html__( 'WordPress', 'elementor' ),

@@ -357,7 +357,7 @@ class S3Compatible
 		if (self::$useExceptions)
 			throw new S3Exception($message, $file, $line, $code);
 		else
-			trigger_error($message, E_USER_WARNING);
+			trigger_error( esc_html( $message ), E_USER_WARNING );
 	}
 
 
@@ -960,8 +960,6 @@ final class S3Request
 				$this->resource .= $query;
 		}
 		$url = (S3Compatible::$useSSL ? 'https://' : 'http://') . ($this->headers['Host'] !== '' ? $this->headers['Host'] : $this->endpoint) . $this->uri;
-
-		//var_dump('bucket: ' . $this->bucket, 'uri: ' . $this->uri, 'resource: ' . $this->resource, 'url: ' . $url);
 
 		// Basic setup
 		$curl = curl_init();

@@ -1,15 +1,9 @@
-.wp-block-code.is-style-sme-block-code-wrap {
-  white-space: pre-wrap !important;
-  overflow: auto;
-  padding: 0;
+:root :where(.wp-block-code.is-style-sme-block-code-wrap) {
+	white-space: pre-wrap !important;
+	overflow: auto;
 
-  code {
-    white-space: inherit !important;
-    display: block;
-    @include _padding(.5);
-
-    @include _media-min(md) {
-      @include _padding(.75);
-    }
-  }
+	:where(code) {
+		white-space: inherit !important;
+		display: block !important;
+	}
 }

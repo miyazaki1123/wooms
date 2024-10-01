@@ -25,7 +25,7 @@ if ( ! function_exists( 'astra_sites_error_log' ) ) :
 			}
 
 			if ( apply_filters( 'astra_sites_debug_logs', false ) ) {
-				error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- This is for the debug logs while importing. This is conditional and will not be logged in the debug.log file for normal users.
 			}
 		}
 	}
@@ -61,7 +61,7 @@ if ( ! function_exists( 'astra_sites_is_valid_image' ) ) :
 	 * @return boolean
 	 */
 	function astra_sites_is_valid_image( $link = '' ) {
-		return preg_match( '/^((https?:\/\/)|(www\.))([a-z0-9-].?)+(:[0-9]+)?\/[\w\-]+\.(jpg|png|gif|jpeg|svg)\/?$/i', $link );
+		return preg_match( '/^((https?:\/\/)|(www\.))([a-z0-9-].?)+(:[0-9]+)?\/[\w\-\@]+\.(jpg|png|gif|jpeg|svg)\/?$/i', $link );
 	}
 endif;
 
@@ -75,7 +75,8 @@ if ( ! function_exists( 'astra_get_site_data' ) ) :
 	 * @return mixed
 	 */
 	function astra_get_site_data( $index = '' ) {
-		$demo_data = get_option( 'astra_sites_import_data', array() );
+		
+		$demo_data = Astra_Sites_File_System::get_instance()->get_demo_content();
 		if ( ! empty( $demo_data ) && isset( $demo_data[ $index ] ) ) {
 			return $demo_data[ $index ];
 		}
@@ -83,30 +84,55 @@ if ( ! function_exists( 'astra_get_site_data' ) ) :
 	}
 endif;
 
-/**
- * Check is valid URL
- *
- * @param string $url  The site URL.
- *
- * @since 2.7.1
- * @return string
- */
-function astra_sites_is_valid_url( $url = '' ) {
-	if ( empty( $url ) ) {
-		return false;
+if ( ! function_exists( 'astra_sites_get_reset_form_data' ) ) :
+	/**
+	 * Get all the forms to be reset.
+	 *
+	 * @since 3.0.3
+	 * @return array
+	 */
+	function astra_sites_get_reset_form_data() {
+		global $wpdb;
+
+		$form_ids = $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_astra_sites_imported_wp_forms'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need this to get all the WP forms. Traditional WP_Query would have been expensive here.
+
+		return $form_ids;
 	}
+endif;
 
-	$parse_url = wp_parse_url( $url );
-	if ( empty( $parse_url ) || ! is_array( $parse_url ) ) {
-		return false;
+if ( ! function_exists( 'astra_sites_get_reset_term_data' ) ) :
+	/**
+	 * Get all the terms to be reset.
+	 *
+	 * @since 3.0.3
+	 * @return array
+	 */
+	function astra_sites_get_reset_term_data() {
+		global $wpdb;
+
+		$term_ids = $wpdb->get_col( "SELECT term_id FROM {$wpdb->termmeta} WHERE meta_key='_astra_sites_imported_term'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need this to get all the terms and taxonomy. Traditional WP_Query would have been expensive here.
+
+		return $term_ids;
 	}
+endif;
 
-	$api_domain_parse_url = wp_parse_url( Astra_Sites::get_instance()->get_api_domain() );
+if ( ! function_exists( 'astra_sites_empty_post_excerpt' ) ) :
+	/**
+	 * Remove the post excerpt
+	 *
+	 * @param int $post_id  The post ID.
+	 * @since 3.1.0
+	 */
+	function astra_sites_empty_post_excerpt( $post_id = 0 ) {
+		if ( ! $post_id ) {
+			return;
+		}
 
-	// Validate host.
-	if ( $parse_url['host'] === $api_domain_parse_url['host'] ) {
-		return true;
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_excerpt' => '',
+			)
+		);
 	}
-
-	return false;
-}
+endif;

@@ -1,0 +1,19 @@
+<?php
+define('BRAKEPOINT_PC',769);
+define('BRAKEPOINT_SP',768);
+define('NEWS_VIEWNUM',12);
+define('DIR_LP','wooms-connect-lp');
+define('DIR_DL','download/');
+define('DIR_DL1','download/download1');
+define('DIR_DL2','download/download2');
+define('DIR_CONTACT','contact');
+define('DIR_VISION','vision');
+define('DIR_ABOUT','about');
+define('DIR_NEWS','news');
+define('DIR_FAQ','faq');
+define('DIR_WCONNECT','wooms-connect');
+define('DIR_WDRIVE','wooms-drive');
+define('DIR_WACTIVATE','wooms-activate');
+define('DIR_COMPANY','https://www.odakyu.jp/company/about/');
+const CAT_ARRAY = ['ニュース','メディア','レポート','インタビュー','ケーススタディ'];
+?>

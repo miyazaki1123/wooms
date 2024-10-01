@@ -171,7 +171,7 @@ class SiteGuard_CAPTCHA extends SiteGuard_Base {
 	}
 	function get_captcha() {
 		$result  = '<p>';
-		$result .= '<img src="' . SITEGUARD_URL_PATH . 'really-simple-captcha/tmp/' . $this->prefix . '.png" alt="CAPTCHA">';
+		$result .= '<img src="' . WP_CONTENT_URL . '/siteguard/' . $this->prefix . '.png" alt="CAPTCHA">';
 		$result .= '</p><p>';
 		$result .= '<label for="siteguard_captcha">' . esc_html__( 'Please input characters displayed above.', 'siteguard' ) . '</label><br />';
 		$result .= '<input type="text" name="siteguard_captcha" id="siteguard_captcha" class="input" value="" size="10" aria-required="true" />';
@@ -182,7 +182,7 @@ class SiteGuard_CAPTCHA extends SiteGuard_Base {
 	}
 	function put_captcha() {
 		$this->word   = $this->captcha->generate_random_word();
-		$this->prefix = mt_rand();
+		$this->prefix = siteguard_rand();
 		$this->captcha->generate_image( $this->prefix, $this->word );
 		echo $this->get_captcha();
 	}

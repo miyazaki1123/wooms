@@ -11,11 +11,13 @@ class YARPP_Meta_Box {
 		global $yarpp;
 		$this->yarpp         = $yarpp;
 		$this->template_text =
-			__(
-				'This advanced option gives you full power to customize how your related posts are displayed.&nbsp;' .
-				"Templates are written in PHP and saved in your active theme's folder.",
-				'yarpp'
-			);
+			sprintf(__(
+			'This advanced option gives you full power to easily customize the look and feel of YARPP.' . ' ' .
+			'YARPP Custom Templates are written in PHP and saved in your active theme folder.' . ' ' .
+			'%1$sLearn more about YARPP Custom Templates%2$s.',
+			'yet-another-related-posts-plugin'
+			),
+			'<a href="https://wordpress.org/plugins/yet-another-related-posts-plugin/#installation" target="_blank">', '</a>');
 	}
 
 	private function offer_copy_templates() {
@@ -34,7 +36,7 @@ class YARPP_Meta_Box {
 		$pre             = ( $rss ) ? 'rss_' : '';
 		$chosen_template = yarpp_get_option( $pre . 'template' );
 		$choice          = ( $chosen_template === false )
-						   ? 'builtin' : ( ( $chosen_template === 'thumbnails' ) ? 'thumbnails' : 'custom' );
+							? 'builtin' : ( ( $chosen_template === 'thumbnails' ) ? 'thumbnails' : 'custom' );
 
 		$builtIn = ( $choice === 'builtin' ) ? 'active' : null;
 
@@ -71,12 +73,21 @@ class YARPP_Meta_Box {
 
 		include YARPP_DIR . '/includes/phtmls/yarpp_meta_box_tax_weight.phtml';
 	}
-
+	/**
+	 * Render the select options.
+	 *
+	 * @param string $name Select option name.
+	 * @param array  $options Array of option value.
+	 * @param string $desc label description.
+	 * @param array  $args Array of additional argument.
+	 */
+	public function yarpp_select_option( $name, $options, $desc = '', $args = '' ) {
+		include YARPP_DIR . '/includes/phtmls/yarpp_meta_box_select.phtml';
+	}
 	/* MARK: Last cleaning spot */
 	public function weight( $option, $desc ) {
 		$weight = (int) yarpp_get_option( "weight[$option]" );
 
-		/* Both require MyISAM fulltext indexing: */
 		$fulltext = $this->yarpp->db_schema->database_supports_fulltext_indexes() ? '' : ' readonly="readonly" disabled="disabled"';
 
 		echo "<div class='yarpp_form_row yarpp_form_select'><div class='yarpp_form_label'>{$desc}</div><div>";
@@ -84,7 +95,8 @@ class YARPP_Meta_Box {
 		echo "<option {$fulltext} value='no'" . ( ( ! $weight ) ? ' selected="selected"' : '' ) . '  >' . __( 'do not consider', 'yet-another-related-posts-plugin' ) . '</option>';
 		echo "<option {$fulltext} value='consider'" . ( ( $weight == 1 ) ? ' selected="selected"' : '' ) . '  > ' . __( 'consider', 'yet-another-related-posts-plugin' ) . '</option>';
 		echo "<option {$fulltext} value='consider_extra'" . ( ( $weight > 1 ) ? ' selected="selected"' : '' ) . '  > ' . __( 'consider with extra weight', 'yet-another-related-posts-plugin' ) . '</option>';
-		echo '</select></div></div>';
+		echo '</select>';
+		echo '</div></div>';
 	}
 
 	public function displayorder( $option, $class = null ) {
@@ -99,6 +111,7 @@ class YARPP_Meta_Box {
 				<option value="post_date ASC" <?php echo ( $order == 'post_date ASC' ? ' selected="selected"' : '' ); ?>><?php _e( 'date (old to new)', 'yet-another-related-posts-plugin' ); ?></option>
 				<option value="post_title ASC" <?php echo ( $order == 'post_title ASC' ? ' selected="selected"' : '' ); ?>><?php _e( 'title (alphabetical)', 'yet-another-related-posts-plugin' ); ?></option>
 				<option value="post_title DESC" <?php echo ( $order == 'post_title DESC' ? ' selected="selected"' : '' ); ?>><?php _e( 'title (reverse alphabetical)', 'yet-another-related-posts-plugin' ); ?></option>
+				<option value="rand" <?php echo ( $order == 'rand' ? ' selected="selected"' : '' ); ?>><?php _e( 'random', 'yet-another-related-posts-plugin' ); ?></option>
 				<?php
 				echo '</select></div></div>';
 	}

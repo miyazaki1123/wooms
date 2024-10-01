@@ -1,29 +1,44 @@
+@use '../../../../node_modules/sass-basis/src/css/core';
+
 %alert {
-  @include _alert();
-  position: relative;
-  border-radius: $_border-radius;
-  @include _padding(2.5, 1, 1, 1);
+	--sme-alert--border-radius: var(--_global--border-radius);
+	--sme-alert--padding: var(--_padding1);
+	--sme-alert--background-color: transparent;
+	--sme-alert--border: 1px solid var(--_lighter-color-gray);
+	--sme-alert--color: currentColor;
+	--sme-alert--icon: none;
+	--sme-alert--icon-size: 24px;
 
-  @include _media-min(md) {
-    @include _padding(1, 1, 1, 2.5);
-  }
+	@include core.alert();
+	position: relative;
+	background-color: var(--sme-alert--background-color);
+	border: var(--sme-alert--border);
+	border-radius: var(--sme-alert--border-radius);
+	color: var(--sme-alert--color);
+	padding: calc(var(--sme-alert--padding) * 2 + var(--sme-alert--icon-size)) var(--sme-alert--padding) var(--sme-alert--padding);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: _space(1);
-    left: 50%;
-    transform: translateX(-50%);
-    display: block;
-    @include _square(24px);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: contain;
+	@include core.media-min(md) {
+		padding: var(--sme-alert--padding) var(--sme-alert--padding) var(--sme-alert--padding) calc(var(--sme-alert--padding) * 2 + var(--sme-alert--icon-size));
+	}
 
-    @include _media-min(md) {
-      top: 50%;
-      left: _space(1);
-      transform: translateY(-50%);
-    }
-  }
+	&::before {
+		content: '';
+		position: absolute;
+		top: var(--_padding1);
+		left: 50%;
+		transform: translateX(-50%);
+		display: block;
+		height: var(--sme-alert--icon-size);
+		width: var(--sme-alert--icon-size);
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-image: var(--sme-alert--icon);
+
+		@include core.media-min(md) {
+			top: 50%;
+			left: var(--_padding1);
+			transform: translateY(-50%);
+		}
+	}
 }

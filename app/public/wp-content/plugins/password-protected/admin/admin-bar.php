@@ -22,9 +22,9 @@ class Admin_Bar {
 	 */
 	public static function load() {
 
-		add_action( 'wp_head', array( get_class(), 'styles' ) );
-		add_action( 'admin_head', array( get_class(), 'styles' ) );
-		add_action( 'wp_before_admin_bar_render', array( get_class(), 'toolbar_item' ) );
+		add_action( 'wp_head', array( self::class, 'styles' ) );
+		add_action( 'admin_head', array( self::class, 'styles' ) );
+		add_action( 'wp_before_admin_bar_render', array( self::class, 'toolbar_item' ) );
 
 	}
 
@@ -36,7 +36,7 @@ class Admin_Bar {
 	public static function toolbar_item() {
 
 		global $wp_admin_bar;
-
+	
 		if ( self::allow_current_user() ) {
 
 			$wp_admin_bar->add_menu( array(

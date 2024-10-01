@@ -2,13 +2,11 @@
 Contributors: johnny5
 Donate link: http://searchregex.com/donation/
 Tags: search, replace, regex, regular expression, database, post, page
-Requires at least: 5.3
-Tested up to: 5.6
-Stable tag: trunk
-Requires PHP: 5.6
+Tested up to: 6.6
+Stable tag: 3.1
 License: GPLv3
 
-Search Regex adds a powerful set of search and replace functions to WordPress posts, pages, custom post types, and other data sources.
+Search Regex adds a powerful set of search and replace functions to WordPress posts, pages, custom post types, and other data.
 
 == Description ==
 
@@ -19,7 +17,14 @@ You can use this to do things like:
 - Update URLs in links and images
 - Perform site-wide changes
 
+Search filters can be created to match any column of any WordPress table. For example:
+- Find all posts in a category
+- Find all post meta data without a post
+- Find all posts in a date range
+
 Search Regex handles small and large sites.
+
+Search Regex has been tested with PHP from 7.0 to 8.3.
 
 == What can I search? ==
 
@@ -35,13 +40,36 @@ You can search:
 
 Full regular expression support is provided, and you can capture data and use it in the replacement.
 
-== Replace Matched Data ==
+== Actions ==
 
-Once a match has been made you can replace it with a popup replacer. You can also replace all matches in a database row, and you can replace all matches across your database.
+A variety of actions can be performed on matching results:
+- Modify and replace the result
+- Delete the result
+- Export to CSV and SQL
+- Perform custom PHP action
 
-Additionally, if you need to make your change with context of the surrounding content you can use the inline editor to edit the full context.
+== Modify and Replace Data ==
 
-Note that it is your responsibility to ensure that replacements in serialized data is valid.
+Results can be individually modified by clicking on the item to change, and using the popup modifier.
+
+Bulk modifications can be performed against all matching results.
+
+The types of modification depend on the data being changed:
+- Numbers can be added or subtracted to existing numbers
+- Hours, days, weeks, and months, can be added to dates
+- Tags and categories can be added, removed, and substitued
+
+Custom shortcodes are supported that allow dynamic data to be included:
+- Add the current date and time, in any format, to content
+- Insert data from other columns. For example, insert the category into the title
+- Transform existing data. For example, convert case, change underscores to dashes.
+
+== Example uses ==
+
+Some ideas for potential uses:
+- Delete all comments that match a phrase
+- Add a category to all matching posts
+- Remove orphaned meta data
 
 == Support ==
 
@@ -65,6 +93,10 @@ The plugin is simple to install:
 
 You can find full details of installing a plugin on the [plugin installation page](https://searchregex.com/support/installation/).
 
+== Translations ==
+
+Translations are provided by WordPress itself. You can update the translations by going to the Dashboard > Updates section of WP admin.
+
 == Screenshots ==
 
 1. Search options
@@ -78,76 +110,18 @@ Full documentation can be found on the [Search Regex](http://searchregex.com/) s
 == Upgrade Notice ==
 
 = 2.0 =
-* Entirely new rewrite of the plugin. Requires minimum PHP 5.6.
+* Entirely new rewrite of the plugin. Requires minimum PHP 5.6 and is compatible with all versions (tested up to 8.0).
+
+= 3.0 =
+* Major update adding advanced search filters, modifications to any column, and a variety of actions (including exporting to SQL).
+
+= 3.1.0 =
+* Set PHP 7.0 and WP 6.4 as the baseline. Plugin now uses WP supplied translations
 
 == Changelog ==
 
-= 2.4.1 - 29th November 2020 =
-- Fix replacements with a backslashed character
-
-= 2.4 - 29th October 2020 =
-- Support multi-line search phrases
-- Improve progress bar animation
-- Add option to ignore draft posts
-- Improve support for serialized data - show it in the UI, and don't show an error
-- Fix source flags being sent when source is changed
-
-= 2.3.3 - 13th September 2020 =
-- Fix replace in 'all post types'
-- Fix duplicate sources when deselecting a post source
-
-= 2.3.2 - 8th September 2020 =
-- Fix locale pluralization throwing an error
-
-= 2.3.1 - 7th September 2020 =
-- Fix locales not loading
-- Fix startup error on some sites
-
-= 2.3 - 6th September 2020 =
-- Add option to set a default preset
-- Fix global replace not working in post meta
-- Fix replace value not being used in a preset
-
-= 2.2.1 - 22nd July 2020 =
-- Fix regular expression search having no pagination buttons
-- Fix saving a preset with no search phrase showing an error
-- Fix inline editor not working on sources with an underscore
-- Add edit link for TablePress tables
-- Increase maximum per-page size
-
-= 2.2 - 18th July 2020 =
-- Add presets
-- Save a search as a preset
-- Lock fields in a search
-- Create custom search templates
-- Fix post meta search
-
-= 2.1 - 6th June 2020 =
-- Support searching and replacing in multiple sources
-- Improve regex search and replace speed
-- Row actions have moved to a dropdown
-- Fix HTML entities in row titles
-- Handle unknown post types
-- Fix global replace showing 0% progress
-- Add Japanese locale
-- Add Dutch locale
-
-= 2.0.1 - 11th May 2020 =
-- Comment title now takes you to comment page
-- Improve regex performance when data has large gaps
-- Use correct contact address
-- Support \1 as well as $1 in regular expression captures
-
-= 2.0 - 9th May 2020 =
-- Release version 2.0, a ground-up rewrite
-- Handles any size of database without memory issues or server timeouts
-- New and responsive UI with inline replacing of individual phrases
-- Match replacements are updated in real-time, including regular expressions
-- Edit an entire database row with the inline editor
-- Supports custom post types
-- Groups columns from one database together
-- Search in third-party plugins (currently Redirection)
-- Improved regular expressions without needing delimiters
-
-= 1.4.16 - 21st Nov 2014 and before to 2007 =
-- Old versions
+= 3.1.0 - August 8th 2024 =
+* Update for latest WP
+* Fix export of regular expression result
+* Switch to WP core translations
+* See changelog.txt for more details

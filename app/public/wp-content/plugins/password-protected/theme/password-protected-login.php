@@ -60,7 +60,12 @@ if ( $Password_Protected->errors->get_error_code() && in_array( $Password_Protec
 }
 
 // Obey privacy setting
-add_action( 'password_protected_login_head', 'wp_no_robots' );
+if ( function_exists( 'wp_robots' ) && function_exists( 'wp_robots_no_robots' ) && function_exists( 'add_filter' ) ) {
+	add_filter( 'wp_robots', 'wp_robots_no_robots' );
+	add_action( 'password_protected_login_head', 'wp_robots', 1 );
+} elseif ( function_exists( 'wp_no_robots' ) ) {
+	add_action( 'password_protected_login_head', 'wp_no_robots' );
+}
 
 add_action( 'password_protected_login_head', 'wp_login_viewport_meta' );
 
@@ -85,6 +90,8 @@ if ( version_compare( $wp_version, '3.9-dev', '>=' ) ) {
 
 <style media="screen">
 #login_error, .login .message, #loginform { margin-bottom: 20px; }
+.password-protected-text-below { display: inline-block; text-align: center; margin-top: 30px;}
+.password-protected-text-above { text-align: center; margin-bottom: 10px;}
 </style>
 
 <?php
@@ -102,6 +109,9 @@ if ( $is_iphone ) {
 }
 
 do_action( 'login_enqueue_scripts' );
+if ( class_exists( 'Login_Designer' ) ) {
+	do_action( 'password_protected_enqueue_scripts' );
+}
 do_action( 'password_protected_login_head' );
 
 ?>
@@ -110,29 +120,55 @@ do_action( 'password_protected_login_head' );
 <body class="login login-password-protected login-action-password-protected-login wp-core-ui">
 
 <div id="login">
-	<h1><a href="<?php echo esc_url( apply_filters( 'password_protected_login_headerurl', home_url( '/' ) ) ); ?>" title="<?php echo esc_attr( apply_filters( 'password_protected_login_headertitle', get_bloginfo( 'name' ) ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-
+	<h1 id="password-protected-logo"><a href="<?php echo esc_url( apply_filters( 'password_protected_login_headerurl', home_url( '/' ) ) ); ?>" title="<?php echo esc_attr( apply_filters( 'password_protected_login_headertitle', get_bloginfo( 'name' ) ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 	<?php do_action( 'password_protected_login_messages' ); ?>
+
 	<?php do_action( 'password_protected_before_login_form' ); ?>
 
 	<form name="loginform" id="loginform" action="<?php echo esc_url( $Password_Protected->login_url() ); ?>" method="post">
-		<p>
-			<label for="password_protected_pass"><?php echo apply_filters( 'password_protected_login_password_title', __( 'Password', 'password-protected' ) ); ?><br />
-			<input type="password" name="password_protected_pwd" id="password_protected_pass" class="input" value="" size="20" tabindex="20" /></label>
-		</p>
 
+        <p>
+            <?php do_action( 'password_protected_above_password_field' ); ?>
+        </p>
+
+        <!--
+		We are removing this field PP-245
+             <p>
+                <label for="password_protected_pass"><?php echo esc_attr( apply_filters( 'password_protected_login_password_title', __( 'Password', 'password-protected' ) ) ); ?></label>
+                <input type="password" name="password_protected_pwd" id="password_protected_pass" class="input" value="" size="20" tabindex="20" autocomplete="false" />
+            </p>
+        -->
+
+        <div class="user-pass-wrap">
+            <label for="password_protected_pass"><?php echo esc_attr( apply_filters( 'password_protected_login_password_title', __( 'Password', 'password-protected' ) ) ); ?></label>
+            <div class="wp-pwd">
+                <input id="password_protected_pass" class="input password-input" type="password" name="password_protected_pwd" value="" size="20" autocomplete="false" spellcheck="false" required>
+                <button id="pp-hide-show-password" class="button button-secondary hide-if-no-js wp-hide-pw" type="button" data-toggle="0" aria-label="Show password">
+                    <span class="dashicons dashicons-visibility" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+		<?php do_action('password_protected_after_password_field'); ?>
 		<?php if ( $Password_Protected->allow_remember_me() ) : ?>
 			<p class="forgetmenot">
 				<label for="password_protected_rememberme"><input name="password_protected_rememberme" type="checkbox" id="password_protected_rememberme" value="1" tabindex="90" /> <?php esc_attr_e( 'Remember Me' ); ?></label>
 			</p>
 		<?php endif; ?>
-
+		
 		<p class="submit">
 			<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" tabindex="100" />
 			<input type="hidden" name="password_protected_cookie_test" value="1" />
 			<input type="hidden" name="password-protected" value="login" />
-			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' ); ?>" />
+			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( ! empty( $_REQUEST['redirect_to'] ) ? esc_url( $_REQUEST['redirect_to'] ) : '' ); ?>" />
 		</p>
+
+        <div style="display: table;clear: both;"></div>
+
+        <p>
+		    <?php do_action( 'password_protected_below_password_field' ); ?>
+        </p>
+
 	</form>
 
 	<?php do_action( 'password_protected_after_login_form' ); ?>
@@ -142,11 +178,16 @@ do_action( 'password_protected_login_head' );
 <script>
 try{document.getElementById('password_protected_pass').focus();}catch(e){}
 if(typeof wpOnload=='function')wpOnload();
+try{let s=document.getElementById("pp-hide-show-password");s.addEventListener("click",function(e){e.preventDefault();let t=document.getElementById("password_protected_pass");"password"===t.type?(t.type="text",s.innerHTML='<span class="dashicons dashicons-hidden" aria-hidden="true"></span>'):(t.type="password",s.innerHTML='<span class="dashicons dashicons-visibility" aria-hidden="true"></span>')})}catch(e){}
 </script>
 
 <?php do_action( 'login_footer' ); ?>
 
 <div class="clear"></div>
+
+<?php if ( class_exists( 'Login_Designer' ) ) : ?>
+	<div id="password-protected-background" style="position:absolute; inset: 0;width: 100%;height: 100%;z-index: -1;transition: opacity 300ms cubic-bezier(0.694, 0, 0.335, 1) 0s"></div>
+<?php endif; ?>
 
 </body>
 </html>

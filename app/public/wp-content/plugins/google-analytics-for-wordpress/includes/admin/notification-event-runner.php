@@ -38,7 +38,7 @@ class MonsterInsights_Notification_Event_Runner {
 	 *
 	 * @var array|bool
 	 */
-	private $last_run;
+	private $last_run = array();
 
 	/**
 	 * Only update the option if something changed.
@@ -73,8 +73,8 @@ class MonsterInsights_Notification_Event_Runner {
 	 * @return false|mixed|void
 	 */
 	public function get_notifications_last_run() {
-		if ( ! isset( $this->last_run ) ) {
-			$this->last_run = get_option( $this->last_run_key );
+		if ( empty( $this->last_run ) ) {
+			$this->last_run = get_option( $this->last_run_key, array() );
 		}
 
 		return $this->last_run;
@@ -83,7 +83,7 @@ class MonsterInsights_Notification_Event_Runner {
 	/**
 	 * Update the last run time with a default of time.
 	 *
-	 * @param string     $notification_id The notification id to update the last run time for.
+	 * @param string $notification_id The notification id to update the last run time for.
 	 * @param string|int $time The timestamp to store the last run time.
 	 */
 	public function update_last_run( $notification_id, $time = '' ) {
@@ -117,9 +117,11 @@ class MonsterInsights_Notification_Event_Runner {
 		$notifications = $this->get_registered_notifications();
 		$last_runs     = $this->get_notifications_last_run();
 
+		$current_runs = 0;
+
 		// Loop through registered notifications.
 		foreach ( $notifications as $notification ) {
-			/**¬
+			/**
 			 * The notification instance.
 			 *
 			 * @var MonsterInsights_Notification_Event $notification
@@ -133,11 +135,20 @@ class MonsterInsights_Notification_Event_Runner {
 				$time_now   = time();
 				if ( $time_since < $time_now ) {
 					// Interval passed since it ran so let's add this one.
-					$notification->add_notification();
+
+					$current_runs ++;
+					$added_notification = $notification->add_notification();
+
 					// Update the last run date as right now.
 					$this->update_last_run( $notification->notification_id );
-					// Let's not add multiple notifications at the same time.
-					break;
+
+					// Avoid adding multiple notifications at the same time, and
+					// also avoid running more than 5 notifications that returned
+					// no data, otherwise this request would take too long
+					if ( $added_notification || $current_runs > 5 ) {
+						// Let's not add multiple notifications at the same time.
+						break;
+					}
 				}
 			}
 		}
